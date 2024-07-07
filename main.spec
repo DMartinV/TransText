@@ -5,7 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('double-chat-icon.ico', '.'), ('C:\\Users\\Diana Martin Vilá\\Documents\\TFM\\APP\\docs\\_build\\html', 'docs')],
+    datas=[('double-chat-icon.ico', '.'), ('C:\\Users\\Diana Martin Vilá\\Desktop\\APP_2\\docs\\_build\\html', 'docs')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

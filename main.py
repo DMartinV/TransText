@@ -96,9 +96,9 @@ root = Tk()
 root.title("TransText")
 
 # Sets window dimension.
-window_heigth = 550
-window_width = 190
-root.geometry(f"{window_heigth}x{window_width}")
+window_heigth = 230
+window_width = 550
+root.geometry(f"{window_width}x{window_heigth}")
 root.resizable(False, False)
 
 # Sets the window icon.

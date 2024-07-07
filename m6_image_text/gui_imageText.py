@@ -146,7 +146,7 @@ def createImageToTextGui(parent):
     ttk.Button(frame, text="Convert", command=lambda: convertFile(entrySource, ComboLanguage, entryOutputDir)).grid(row=3, column=0, columnspan=3, pady=10)
 
     languageCodes = getLanguageCodes()
-    ComboLanguage = ttk.Combobox(frame, values=languageCodes, width=40)
+    ComboLanguage = ttk.Combobox(frame, values=languageCodes, state="readonly", width=40)
     ComboLanguage.set("Select Language")  
     ComboLanguage.grid(row=2, column=1, padx=10, pady=5)
 

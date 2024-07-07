@@ -79,7 +79,7 @@ def updateEncoding(event, combo):
         * None.
     """
     # Obtains the selected encoding from the combobox widget.
-    seleccion = combo.get()
+    selection = combo.get()
 
 def convertFile(entryInputFile, combo, entryOutputDir):
     """
@@ -188,7 +188,7 @@ def createConvertEncodingGui(parent):
     ttk.Button(frame, text="Convert", command=lambda: convertFile(entryInputFile, combo, entryOutputDir)).grid(row=4, column=0, columnspan=3, pady=10)
 
     encodings = getEncodings()
-    combo = ttk.Combobox(frame, values=encoding_list, width=40)
+    combo = ttk.Combobox(frame, values=encoding_list, state="readonly", width=40)
     combo.set("Select encoding")  
     combo.grid(row=1, column=1, padx=10, pady=5)
 
