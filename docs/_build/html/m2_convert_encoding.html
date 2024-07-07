@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>m2_convert_encoding package &mdash; TransText 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8d563738"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="m3_file_text package" href="m3_file_text.html" />
+    <link rel="prev" title="m1_detect_encoding package" href="m1_detect_encoding.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            TransText
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">APP</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="m1_detect_encoding.html">m1_detect_encoding package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">m2_convert_encoding package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-m2_convert_encoding.function_convertEncoding">m2_convert_encoding.function_convertEncoding module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#m2_convert_encoding.function_convertEncoding.convertEncoding"><code class="docutils literal notranslate"><span class="pre">convertEncoding()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m2_convert_encoding.function_convertEncoding.detectEncoding"><code class="docutils literal notranslate"><span class="pre">detectEncoding()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-m2_convert_encoding.gui_convertEncoding">m2_convert_encoding.gui_convertEncoding module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#m2_convert_encoding.gui_convertEncoding.browseFile"><code class="docutils literal notranslate"><span class="pre">browseFile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m2_convert_encoding.gui_convertEncoding.convertFile"><code class="docutils literal notranslate"><span class="pre">convertFile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m2_convert_encoding.gui_convertEncoding.createConvertEncodingGui"><code class="docutils literal notranslate"><span class="pre">createConvertEncodingGui()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m2_convert_encoding.gui_convertEncoding.getEncodings"><code class="docutils literal notranslate"><span class="pre">getEncodings()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m2_convert_encoding.gui_convertEncoding.saveAs"><code class="docutils literal notranslate"><span class="pre">saveAs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m2_convert_encoding.gui_convertEncoding.updateEncoding"><code class="docutils literal notranslate"><span class="pre">updateEncoding()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-m2_convert_encoding">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="m3_file_text.html">m3_file_text package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m4_pdf_text.html">m4_pdf_text package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m5_excel_text.html">m5_excel_text package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m6_image_text.html">m6_image_text package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">TransText</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">APP</a></li>
+      <li class="breadcrumb-item active">m2_convert_encoding package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/m2_convert_encoding.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="m2-convert-encoding-package">
+<h1>m2_convert_encoding package<a class="headerlink" href="#m2-convert-encoding-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-m2_convert_encoding.function_convertEncoding">
+<span id="m2-convert-encoding-function-convertencoding-module"></span><h2>m2_convert_encoding.function_convertEncoding module<a class="headerlink" href="#module-m2_convert_encoding.function_convertEncoding" title="Link to this heading"></a></h2>
+<p>This script serves as the functional aspect of this module.
+It provides two main functions for converting file encodings. The former detects the file’s encoding with the use of the ‘chardet’ library. The latter converts the file into the desired encoding.</p>
+<p>Usage: $ python function_convertEncoding.py &lt;sourceFile&gt; -e &lt;outputEncoding&gt; [-o &lt;outputFile&gt;]</p>
+<p>Example: $ python function_convertEncoding.py /path/file.txt -e utf-8 -o /path/output/file.txt</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="m2_convert_encoding.function_convertEncoding.convertEncoding">
+<span class="sig-prename descclassname"><span class="pre">m2_convert_encoding.function_convertEncoding.</span></span><span class="sig-name descname"><span class="pre">convertEncoding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sourceFile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputEncoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m2_convert_encoding/function_convertEncoding.html#convertEncoding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m2_convert_encoding.function_convertEncoding.convertEncoding" title="Link to this definition"></a></dt>
+<dd><p>This function convertS the character encoding of a file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>sourceFile (str): Path of the source file.</p></li>
+<li><p>outputEncoding (str): Encoding of the output file.</p></li>
+<li><p>outputFile (str, optional): Path of the output file after the conversion.</p></li>
+</ul>
+</dd>
+<dt>Raises:</dt><dd><ul class="simple">
+<li><p>FileNotFoundError: If the source file is not found.</p></li>
+<li><p>Exception: If an error occurs during the conversion.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m2_convert_encoding.function_convertEncoding.detectEncoding">
+<span class="sig-prename descclassname"><span class="pre">m2_convert_encoding.function_convertEncoding.</span></span><span class="sig-name descname"><span class="pre">detectEncoding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputFile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m2_convert_encoding/function_convertEncoding.html#detectEncoding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m2_convert_encoding.function_convertEncoding.detectEncoding" title="Link to this definition"></a></dt>
+<dd><p>This function detects the character encoding of a file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>inputFile (str): Path of the input file.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><p>str: Character encoding of the input file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-m2_convert_encoding.gui_convertEncoding">
+<span id="m2-convert-encoding-gui-convertencoding-module"></span><h2>m2_convert_encoding.gui_convertEncoding module<a class="headerlink" href="#module-m2_convert_encoding.gui_convertEncoding" title="Link to this heading"></a></h2>
+<p>This script serves as the graphical user interface of this module.
+This GUI allows users to browse for a file using the ‘Browse’ button, which opens a file dialog to select the input file. 
+It also enables users to choose the desired encoding from a dropdown menu and save the output file in a different directory.
+Once users have selected their input file and saved it into the desired directory, the conversion will automatically start when the “Convert” button is clicked.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="m2_convert_encoding.gui_convertEncoding.browseFile">
+<span class="sig-prename descclassname"><span class="pre">m2_convert_encoding.gui_convertEncoding.</span></span><span class="sig-name descname"><span class="pre">browseFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryInputFile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m2_convert_encoding/gui_convertEncoding.html#browseFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m2_convert_encoding.gui_convertEncoding.browseFile" title="Link to this definition"></a></dt>
+<dd><p>This function opens a file dialog in order to allow users to select the entry file. It also updates the entry widget with the file’s path.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>entry (str): Path of the entry file.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m2_convert_encoding.gui_convertEncoding.convertFile">
+<span class="sig-prename descclassname"><span class="pre">m2_convert_encoding.gui_convertEncoding.</span></span><span class="sig-name descname"><span class="pre">convertFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryInputFile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">combo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entryOutputDir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m2_convert_encoding/gui_convertEncoding.html#convertFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m2_convert_encoding.gui_convertEncoding.convertFile" title="Link to this definition"></a></dt>
+<dd><p>This function converts the file into a specified character encoding.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>entryInputFile (ttk.Entry): Entry widget that contains the path of the entry file.</p></li>
+<li><p>combo (ttk.Combobox): Combobox widget that contains a list of the available encodings.</p></li>
+<li><p>entryOutputDir (ttk.Entry): Entry widget that constains the path where the output file will be saved.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>None.</p></li>
+</ul>
+</dd>
+<dt>Raises:</dt><dd><ul class="simple">
+<li><p>FileNotFoundError: If the source file is not found.</p></li>
+<li><p>Exception: If an error occurs during the conversion.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m2_convert_encoding.gui_convertEncoding.createConvertEncodingGui">
+<span class="sig-prename descclassname"><span class="pre">m2_convert_encoding.gui_convertEncoding.</span></span><span class="sig-name descname"><span class="pre">createConvertEncodingGui</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m2_convert_encoding/gui_convertEncoding.html#createConvertEncodingGui"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m2_convert_encoding.gui_convertEncoding.createConvertEncodingGui" title="Link to this definition"></a></dt>
+<dd><p>This function creates a GUI for selecting and converting a file’s encoding.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>parent (tkinter.Widget): The parent widget to create the GUI components.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m2_convert_encoding.gui_convertEncoding.getEncodings">
+<span class="sig-prename descclassname"><span class="pre">m2_convert_encoding.gui_convertEncoding.</span></span><span class="sig-name descname"><span class="pre">getEncodings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/m2_convert_encoding/gui_convertEncoding.html#getEncodings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m2_convert_encoding.gui_convertEncoding.getEncodings" title="Link to this definition"></a></dt>
+<dd><p>This function returns a list of encodings.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>list: sorted list of encodings.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m2_convert_encoding.gui_convertEncoding.saveAs">
+<span class="sig-prename descclassname"><span class="pre">m2_convert_encoding.gui_convertEncoding.</span></span><span class="sig-name descname"><span class="pre">saveAs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryOutputDir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m2_convert_encoding/gui_convertEncoding.html#saveAs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m2_convert_encoding.gui_convertEncoding.saveAs" title="Link to this definition"></a></dt>
+<dd><p>This function opens a file dialog to select the directory where it is going to save the output file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>entryOutputDir (ttk.Entry): Entry widget that contains the path where the output file will be saved.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m2_convert_encoding.gui_convertEncoding.updateEncoding">
+<span class="sig-prename descclassname"><span class="pre">m2_convert_encoding.gui_convertEncoding.</span></span><span class="sig-name descname"><span class="pre">updateEncoding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">combo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m2_convert_encoding/gui_convertEncoding.html#updateEncoding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m2_convert_encoding.gui_convertEncoding.updateEncoding" title="Link to this definition"></a></dt>
+<dd><p>This function prints the list of sorted encodings into the combobox widget.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>combo (ttk.Combobox): The combobox widget from which users can select the available encodings.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-m2_convert_encoding">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-m2_convert_encoding" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="m1_detect_encoding.html" class="btn btn-neutral float-left" title="m1_detect_encoding package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="m3_file_text.html" class="btn btn-neutral float-right" title="m3_file_text package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Diana Martin Vilá.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

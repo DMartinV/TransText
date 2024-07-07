@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>m6_image_text package &mdash; TransText 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8d563738"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="main module" href="main.html" />
+    <link rel="prev" title="m5_excel_text package" href="m5_excel_text.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            TransText
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">APP</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="m1_detect_encoding.html">m1_detect_encoding package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m2_convert_encoding.html">m2_convert_encoding package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m3_file_text.html">m3_file_text package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m4_pdf_text.html">m4_pdf_text package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m5_excel_text.html">m5_excel_text package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">m6_image_text package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-m6_image_text.function_imageText">m6_image_text.function_imageText module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#m6_image_text.function_imageText.extractTextFromImage"><code class="docutils literal notranslate"><span class="pre">extractTextFromImage()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m6_image_text.function_imageText.getLanguageCodes"><code class="docutils literal notranslate"><span class="pre">getLanguageCodes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m6_image_text.function_imageText.saveText"><code class="docutils literal notranslate"><span class="pre">saveText()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-m6_image_text.gui_imageText">m6_image_text.gui_imageText module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#m6_image_text.gui_imageText.browseFile"><code class="docutils literal notranslate"><span class="pre">browseFile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m6_image_text.gui_imageText.convertFile"><code class="docutils literal notranslate"><span class="pre">convertFile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m6_image_text.gui_imageText.createImageToTextGui"><code class="docutils literal notranslate"><span class="pre">createImageToTextGui()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m6_image_text.gui_imageText.saveAs"><code class="docutils literal notranslate"><span class="pre">saveAs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-m6_image_text">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">TransText</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">APP</a></li>
+      <li class="breadcrumb-item active">m6_image_text package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/m6_image_text.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="m6-image-text-package">
+<h1>m6_image_text package<a class="headerlink" href="#m6-image-text-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-m6_image_text.function_imageText">
+<span id="m6-image-text-function-imagetext-module"></span><h2>m6_image_text.function_imageText module<a class="headerlink" href="#module-m6_image_text.function_imageText" title="Link to this heading"></a></h2>
+<p>This script serves as the functional aspect of this module.
+It extracts text from different types of image files using OCR (Optical Character Recognition). The script processes the file using the ‘textract’ library to decode and extract the text from the image. The user can also specify the language of the source image (it is recommended). If the language is not specified, it defaults to English. The script also includes a function with a list of language codes supported by the library. Furthermore, this script handles errors, including checking for the existence of the file, etc.</p>
+<p>Usage: $ python function_imageText.py -i &lt;image_path&gt; [-l &lt;language_code&gt;] [-o &lt;output_file&gt;]</p>
+<p>Example: $ python function_imageText.py -i /path/image.jpg -l eng -o /path/output.txt</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="m6_image_text.function_imageText.extractTextFromImage">
+<span class="sig-prename descclassname"><span class="pre">m6_image_text.function_imageText.</span></span><span class="sig-name descname"><span class="pre">extractTextFromImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imagePath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/function_imageText.html#extractTextFromImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.function_imageText.extractTextFromImage" title="Link to this definition"></a></dt>
+<dd><p>Extracts text from an image file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>imagePath (str): Path of the image file.</p></li>
+<li><p>language (str, optional): Language code. If specified, the OCR will perform the extraction according to the specified language.</p></li>
+</ul>
+</dd>
+<dt>Raises:</dt><dd><ul class="simple">
+<li><p>Exception: If an error occurs during the conversion.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>str or None: Extracted text if successful, None otherwise.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m6_image_text.function_imageText.getLanguageCodes">
+<span class="sig-prename descclassname"><span class="pre">m6_image_text.function_imageText.</span></span><span class="sig-name descname"><span class="pre">getLanguageCodes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/function_imageText.html#getLanguageCodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.function_imageText.getLanguageCodes" title="Link to this definition"></a></dt>
+<dd><p>Gets a list of language codes commonly used in OCR.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>list: List of language codes.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m6_image_text.function_imageText.saveText">
+<span class="sig-prename descclassname"><span class="pre">m6_image_text.function_imageText.</span></span><span class="sig-name descname"><span class="pre">saveText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputFile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/function_imageText.html#saveText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.function_imageText.saveText" title="Link to this definition"></a></dt>
+<dd><p>Saves extracted text to a specified output file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>text (str): Text to be saved.</p></li>
+<li><p>outputFile (str): Path of the output file.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>None</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-m6_image_text.gui_imageText">
+<span id="m6-image-text-gui-imagetext-module"></span><h2>m6_image_text.gui_imageText module<a class="headerlink" href="#module-m6_image_text.gui_imageText" title="Link to this heading"></a></h2>
+<p>This script serves as the graphical user interface of this module.
+This GUI allows users to browse for an image file using the ‘Browse’ button, opening a file dialog to select the input file. 
+It also enables users to choose the language of the image from a dropdown menu and save the file output file in a different directory.
+Once users have selected their input file and saved it into the desired directory, the conversion will automatically start when the “Convert” button is clicked.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="m6_image_text.gui_imageText.browseFile">
+<span class="sig-prename descclassname"><span class="pre">m6_image_text.gui_imageText.</span></span><span class="sig-name descname"><span class="pre">browseFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryImage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/gui_imageText.html#browseFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.gui_imageText.browseFile" title="Link to this definition"></a></dt>
+<dd><p>This function opens a file dialog to allow the user to select the entry file.
+It also updates the entry widget with the file’s path.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>entryImage (ttk.Entry): Entry widget to update with the selected file’s path.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m6_image_text.gui_imageText.convertFile">
+<span class="sig-prename descclassname"><span class="pre">m6_image_text.gui_imageText.</span></span><span class="sig-name descname"><span class="pre">convertFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryImage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comboLanguage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entryOutputDir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/gui_imageText.html#convertFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.gui_imageText.convertFile" title="Link to this definition"></a></dt>
+<dd><p>This function extracts the content of the image and converts it into a plain text file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>entryImage (ttk.Entry): Entry widget containing the source image file path.</p></li>
+<li><p>comboLanguage (ttk.Combobox): Combobox widget containing the selected language for text extraction.</p></li>
+<li><p>entryOutputDir (ttk.Entry): Entry widget containing the output file path.</p></li>
+</ul>
+</dd>
+<dt>Raises:</dt><dd><ul class="simple">
+<li><p>FileNotFoundError: If the source file is not found.</p></li>
+<li><p>Exception: If an error occurs during the conversion.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m6_image_text.gui_imageText.createImageToTextGui">
+<span class="sig-prename descclassname"><span class="pre">m6_image_text.gui_imageText.</span></span><span class="sig-name descname"><span class="pre">createImageToTextGui</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/gui_imageText.html#createImageToTextGui"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.gui_imageText.createImageToTextGui" title="Link to this definition"></a></dt>
+<dd><p>This function creates a GUI for extracting an image’s textual content.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>parent (tkinter.Widget): The parent widget to create the GUI components.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m6_image_text.gui_imageText.saveAs">
+<span class="sig-prename descclassname"><span class="pre">m6_image_text.gui_imageText.</span></span><span class="sig-name descname"><span class="pre">saveAs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryOutputDir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/gui_imageText.html#saveAs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.gui_imageText.saveAs" title="Link to this definition"></a></dt>
+<dd><p>This function opens a file dialog for the user to save the plain text file into another directory.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>entryOutputDir (ttk.Entry): Entry widget to update with the selected output file’s path.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-m6_image_text">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-m6_image_text" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="m5_excel_text.html" class="btn btn-neutral float-left" title="m5_excel_text package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="main.html" class="btn btn-neutral float-right" title="main module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Diana Martin Vilá.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
