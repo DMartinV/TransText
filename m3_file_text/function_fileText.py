@@ -16,53 +16,88 @@
 
 """
 This script serves as the functional aspect of this module.
-It extracts the textual content of various types of files and saves it into a plain text file. The script uses the 'textract' library to complete this task. The function 'extractTextFromFile' extracts the content and writes it into a plain text file.
+It extracts the textual content of various types of files and saves it into a plain text file. The script uses the 'textract' library to complete this task. The script first checks the extension of the file before extracting the text and saving it into a plain text file.
 
 Usage: $ python function_fileText.py <file> [-o <outputFile>]
 
 Example: $ python function_fileText.py /path/document.docx -o /path/output.txt
 """
-
-# Imports necessary libraries.
+# Import necessary libraries.
 import textract
 import argparse
 import os
 
-def extractTextFromFile(inputFile, outputPath):
+def extensionCheck(filePath):
     """
-    This function extracts text from a file and saves it to a plain text file.
+    This function verifies if the provided file path has an acceptable extension.
 
-    Args:
-        * inputFile (str): Path of the input file.
-        * outputPath (str): Path of the output file.
-
-    Raises:
-        * FileNotFoundError: If the source file is not found.
-        * Exception: If an error occurs during the conversion.
+    Parameters:
+        * filePath (str): Path of the file.
 
     Returns:
-        * None.
+        * bool: True if the file extension is in the allowed list, False otherwise.
     """
-    # Executes try/except block.
+    # List of extensions allowed in this program.
+    extensions = ['.epub', '.eml', '.msg', '.html', '.htm', '.json', '.pptx', '.doc', '.docx', '.odt', '.rtf']
+    # Obtain the file extension from the file path.
+    fileExtension = os.path.splitext(filePath)[1].lower()
+    # Verify that the file extension is on the list.
+    return fileExtension in extensions
+
+def extractTextFromFile(inputFile):
+    """
+    This function extracts text from a file.
+
+    Parameters:
+        * inputFile (str): Path of the input file.
+
+    Returns:
+        * str: Extracted text from the file.
+
+    Raises:
+    * FileNotFoundError: If the source file is not found.
+    * Exception: If an error occurs during the conversion.
+    """
+    # Execute try/except block
     try:
-        # Extract text from the file using textract.
-        text = textract.process(inputFile)
-        
-        # Converts bytes to string.
-        text = text.decode('utf-8')
-
-        # Saves the extracted text to a plain text file.
-        with open(outputPath, 'w', encoding='utf-8') as outputFile:
-            outputFile.write(text)
-
-        # Prints success message.        
-        print(f'The conversion was a success! File "{os.path.basename(outputPath)}" is saved in: "{os.path.abspath(outputPath)}"')
-    
+        # Verify if the source path exists and the file's extension is in the list of allowed extension.
+        if os.path.exists(inputFile) and extensionCheck(inputFile):
+            # Extract the textual content of the source file.
+            text = textract.process(inputFile).decode('utf-8')
+            # Return the content.
+            return text
+        # If the source path does not exist.
+        else:
+            raise Exception(f'Entry file "{inputFile}" cannot be converted. If "{inputFile}" is a PDF or Excel file, try using the other features available in the program.')
     # Handle file not found error.
     except FileNotFoundError:
-        print(f'Error: Source file "{inputFile}" not found.')
-    
+        raise FileNotFoundError(f'Source file "{inputFile}" not found.')
     # Handles other types of errors.
+    except Exception as e:
+        raise Exception(e)
+    
+def saveText(text, outputFile):
+    """
+    This function saves extracted text to a specified output file.
+
+    Parameters:
+        * text (str): Text to be saved.
+        * outputFile (str): Path of the output file.
+
+    Returns:
+        * None
+    
+    Raises:
+    Exception: If an error occurs during the extraction.
+    """
+    # Execute try/except block
+    try:
+        # Open the source file and write the content onto the output file.
+        with open(outputFile, 'w', encoding='utf-8') as finalFile:
+            finalFile.write(text)
+        # Print success message.  
+        print(f'The conversion was a success! File: "{os.path.basename(outputFile)}" is saved in: "{os.path.abspath(outputFile)}"')
+    # Handle other types of errors.
     except Exception as e:
         print(f'Error: {e}')
 
@@ -72,21 +107,37 @@ if __name__ == "__main__":
     This block parses command-line arguments to extract the content of a file to a plain text file.
     It requires the path to the input file and optionally the path to the output file.
     """
-    # Configures the argument parser
+    # Configure the arguments parser.
     parser = argparse.ArgumentParser(description='Program to extract text from various types of files.')
     parser.add_argument('-i', '--input', dest='inputFile', help='Path to the input file', required=True)
     parser.add_argument('-o', '--output', help='Path to the output text file')
-
-    # Parses the arguments
+    
+    # Parse the arguments previously defined.
     args = parser.parse_args()
 
-    # Determines the output path
-    if args.output:
-        outputPath = args.output
-    else:
-        # Creates default output file name based on input file name
-        baseName, _ = os.path.splitext(args.inputFile)
-        outputPath = baseName + '_output.txt'
+    # Execute try/except block
+    try:
+        # Extract text from the input file.
+        text = extractTextFromFile(args.inputFile)
+        # If the user provides the name of the output file in the arguments.       
+        if args.output:
+            outputFile = args.output
+        # If not, the program provides a default output name.
+        else:
+            # Get the source file's absolute path. 
+            inputDir = os.path.dirname(os.path.abspath(args.inputFile))
+            # Obtain the name of the file without the extension.
+            baseName = os.path.splitext(os.path.basename(args.inputFile))[0]
+            # Create the default name by appending the file's base name with "_output.txt"
+            outputFile = os.path.join(inputDir, f"{baseName}_output.txt")
+        
+        # If the process is successful, save the extracted text to the output file.
+        if text:
+            saveText(text, outputFile)
+        # If not, print an error message.
+        else:
+            print("Failed to extract text from the file.")
 
-    # Extracts text from the file and save it to the specified text file
-    extractTextFromFile(args.inputFile, outputPath)
+    # Handle other types of errors and show message.
+    except Exception as e:
+        print(f"Error: {e}")

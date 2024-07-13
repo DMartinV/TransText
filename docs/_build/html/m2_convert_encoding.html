@@ -46,7 +46,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">APP</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">TransText</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="m1_detect_encoding.html">m1_detect_encoding package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">m2_convert_encoding package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
@@ -90,7 +90,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">APP</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">TransText</a></li>
       <li class="breadcrumb-item active">m2_convert_encoding package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/m2_convert_encoding.rst.txt" rel="nofollow"> View page source</a>
@@ -117,15 +117,10 @@ It provides two main functions for converting file encodings. The former detects
 <span class="sig-prename descclassname"><span class="pre">m2_convert_encoding.function_convertEncoding.</span></span><span class="sig-name descname"><span class="pre">convertEncoding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sourceFile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputEncoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m2_convert_encoding/function_convertEncoding.html#convertEncoding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m2_convert_encoding.function_convertEncoding.convertEncoding" title="Link to this definition"></a></dt>
 <dd><p>This function convertS the character encoding of a file.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>sourceFile (str): Path of the source file.</p></li>
 <li><p>outputEncoding (str): Encoding of the output file.</p></li>
 <li><p>outputFile (str, optional): Path of the output file after the conversion.</p></li>
-</ul>
-</dd>
-<dt>Raises:</dt><dd><ul class="simple">
-<li><p>FileNotFoundError: If the source file is not found.</p></li>
-<li><p>Exception: If an error occurs during the conversion.</p></li>
 </ul>
 </dd>
 <dt>Returns:</dt><dd><ul class="simple">
@@ -133,6 +128,9 @@ It provides two main functions for converting file encodings. The former detects
 </ul>
 </dd>
 </dl>
+<p>Raises:
+* FileNotFoundError: If the source file is not found.
+* Exception: If an error occurs during the conversion.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -140,7 +138,7 @@ It provides two main functions for converting file encodings. The former detects
 <span class="sig-prename descclassname"><span class="pre">m2_convert_encoding.function_convertEncoding.</span></span><span class="sig-name descname"><span class="pre">detectEncoding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputFile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m2_convert_encoding/function_convertEncoding.html#detectEncoding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m2_convert_encoding.function_convertEncoding.detectEncoding" title="Link to this definition"></a></dt>
 <dd><p>This function detects the character encoding of a file.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>inputFile (str): Path of the input file.</p></li>
 </ul>
 </dd>
@@ -161,7 +159,7 @@ Once users have selected their input file and saved it into the desired director
 <span class="sig-prename descclassname"><span class="pre">m2_convert_encoding.gui_convertEncoding.</span></span><span class="sig-name descname"><span class="pre">browseFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryInputFile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m2_convert_encoding/gui_convertEncoding.html#browseFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m2_convert_encoding.gui_convertEncoding.browseFile" title="Link to this definition"></a></dt>
 <dd><p>This function opens a file dialog in order to allow users to select the entry file. It also updates the entry widget with the file’s path.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>entry (str): Path of the entry file.</p></li>
 </ul>
 </dd>
@@ -177,7 +175,7 @@ Once users have selected their input file and saved it into the desired director
 <span class="sig-prename descclassname"><span class="pre">m2_convert_encoding.gui_convertEncoding.</span></span><span class="sig-name descname"><span class="pre">convertFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryInputFile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">combo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entryOutputDir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m2_convert_encoding/gui_convertEncoding.html#convertFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m2_convert_encoding.gui_convertEncoding.convertFile" title="Link to this definition"></a></dt>
 <dd><p>This function converts the file into a specified character encoding.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>entryInputFile (ttk.Entry): Entry widget that contains the path of the entry file.</p></li>
 <li><p>combo (ttk.Combobox): Combobox widget that contains a list of the available encodings.</p></li>
 <li><p>entryOutputDir (ttk.Entry): Entry widget that constains the path where the output file will be saved.</p></li>
@@ -200,7 +198,7 @@ Once users have selected their input file and saved it into the desired director
 <span class="sig-prename descclassname"><span class="pre">m2_convert_encoding.gui_convertEncoding.</span></span><span class="sig-name descname"><span class="pre">createConvertEncodingGui</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m2_convert_encoding/gui_convertEncoding.html#createConvertEncodingGui"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m2_convert_encoding.gui_convertEncoding.createConvertEncodingGui" title="Link to this definition"></a></dt>
 <dd><p>This function creates a GUI for selecting and converting a file’s encoding.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>parent (tkinter.Widget): The parent widget to create the GUI components.</p></li>
 </ul>
 </dd>
@@ -226,9 +224,9 @@ Once users have selected their input file and saved it into the desired director
 <dl class="py function">
 <dt class="sig sig-object py" id="m2_convert_encoding.gui_convertEncoding.saveAs">
 <span class="sig-prename descclassname"><span class="pre">m2_convert_encoding.gui_convertEncoding.</span></span><span class="sig-name descname"><span class="pre">saveAs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryOutputDir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m2_convert_encoding/gui_convertEncoding.html#saveAs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m2_convert_encoding.gui_convertEncoding.saveAs" title="Link to this definition"></a></dt>
-<dd><p>This function opens a file dialog to select the directory where it is going to save the output file.</p>
+<dd><p>This function opens a file dialog to select the directory where users are going to save the output file.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>entryOutputDir (ttk.Entry): Entry widget that contains the path where the output file will be saved.</p></li>
 </ul>
 </dd>
@@ -244,7 +242,7 @@ Once users have selected their input file and saved it into the desired director
 <span class="sig-prename descclassname"><span class="pre">m2_convert_encoding.gui_convertEncoding.</span></span><span class="sig-name descname"><span class="pre">updateEncoding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">combo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m2_convert_encoding/gui_convertEncoding.html#updateEncoding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m2_convert_encoding.gui_convertEncoding.updateEncoding" title="Link to this definition"></a></dt>
 <dd><p>This function prints the list of sorted encodings into the combobox widget.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>combo (ttk.Combobox): The combobox widget from which users can select the available encodings.</p></li>
 </ul>
 </dd>

@@ -43,7 +43,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">APP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">TransText</a></li>
 </ul>
 
         </div>
@@ -89,63 +89,106 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This script serves as the functional aspect of this module.</span>
-<span class="sd">It extracts the textual content of Excel files and saves it into a plain text file. The script uses the &#39;openpyxl&#39; library to complete this task. The function &#39;extractTextFromExcel&#39; iterates through the Excel&#39;s rows and cells, extracting the content and writing it into a plain text file.</span>
+<span class="sd">It extracts the textual content of Excel files and saves it into a plain text file. The script uses the &#39;openpyxl&#39; library to complete this task. The program first verifies if the extension provided is from an Excel file before extracting the text and saving it into a plain text file.</span>
 
 <span class="sd">Usage: $ python function_excelText.py [-i &lt;excel_file&gt;] [-o &lt;outputFile&gt;]</span>
 
 <span class="sd">Example: $ python function_excelText.py -i /path/document.xlsx -o /path/output.txt</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="c1"># Imports necessary libraries.</span>
-<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="c1"># Import the necessary libraries.</span>
 <span class="kn">import</span> <span class="nn">openpyxl</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">os</span>
+
+<div class="viewcode-block" id="isExcelFile">
+<a class="viewcode-back" href="../../m5_excel_text.html#m5_excel_text.function_excelText.isExcelFile">[docs]</a>
+<span class="k">def</span> <span class="nf">isExcelFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function verifies if the provided file path is an Excel file.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        * filePath (str): Path of the file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        * bool: True if the file is an Excel file, False if the file is not an Excel file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># List of possible Excel extensions.</span>
+    <span class="n">excelExtensions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;.xls&#39;</span><span class="p">,</span> <span class="s1">&#39;.xlsx&#39;</span><span class="p">,</span> <span class="s1">&#39;.xlsm&#39;</span><span class="p">,</span> <span class="s1">&#39;.xlsb&#39;</span><span class="p">,</span> <span class="s1">&#39;.odf&#39;</span><span class="p">,</span> <span class="s1">&#39;.ods&#39;</span><span class="p">]</span>
+    <span class="c1"># Obtain the extension from the source file.</span>
+    <span class="n">fileExtension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filePath</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="c1"># Check if the extension is on the list.</span>
+    <span class="k">return</span> <span class="n">fileExtension</span> <span class="ow">in</span> <span class="n">excelExtensions</span></div>
+
 
 <div class="viewcode-block" id="extractTextFromExcel">
 <a class="viewcode-back" href="../../m5_excel_text.html#m5_excel_text.function_excelText.extractTextFromExcel">[docs]</a>
-<span class="k">def</span> <span class="nf">extractTextFromExcel</span><span class="p">(</span><span class="n">excelPath</span><span class="p">,</span> <span class="n">outputPath</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">extractTextFromExcel</span><span class="p">(</span><span class="n">excelPath</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Extracts text from an Excel file and saves it to a plain text file.</span>
+<span class="sd">    This function extracts text from an Excel file.</span>
 
-<span class="sd">    Args:</span>
+<span class="sd">    Parameters:</span>
 <span class="sd">        * excelPath (str): Path to the input Excel file.</span>
-<span class="sd">        * outputPath (str): Path to the output text file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        * str: Extracted text from the Excel file.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        * FileNotFoundError: If the source file is not found.</span>
-<span class="sd">        * Exception: If an error occurs during the conversion.</span>
+<span class="sd">        * FileNotFound: If the source file is not found.</span>
+<span class="sd">        * Exception: If an error occurs during the extraction.    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Execute try/except block</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># If the file exists and it is a Excel file.</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">excelPath</span><span class="p">)</span> <span class="ow">and</span> <span class="n">isExcelFile</span><span class="p">(</span><span class="n">excelPath</span><span class="p">):</span>
+            <span class="c1"># Open the Excel file.</span>
+            <span class="n">wb</span> <span class="o">=</span> <span class="n">openpyxl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="n">excelPath</span><span class="p">)</span>
+            <span class="c1"># Select the first sheet.</span>
+            <span class="n">sheet</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">active</span>
+            <span class="c1"># Initialize an empty string to store the extracted text.</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+            <span class="c1"># Iterate over all rows and columns of the Excel file.</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">sheet</span><span class="o">.</span><span class="n">iter_rows</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                    <span class="c1"># Add the cell value to the text.</span>
+                    <span class="n">text</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="c1"># Return the extracted text.</span>
+            <span class="k">return</span> <span class="n">text</span>
+        <span class="c1"># If the file does not exist or is not an Excel file, show an error message.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Entry file &quot;</span><span class="si">{</span><span class="n">excelPath</span><span class="si">}</span><span class="s1">&quot; is not a valid Excel file.&#39;</span><span class="p">)</span>
+    <span class="c1"># Handle file not found error and display an error message.</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Source file &quot;</span><span class="si">{</span><span class="n">excelPath</span><span class="si">}</span><span class="s1">&quot; not found.&#39;</span><span class="p">)</span>
+    <span class="c1"># Handle other types of errors and display and error message.</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="saveText">
+<a class="viewcode-back" href="../../m5_excel_text.html#m5_excel_text.function_excelText.saveText">[docs]</a>
+<span class="k">def</span> <span class="nf">saveText</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function saves the extracted text into a specified output file.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        * text (str): Text to be saved.</span>
+<span class="sd">        * outputFile (str): Path of the output file.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        * None.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        * Exception: If an error occurs during the extraction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Executes try/except block.</span>
+    <span class="c1"># Execute try/except block.</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Opens Excel file.</span>
-        <span class="n">wb</span> <span class="o">=</span> <span class="n">openpyxl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="n">excelPath</span><span class="p">)</span>
-        <span class="c1"># Selects the first sheet.</span>
-        <span class="n">sheet</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">active</span>
-
-        <span class="c1"># Initializes an empty string to store the extracted text.</span>
-        <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-
-        <span class="c1"># Iterates over all rows and columns of the Excel file.</span>
-        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">sheet</span><span class="o">.</span><span class="n">iter_rows</span><span class="p">():</span>
-            <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
-                <span class="c1"># Adds the cell value to the text.</span>
-                <span class="n">text</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
-
-        <span class="c1"># Saves the extracted text to a plain text file.</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outputPath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outputFile</span><span class="p">:</span>
-            <span class="n">outputFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-
-        <span class="c1"># Prints success message.</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The conversion was a success! File: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">outputPath</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot; is saved in: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputPath</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-
-    <span class="c1"># Handles file not found error.</span>
-    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error: Source file &quot;</span><span class="si">{</span><span class="n">excelPath</span><span class="si">}</span><span class="s1">&quot; not found.&#39;</span><span class="p">)</span>
-    
-    <span class="c1"># Handles other types of errors.</span>
+        <span class="c1"># Open the PDF file and write the content onto an output file.</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outputFile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">finalFile</span><span class="p">:</span>
+            <span class="n">finalFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="c1"># Print sucess message.</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The conversion was a success! File: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot; is saved in: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+    <span class="c1"># Handle other types of errors and print an error message.</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
@@ -155,25 +198,40 @@
 <span class="sd">    Main execution block.</span>
 <span class="sd">    This block parses command-line arguments to extract the content of an Excel file to a plain text file.</span>
 <span class="sd">    It requires the path to the Excel file and optionally the path to the output file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Configures the argument parser.</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Program to text from an Excel file and save it to a plain text file.&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;--input&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;excelPath&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to the input Excel file&#39;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--output&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;outputPath&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to the output text file&#39;</span><span class="p">)</span>
+<span class="sd">    &quot;&quot;&quot;</span>  
+    <span class="c1"># Create and configure the arguments parser.</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Program to extract text from an Excel file.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;--input&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;excelPath&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to the input Excel file&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--output&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to the output text file&#39;</span><span class="p">)</span>
 
-    <span class="c1"># Parses the command-line arguments.</span>
+    <span class="c1"># Parse the arguments previously defined.</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
-    <span class="c1"># Determines the output path.</span>
-    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">outputPath</span><span class="p">:</span>
-        <span class="n">outputPath</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">outputPath</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># Creates default output file name based on input file name.</span>
-        <span class="n">baseName</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">excelPath</span><span class="p">)</span>
-        <span class="n">outputPath</span> <span class="o">=</span> <span class="n">baseName</span> <span class="o">+</span> <span class="s1">&#39;_output.txt&#39;</span>
+    <span class="c1"># Execute try/except block</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Extract text from the PDF file.</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">extractTextFromExcel</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">excelPath</span><span class="p">)</span>
+        <span class="c1"># If the user provides the name of the output file in the arguments.       </span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">:</span>
+            <span class="n">outputFile</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span>
+        <span class="c1"># If not, the program provides a default output name.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Get the source Excel&#39;s absolute path.</span>
+            <span class="n">inputDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">excelPath</span><span class="p">))</span>
+            <span class="c1"># Obtain the name of the file without the extension.</span>
+            <span class="n">baseName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">excelPath</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># Create the default name by appending the file&#39;s base name with &quot;_output.txt&quot;</span>
+            <span class="n">outputFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inputDir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">baseName</span><span class="si">}</span><span class="s2">_output.txt&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Extracts text from the Excel file and saves it to the text file.</span>
-    <span class="n">extractTextFromExcel</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">excelPath</span><span class="p">,</span> <span class="n">outputPath</span><span class="p">)</span>
+        <span class="c1"># If the process is successful, save the extracted text to the output file.</span>
+        <span class="k">if</span> <span class="n">text</span><span class="p">:</span>
+            <span class="n">saveText</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">)</span>
+        <span class="c1"># If not, print an error message.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to extract text from the Excel file.&quot;</span><span class="p">)</span>
+    <span class="c1"># Handle other types of errors and show an error message.</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
            </div>

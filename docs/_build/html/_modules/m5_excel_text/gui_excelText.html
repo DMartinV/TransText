@@ -43,7 +43,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">APP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">TransText</a></li>
 </ul>
 
         </div>
@@ -93,18 +93,18 @@
 <span class="sd">Users can also specify the output directory using the &#39;Save as&#39; button.</span>
 <span class="sd">Once users have selected their input file and saved it into the desired directory, the conversion will automatically start when the &quot;Convert&quot; button is clicked.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="c1">#Import necessary libraries.</span>
+<span class="c1"># Import necessary libraries and modules.</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span><span class="p">,</span> <span class="n">filedialog</span><span class="p">,</span> <span class="n">messagebox</span>
 
-<span class="c1"># Executes try/except block.</span>
+<span class="c1"># Execute try/except block.</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="c1"># When running as part of a package.</span>
-    <span class="kn">from</span> <span class="nn">.function_excelText</span> <span class="kn">import</span> <span class="n">extractTextFromExcel</span>
+    <span class="c1"># When the script is running as part of a package.</span>
+    <span class="kn">from</span> <span class="nn">.function_excelText</span> <span class="kn">import</span> <span class="n">extractTextFromExcel</span><span class="p">,</span> <span class="n">saveText</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="c1"># When running as a standalone script.</span>
-    <span class="kn">from</span> <span class="nn">function_excelText</span> <span class="kn">import</span> <span class="n">extractTextFromExcel</span>
+    <span class="c1"># When the script is running as a standalone script.</span>
+    <span class="kn">from</span> <span class="nn">function_excelText</span> <span class="kn">import</span> <span class="n">extractTextFromExcel</span><span class="p">,</span> <span class="n">saveText</span>
 
 <div class="viewcode-block" id="browseFile">
 <a class="viewcode-back" href="../../m5_excel_text.html#m5_excel_text.gui_excelText.browseFile">[docs]</a>
@@ -115,10 +115,10 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        * None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Opens a file dialog to select the Excel file.</span>
-    <span class="n">inputExcelFile</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">askopenfilename</span><span class="p">(</span><span class="n">filetypes</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Excel files&quot;</span><span class="p">,</span> <span class="s2">&quot;*.xlsx&quot;</span><span class="p">)])</span>
+    <span class="c1"># Open a file dialog to select the Excel file.</span>
+    <span class="n">inputExcelFile</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">askopenfilename</span><span class="p">(</span><span class="n">filetypes</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Excel files&quot;</span><span class="p">,</span> <span class="s2">&quot;*.xls *.xlsx *.xlsm *.xlsb *.odf *.ods&quot;</span><span class="p">)])</span>
     
-    <span class="c1"># If the file is an Excel file, it clears any text and adds the PDF path.</span>
+    <span class="c1"># If the file is an Excel file, it clears any text and adds the input Excep path into the entryExcel entry widget.</span>
     <span class="k">if</span> <span class="n">inputExcelFile</span><span class="p">:</span>
         <span class="n">entryExcel</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">END</span><span class="p">)</span>
         <span class="n">entryExcel</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inputExcelFile</span><span class="p">)</span></div>
@@ -133,10 +133,10 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        * None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Opens a file dialog to save the output file.</span>
+    <span class="c1"># Open a file dialog to save the output file.</span>
     <span class="n">outputPath</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">asksaveasfilename</span><span class="p">(</span><span class="n">defaultextension</span><span class="o">=</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span> <span class="n">filetypes</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Text files&quot;</span><span class="p">,</span> <span class="s2">&quot;*.txt&quot;</span><span class="p">)])</span>
     
-    <span class="c1"># If users have selected an output path, it clears any text and adds the output file&#39;s path.</span>
+    <span class="c1"># If users have selected an output path, it clears any text and adds the output file&#39;s path into the entryOutputDir entry widget.</span>
     <span class="k">if</span> <span class="n">outputPath</span><span class="p">:</span>
         <span class="n">entryOutputDir</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">END</span><span class="p">)</span>
         <span class="n">entryOutputDir</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">outputPath</span><span class="p">)</span></div>
@@ -146,26 +146,31 @@
 <a class="viewcode-back" href="../../m5_excel_text.html#m5_excel_text.gui_excelText.convertFile">[docs]</a>
 <span class="k">def</span> <span class="nf">convertFile</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Extract text from the selected Excel file and save it to a text file.</span>
+<span class="sd">    This function extracts text from the selected Excel file and saves it to a text file.</span>
 <span class="sd">    </span>
 <span class="sd">    Returns:</span>
 <span class="sd">        * None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Gets the path of the Excel file and the output directory from the global variables.</span>
+    <span class="c1"># Get the path of the Excel file and the output directory from the entry widgets.</span>
     <span class="n">inputExcelFile</span> <span class="o">=</span> <span class="n">entryExcel</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="n">outputPath</span> <span class="o">=</span> <span class="n">entryOutputDir</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
-    <span class="c1"># Executes try/except blocks.</span>
+    <span class="c1"># Execute try/except block.</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Extracts the textual content from the Excel file and save it to the output file.</span>
-        <span class="n">extractTextFromExcel</span><span class="p">(</span><span class="n">inputExcelFile</span><span class="p">,</span> <span class="n">outputPath</span><span class="p">)</span>
-        <span class="n">messagebox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s2">&quot;Success&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;The conversion was a success. File: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">outputPath</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot; is saved in: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputPath</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+        <span class="c1"># Extract the textual content from the Excel file by calling the &quot;extractTextFromExcel&quot; function.</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">extractTextFromExcel</span><span class="p">(</span><span class="n">inputExcelFile</span><span class="p">)</span>
+        
+        <span class="c1"># Save the extracted text to the output file.</span>
+        <span class="n">saveText</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">outputPath</span><span class="p">)</span>
+        
+        <span class="c1"># Display sucess message.</span>
+        <span class="n">messagebox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s2">&quot;Success&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;The conversion was a success! File: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">outputPath</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot; is saved in: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputPath</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
     
-    <span class="c1"># Handles file not found error and display error message.</span>
+    <span class="c1"># Handle file not found error and show an error message.</span>
     <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
         <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Source file: &quot;</span><span class="si">{</span><span class="n">inputExcelFile</span><span class="si">}</span><span class="s1">&quot; not found.&#39;</span><span class="p">)</span>
 
-    <span class="c1"># Handles other types of errors and display error message. </span>
+    <span class="c1"># Handle other types of errors and show an error message. </span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Conversion error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
@@ -176,34 +181,34 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function creates a GUI for extracting an Excel&#39;s textual content.</span>
 <span class="sd">    </span>
-<span class="sd">    Args:</span>
+<span class="sd">    Parameters:</span>
 <span class="sd">        * parent (tkinter.Widget): The parent widget to create the GUI components.</span>
 <span class="sd">    </span>
 <span class="sd">    Returns:</span>
 <span class="sd">        * None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">excel_path_var</span><span class="p">,</span> <span class="n">output_file_var</span><span class="p">,</span> <span class="n">entryExcel</span><span class="p">,</span> <span class="n">entryOutputDir</span>
+    <span class="k">global</span> <span class="n">entryExcel</span><span class="p">,</span> <span class="n">entryOutputDir</span>
     
-    <span class="n">excel_path_var</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">()</span>
-    <span class="n">output_file_var</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">()</span>
+    <span class="n">excelPath</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">()</span>
+    <span class="n">outputFile</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">()</span>
 
-    <span class="c1"># Frame to hold the components and widgets of the GUI.</span>
+    <span class="c1"># Frame that holds the components and widgets of the GUI.</span>
     <span class="n">frame</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
 
-    <span class="c1"># Creates and place labels, entries, and buttons.</span>
+    <span class="c1"># Create and place labels, entries, and buttons.</span>
     <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Excel File:&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
     <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Output Directory:&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
-    <span class="n">entryExcel</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">excel_path_var</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+    <span class="n">entryExcel</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">excelPath</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
     <span class="n">entryExcel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="p">(</span><span class="n">tk</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">E</span><span class="p">),</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">entryOutputDir</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">output_file_var</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+    <span class="n">entryOutputDir</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">outputFile</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
     <span class="n">entryOutputDir</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="p">(</span><span class="n">tk</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">E</span><span class="p">),</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
     <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Browse&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">browseFile</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
     <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Save as&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">saveAs</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
     <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Convert&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">convertFile</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
-    <span class="c1"># Packs the frame into the main application.</span>
+    <span class="c1"># Pack the frame.</span>
     <span class="n">frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></div>
 
 
@@ -212,11 +217,11 @@
 <span class="sd">    Main entry point for the app.</span>
 <span class="sd">    Initializes the Tkinter root window (the main application).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Initializes and sets title of the root window (the main application).</span>
+    <span class="c1"># Initialize and set title of the root window (the main application).</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
     <span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Excel to Text Functionality&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Creates GUI components in the root window (the main application) and starts the main event loop.</span>
+    <span class="c1"># Create GUI components in the root window (the main application) and start the main event loop.</span>
     <span class="n">createExcelToTextGui</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
 
     <span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>

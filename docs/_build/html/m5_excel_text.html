@@ -46,7 +46,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">APP</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">TransText</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="m1_detect_encoding.html">m1_detect_encoding package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="m2_convert_encoding.html">m2_convert_encoding package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="m3_file_text.html">m3_file_text package</a></li>
@@ -55,6 +55,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-m5_excel_text.function_excelText">m5_excel_text.function_excelText module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#m5_excel_text.function_excelText.extractTextFromExcel"><code class="docutils literal notranslate"><span class="pre">extractTextFromExcel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m5_excel_text.function_excelText.isExcelFile"><code class="docutils literal notranslate"><span class="pre">isExcelFile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m5_excel_text.function_excelText.saveText"><code class="docutils literal notranslate"><span class="pre">saveText()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-m5_excel_text.gui_excelText">m5_excel_text.gui_excelText module</a><ul>
@@ -87,7 +89,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">APP</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">TransText</a></li>
       <li class="breadcrumb-item active">m5_excel_text package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/m5_excel_text.rst.txt" rel="nofollow"> View page source</a>
@@ -106,26 +108,62 @@
 <section id="module-m5_excel_text.function_excelText">
 <span id="m5-excel-text-function-exceltext-module"></span><h2>m5_excel_text.function_excelText module<a class="headerlink" href="#module-m5_excel_text.function_excelText" title="Link to this heading"></a></h2>
 <p>This script serves as the functional aspect of this module.
-It extracts the textual content of Excel files and saves it into a plain text file. The script uses the ‘openpyxl’ library to complete this task. The function ‘extractTextFromExcel’ iterates through the Excel’s rows and cells, extracting the content and writing it into a plain text file.</p>
+It extracts the textual content of Excel files and saves it into a plain text file. The script uses the ‘openpyxl’ library to complete this task. The program first verifies if the extension provided is from an Excel file before extracting the text and saving it into a plain text file.</p>
 <p>Usage: $ python function_excelText.py [-i &lt;excel_file&gt;] [-o &lt;outputFile&gt;]</p>
 <p>Example: $ python function_excelText.py -i /path/document.xlsx -o /path/output.txt</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="m5_excel_text.function_excelText.extractTextFromExcel">
-<span class="sig-prename descclassname"><span class="pre">m5_excel_text.function_excelText.</span></span><span class="sig-name descname"><span class="pre">extractTextFromExcel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">excelPath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputPath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m5_excel_text/function_excelText.html#extractTextFromExcel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m5_excel_text.function_excelText.extractTextFromExcel" title="Link to this definition"></a></dt>
-<dd><p>Extracts text from an Excel file and saves it to a plain text file.</p>
+<span class="sig-prename descclassname"><span class="pre">m5_excel_text.function_excelText.</span></span><span class="sig-name descname"><span class="pre">extractTextFromExcel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">excelPath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m5_excel_text/function_excelText.html#extractTextFromExcel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m5_excel_text.function_excelText.extractTextFromExcel" title="Link to this definition"></a></dt>
+<dd><p>This function extracts text from an Excel file.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>excelPath (str): Path to the input Excel file.</p></li>
-<li><p>outputPath (str): Path to the output text file.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>str: Extracted text from the Excel file.</p></li>
 </ul>
 </dd>
 <dt>Raises:</dt><dd><ul class="simple">
-<li><p>FileNotFoundError: If the source file is not found.</p></li>
-<li><p>Exception: If an error occurs during the conversion.</p></li>
+<li><p>FileNotFound: If the source file is not found.</p></li>
+<li><p>Exception: If an error occurs during the extraction.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m5_excel_text.function_excelText.isExcelFile">
+<span class="sig-prename descclassname"><span class="pre">m5_excel_text.function_excelText.</span></span><span class="sig-name descname"><span class="pre">isExcelFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m5_excel_text/function_excelText.html#isExcelFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m5_excel_text.function_excelText.isExcelFile" title="Link to this definition"></a></dt>
+<dd><p>This function verifies if the provided file path is an Excel file.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>filePath (str): Path of the file.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>bool: True if the file is an Excel file, False if the file is not an Excel file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m5_excel_text.function_excelText.saveText">
+<span class="sig-prename descclassname"><span class="pre">m5_excel_text.function_excelText.</span></span><span class="sig-name descname"><span class="pre">saveText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputFile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m5_excel_text/function_excelText.html#saveText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m5_excel_text.function_excelText.saveText" title="Link to this definition"></a></dt>
+<dd><p>This function saves the extracted text into a specified output file.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>text (str): Text to be saved.</p></li>
+<li><p>outputFile (str): Path of the output file.</p></li>
 </ul>
 </dd>
 <dt>Returns:</dt><dd><ul class="simple">
 <li><p>None.</p></li>
+</ul>
+</dd>
+<dt>Raises:</dt><dd><ul class="simple">
+<li><p>Exception: If an error occurs during the extraction.</p></li>
 </ul>
 </dd>
 </dl>
@@ -153,7 +191,7 @@ Once users have selected their input file and saved it into the desired director
 <dl class="py function">
 <dt class="sig sig-object py" id="m5_excel_text.gui_excelText.convertFile">
 <span class="sig-prename descclassname"><span class="pre">m5_excel_text.gui_excelText.</span></span><span class="sig-name descname"><span class="pre">convertFile</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/m5_excel_text/gui_excelText.html#convertFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m5_excel_text.gui_excelText.convertFile" title="Link to this definition"></a></dt>
-<dd><p>Extract text from the selected Excel file and save it to a text file.</p>
+<dd><p>This function extracts text from the selected Excel file and saves it to a text file.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><ul class="simple">
 <li><p>None.</p></li>
@@ -167,7 +205,7 @@ Once users have selected their input file and saved it into the desired director
 <span class="sig-prename descclassname"><span class="pre">m5_excel_text.gui_excelText.</span></span><span class="sig-name descname"><span class="pre">createExcelToTextGui</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m5_excel_text/gui_excelText.html#createExcelToTextGui"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m5_excel_text.gui_excelText.createExcelToTextGui" title="Link to this definition"></a></dt>
 <dd><p>This function creates a GUI for extracting an Excel’s textual content.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>parent (tkinter.Widget): The parent widget to create the GUI components.</p></li>
 </ul>
 </dd>

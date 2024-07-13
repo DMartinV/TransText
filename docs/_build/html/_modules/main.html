@@ -43,7 +43,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../modules.html">APP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">TransText</a></li>
 </ul>
 
         </div>
@@ -87,7 +87,7 @@
 <span class="c1">#    You should have received a copy of the GNU General Public License</span>
 <span class="c1">#    along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
-<span class="c1">#Imports necessary libraries.</span>
+<span class="c1"># Import necessary libraries and modules.</span>
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span>
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">messagebox</span>
@@ -111,7 +111,12 @@
 <div class="viewcode-block" id="exitApplication">
 <a class="viewcode-back" href="../main.html#main.exitApplication">[docs]</a>
 <span class="k">def</span> <span class="nf">exitApplication</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Option to exit the application.&quot;&quot;&quot;</span> 
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function opens an option to exit the application.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        None.</span>
+<span class="sd">    &quot;&quot;&quot;</span> 
     <span class="c1"># If users want to exit the application, a message box with a question dialog will appear.</span>
     <span class="n">option</span> <span class="o">=</span> <span class="n">messagebox</span><span class="o">.</span><span class="n">askquestion</span><span class="p">(</span><span class="s2">&quot;Exit&quot;</span><span class="p">,</span> <span class="s2">&quot;Are you sure you want to leave this program?&quot;</span><span class="p">)</span>
     <span class="c1"># If the option is &quot;yes&quot;, the application will close.</span>
@@ -123,48 +128,64 @@
 <a class="viewcode-back" href="../main.html#main.resourcePath">[docs]</a>
 <span class="k">def</span> <span class="nf">resourcePath</span><span class="p">(</span><span class="n">relativePath</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Obtains the absolute path of the documentation. It handles development and PyInstaller bundle contexts.</span>
+<span class="sd">    This function obtains the absolute path of the documentation. It handles development and PyInstaller bundle contexts.</span>
 
-<span class="sd">    Args:</span>
+<span class="sd">    Parameters:</span>
 <span class="sd">        * relativePath (str): Relative path to the documentation folder.</span>
 <span class="sd">    </span>
 <span class="sd">    Returns:</span>
 <span class="sd">        * str: Absolute path to the documentation folder.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Executes try/except block.</span>
+    <span class="c1"># Execute try/except block.</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># sys.MEIPASS is defined when the application is run by PyIntaller bundle.</span>
         <span class="n">basePath</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">_MEIPASS</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="c1"># If it isn&#39;t the case, the application uses the current directory.</span>
+        <span class="c1"># If it is not the case, the application uses the current directory.</span>
         <span class="n">basePath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Gets the absolute path by combining base path with relative path.</span>
+    <span class="c1"># Get the absolute path by combining the base path with the relative path.</span>
     <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">basePath</span><span class="p">,</span> <span class="n">relativePath</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="openDocumentation">
 <a class="viewcode-back" href="../main.html#main.openDocumentation">[docs]</a>
 <span class="k">def</span> <span class="nf">openDocumentation</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Opens the local HTML documentation file in the default web browser.&quot;&quot;&quot;</span>
-    <span class="c1"># Specifies the path to your local HTML file.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function opens the local HTML documentation file in the default web browser.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Specify the path to your local HTML file.</span>
     <span class="n">htmlFilePath</span> <span class="o">=</span> <span class="n">resourcePath</span><span class="p">(</span><span class="s2">&quot;docs/index.html&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Opens the HTML file in the default web browser.</span>
+    <span class="c1"># Open the HTML file in the default web browser.</span>
     <span class="n">webbrowser</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">htmlFilePath</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="openGit">
 <a class="viewcode-back" href="../main.html#main.openGit">[docs]</a>
 <span class="k">def</span> <span class="nf">openGit</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Opens the GitHub link.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function opens the GitHub link.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Open the link to the GitHub respository.</span>
     <span class="n">webbrowser</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/DMartinV/TransText&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="licenseApplication">
 <a class="viewcode-back" href="../main.html#main.licenseApplication">[docs]</a>
 <span class="k">def</span> <span class="nf">licenseApplication</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Option to display a message box with the copyright license.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function opens a message box with the copyright license.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Message box with information about the license.</span>
     <span class="n">licenseText</span> <span class="o">=</span> <span class="n">messagebox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s2">&quot;License&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;Copyright (C) 2024 Diana Martin.</span>
 <span class="s2">    This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. </span>
@@ -176,23 +197,27 @@
 <div class="viewcode-block" id="aboutApplication">
 <a class="viewcode-back" href="../main.html#main.aboutApplication">[docs]</a>
 <span class="k">def</span> <span class="nf">aboutApplication</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Option to display a message box with the information about the author and the application.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function has an option to display a message box with the information about the author and the application.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Message box with information about the application.</span>
     <span class="n">messagebox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s2">&quot;About&quot;</span><span class="p">,</span> <span class="s2">&quot;Hello! I&#39;m Diana Martin Vilá! This program was built for my master&#39;s degree dissertation in hopes of making file formatting more accessible for professionals in the translation world.&quot;</span><span class="p">)</span></div>
 
 
 <span class="c1"># Layout elements.</span>
-<span class="c1"># Creates the main window and set the window title.</span>
+<span class="c1"># Create the main window and set the window title.</span>
 <span class="n">root</span> <span class="o">=</span> <span class="n">Tk</span><span class="p">()</span>
 <span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;TransText&quot;</span><span class="p">)</span>
 
-<span class="c1"># Sets window dimension.</span>
+<span class="c1"># Set window dimension.</span>
 <span class="n">window_heigth</span> <span class="o">=</span> <span class="mi">230</span>
 <span class="n">window_width</span> <span class="o">=</span> <span class="mi">550</span>
 <span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">window_width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">window_heigth</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">root</span><span class="o">.</span><span class="n">resizable</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
-<span class="c1"># Sets the window icon.</span>
+<span class="c1"># Set the window icon.</span>
 <span class="c1"># icon_path = resourcePath(&quot;double-chat-icon.ico&quot;)</span>
 <span class="c1"># root.iconbitmap(icon_path)</span>
 
@@ -233,7 +258,7 @@
 <span class="n">myNotebook</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">myFrame5</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Excel to Text&quot;</span><span class="p">)</span>
 <span class="n">myNotebook</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">myFrame6</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Image to Text&quot;</span><span class="p">)</span>
 
-<span class="c1"># Calls the functions of the small modules to create the GUI within the corresponding tabs.</span>
+<span class="c1"># Call the functions of the small modules to create the GUI within the corresponding tabs.</span>
 <span class="n">gui_detectEncoding</span><span class="o">.</span><span class="n">createDetectEncodingGui</span><span class="p">(</span><span class="n">myFrame1</span><span class="p">)</span>
 <span class="n">gui_convertEncoding</span><span class="o">.</span><span class="n">createConvertEncodingGui</span><span class="p">(</span><span class="n">myFrame2</span><span class="p">)</span>
 <span class="n">gui_fileText</span><span class="o">.</span><span class="n">createFileToText</span><span class="p">(</span><span class="n">myFrame3</span><span class="p">)</span>

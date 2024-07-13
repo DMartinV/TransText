@@ -16,37 +16,35 @@
 
 """
 This script serves as the fuctional aspect of this module.
-It reads the input file in binary mode and uses the library 'chardet' to detect the file's encoding. Finally, the script prints the detected encoding in console.
+The program reads the input file in binary mode and uses the library 'chardet' to detect the file's encoding. Additionally, the script prints the detected encoding in console.
 
 Usage: $ python function_detectEncoding.py -i <file_path>
 
-Example: $ python function_detectEncoding.py -i /path/file.txt
-
+Example: $ python function_detectEncoding.py -i /path/file/name.txt
 """
 
-#Imports necessary libraries.
+# Import necessary libraries.
 import chardet
 import argparse
 
-
 def detectEncoding(inputFile):
     """
-    Detect the character encoding of a file.
+    This funciton detects the character encoding of a file.
 
-    Args:
+    Parameters:
         * inputFile (str): Path of the input file.
 
     Returns:
         * str: Character encoding of the input file.
     """
 
-    # Opens and reads the input file (in binary data)
+    # Open and read the input file (in binary data)
     rawData = open(inputFile,"rb").read()
 
-    # Detects the encode
+    # Detect the encode
     encoding = chardet.detect(rawData)
 
-    # Returns the encoding
+    # Return the encoding
     return(encoding["encoding"])
 
 if __name__ == "__main__":
@@ -56,17 +54,17 @@ if __name__ == "__main__":
     It requires the source file. 
     """
 
-    # Creates the argument parser.
+    # Create the argument parser.
     parser = argparse.ArgumentParser(description='Program to detect the character encoding of a file.')
     
     # Define the required argument parser (-i).
     parser.add_argument('-i', '--input', action="store", dest="inputFile", help='The input file.', required=True)
 
-    # Parsers the argument previously defined.
+    # Parser the argument previously defined.
     args = parser.parse_args()
     
-    # Uses the argument. 
+    # Use the argument. 
     encoding=detectEncoding(args.inputFile)
     
-    # Prints the detected encoding of the input file.
+    # Print the detected encoding of the input file.
     print(encoding)

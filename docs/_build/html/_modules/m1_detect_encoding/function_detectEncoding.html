@@ -43,7 +43,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">APP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">TransText</a></li>
 </ul>
 
         </div>
@@ -89,39 +89,37 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This script serves as the fuctional aspect of this module.</span>
-<span class="sd">It reads the input file in binary mode and uses the library &#39;chardet&#39; to detect the file&#39;s encoding. Finally, the script prints the detected encoding in console.</span>
+<span class="sd">The program reads the input file in binary mode and uses the library &#39;chardet&#39; to detect the file&#39;s encoding. Additionally, the script prints the detected encoding in console.</span>
 
 <span class="sd">Usage: $ python function_detectEncoding.py -i &lt;file_path&gt;</span>
 
-<span class="sd">Example: $ python function_detectEncoding.py -i /path/file.txt</span>
-
+<span class="sd">Example: $ python function_detectEncoding.py -i /path/file/name.txt</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1">#Imports necessary libraries.</span>
+<span class="c1"># Import necessary libraries.</span>
 <span class="kn">import</span> <span class="nn">chardet</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
-
 
 <div class="viewcode-block" id="detectEncoding">
 <a class="viewcode-back" href="../../m1_detect_encoding.html#m1_detect_encoding.function_detectEncoding.detectEncoding">[docs]</a>
 <span class="k">def</span> <span class="nf">detectEncoding</span><span class="p">(</span><span class="n">inputFile</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Detect the character encoding of a file.</span>
+<span class="sd">    This funciton detects the character encoding of a file.</span>
 
-<span class="sd">    Args:</span>
+<span class="sd">    Parameters:</span>
 <span class="sd">        * inputFile (str): Path of the input file.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        * str: Character encoding of the input file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># Opens and reads the input file (in binary data)</span>
+    <span class="c1"># Open and read the input file (in binary data)</span>
     <span class="n">rawData</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">inputFile</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
-    <span class="c1"># Detects the encode</span>
+    <span class="c1"># Detect the encode</span>
     <span class="n">encoding</span> <span class="o">=</span> <span class="n">chardet</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">rawData</span><span class="p">)</span>
 
-    <span class="c1"># Returns the encoding</span>
+    <span class="c1"># Return the encoding</span>
     <span class="k">return</span><span class="p">(</span><span class="n">encoding</span><span class="p">[</span><span class="s2">&quot;encoding&quot;</span><span class="p">])</span></div>
 
 
@@ -132,19 +130,19 @@
 <span class="sd">    It requires the source file. </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># Creates the argument parser.</span>
+    <span class="c1"># Create the argument parser.</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Program to detect the character encoding of a file.&#39;</span><span class="p">)</span>
     
     <span class="c1"># Define the required argument parser (-i).</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;--input&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;inputFile&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The input file.&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="c1"># Parsers the argument previously defined.</span>
+    <span class="c1"># Parser the argument previously defined.</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
     
-    <span class="c1"># Uses the argument. </span>
+    <span class="c1"># Use the argument. </span>
     <span class="n">encoding</span><span class="o">=</span><span class="n">detectEncoding</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">inputFile</span><span class="p">)</span>
     
-    <span class="c1"># Prints the detected encoding of the input file.</span>
+    <span class="c1"># Print the detected encoding of the input file.</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span>
 </pre></div>
 

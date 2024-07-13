@@ -20,54 +20,54 @@ This GUI allows users to browse for an image file using the 'Browse' button, ope
 It also enables users to choose the language of the image from a dropdown menu and save the file output file in a different directory.
 Once users have selected their input file and saved it into the desired directory, the conversion will automatically start when the "Convert" button is clicked.
 """
-#Imports necessary libraries.
+# Import necessary libraries.
 import os
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 
-# Executes try/except block.
+# Execute try/except block.
 try:
-    # When running as part of a package.
+    # When the script is being executed as part of a package.
     from .function_imageText import extractTextFromImage, getLanguageCodes
 except ImportError:
-    # When running as a standalone script.
+    # When the script is being executed as a standalone script.
     from function_imageText import extractTextFromImage, getLanguageCodes
 
 def browseFile(entryImage):
     """
-    This function opens a file dialog to allow the user to select the entry file.
+    This function opens a file dialog to allow users to select the entry file.
     It also updates the entry widget with the file's path.
     
-    Args:
+    Parameters:
         * entryImage (ttk.Entry): Entry widget to update with the selected file's path.
     
     Returns:
         * None.
     """
-    # Opens file dialog to select the file.
-    inputImageFile = filedialog.askopenfilename()
+    # Open file dialog to select the file.
+    inputImageFile = filedialog.askopenfilename(title="Select the input File", filetypes=(("All Files", "*.*"),))
     
-    # Checks if there is any text, deletes it and replaces it with the input file's path.
+    # Check if there is any text, delete it and replace it with the input file's path.
     if inputImageFile:
         entryImage.delete(0, tk.END)
         entryImage.insert(0, inputImageFile)
 
 def saveAs(entryOutputDir):
     """
-    This function opens a file dialog for the user to save the plain text file into another directory.
+    This function opens a file dialog for users to save the plain text file into another directory.
 
-    Args:
+    Parameters:
         * entryOutputDir (ttk.Entry): Entry widget to update with the selected output file's path.
 
     Returns:
         * None.
     """
-    # Open a file dialog for saving a file as plain text
+    # Open a file dialog for saving a file as plain text.
     outputPath = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt")])
     
-    # Verifies if the output path is selected
+    # Verify if the output path is selected.
     if outputPath:
-        # Deletes any existing text and inserts the selected output path into the widget
+        # Delete any existing text and insert the selected output path into the widget.
         entryOutputDir.delete(0, tk.END)
         entryOutputDir.insert(0, outputPath)
 
@@ -75,7 +75,7 @@ def convertFile(entryImage, comboLanguage, entryOutputDir):
     """
     This function extracts the content of the image and converts it into a plain text file.
     
-    Args:
+    Parameters:
         * entryImage (ttk.Entry): Entry widget containing the source image file path.
         * comboLanguage (ttk.Combobox): Combobox widget containing the selected language for text extraction.
         * entryOutputDir (ttk.Entry): Entry widget containing the output file path.
@@ -87,32 +87,32 @@ def convertFile(entryImage, comboLanguage, entryOutputDir):
     Returns:
         * None.
     """
-    # Executes try/except block.
+    # Execute try/except block.
     try:
-        # Gets the source file path from the widget and the language from the combobox.
+        # Get the source file path from the widget and the language from the combobox.
         inputImageFile = entryImage.get()
         language = comboLanguage.get()
 
-        # Uses the 'extractTextFromImage' function to extract the text from the image.
+        # Use the "extractTextFromImage" function to extract the text from the image.
         text = extractTextFromImage(inputImageFile, language)
         
         # If extraction is successful.
         if text is not None:
-            # Uses the output path directly from the entry widget.
+            # Use the output path directly from the entry widget.
             outputPath = entryOutputDir.get()
             
-            # Writes the extracted text onto the output file.
+            # Write the extracted text onto the output file.
             with open(outputPath, "w", encoding="utf-8") as finalFile:
                 finalFile.write(text)
 
             # Display success message.
-            messagebox.showinfo("Success", f"The conversion was a success. File: '{os.path.basename(outputPath)}' is saved in '{outputPath}'.")
+            messagebox.showinfo("Success", f"The conversion was a success! File: '{os.path.basename(outputPath)}' is saved in '{outputPath}'.")
     
-    # Handles file not found error.
+    # Handle file not found error and show error message.
     except FileNotFoundError:
         messagebox.showwarning("Error", f"Source file '{inputImageFile}' not found.")
 
-    # Handles other types of errors.
+    # Handles other types of errors and show error message.
     except Exception as e:
         messagebox.showwarning("Error", f"Conversion error: {e}")
 
@@ -120,7 +120,7 @@ def createImageToTextGui(parent):
     """
     This function creates a GUI for extracting an image's textual content.
     
-    Args:
+    Parameters:
         * parent (tkinter.Widget): The parent widget to create the GUI components.
     
     Returns:
@@ -128,10 +128,10 @@ def createImageToTextGui(parent):
     """
     global entrySource, entryOutputDir, ComboLanguage
 
-    # Frame to hold the components and widgets of the GUI.
+    # Frame that holds the components and widgets of the GUI.
     frame = ttk.Frame(parent)
 
-    # Creates and place labels, entries, and buttons.
+    # Create and place labels, entries, and buttons.
     ttk.Label(frame, text="Image File:").grid(row=0, column=0, sticky="w", padx=10, pady=5)
     ttk.Label(frame, text="Output Directory:").grid(row=1, column=0, sticky="w", padx=10, pady=5)
     ttk.Label(frame, text="Language:").grid(row=2, column=0, sticky="w", padx=10, pady=5)
@@ -150,7 +150,7 @@ def createImageToTextGui(parent):
     ComboLanguage.set("Select Language")  
     ComboLanguage.grid(row=2, column=1, padx=10, pady=5)
 
-    # Packs the frame into the main application.
+    # Pack the frame.
     frame.pack(fill='both', expand=True, padx=10, pady=10)
 
 if __name__ == "__main__":
@@ -158,11 +158,11 @@ if __name__ == "__main__":
     Main entry point for the app.
     Initializes the Tkinter root window (the main application).
     """
-    # Initializes and sets title of the root window (the main application).
+    # Initialize and set title of the root window (the main application).
     root = tk.Tk()
     root.title("Image to Text Functionality")
 
-    # Creates GUI components in the root window (the main application) and starts the main event loop.
+    # Create GUI components in the root window (the main application) and start the main event loop.
     createImageToTextGui(root)
 
     root.mainloop()

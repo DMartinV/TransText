@@ -45,7 +45,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">APP</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">TransText</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="m1_detect_encoding.html">m1_detect_encoding package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="m2_convert_encoding.html">m2_convert_encoding package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="m3_file_text.html">m3_file_text package</a></li>
@@ -79,7 +79,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">APP</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">TransText</a></li>
       <li class="breadcrumb-item active">main module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/main.rst.txt" rel="nofollow"> View page source</a>
@@ -95,39 +95,59 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="main.aboutApplication">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">aboutApplication</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#aboutApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.aboutApplication" title="Link to this definition"></a></dt>
-<dd><p>Option to display a message box with the information about the author and the application.</p>
+<dd><p>This function has an option to display a message box with the information about the author and the application.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>None.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.exitApplication">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">exitApplication</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#exitApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.exitApplication" title="Link to this definition"></a></dt>
-<dd><p>Option to exit the application.</p>
+<dd><p>This function opens an option to exit the application.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>None.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.licenseApplication">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">licenseApplication</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#licenseApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.licenseApplication" title="Link to this definition"></a></dt>
-<dd><p>Option to display a message box with the copyright license.</p>
+<dd><p>This function opens a message box with the copyright license.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>None.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.openDocumentation">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">openDocumentation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#openDocumentation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.openDocumentation" title="Link to this definition"></a></dt>
-<dd><p>Opens the local HTML documentation file in the default web browser.</p>
+<dd><p>This function opens the local HTML documentation file in the default web browser.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>None.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.openGit">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">openGit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#openGit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.openGit" title="Link to this definition"></a></dt>
-<dd><p>Opens the GitHub link.</p>
+<dd><p>This function opens the GitHub link.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>None.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.resourcePath">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">resourcePath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relativePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#resourcePath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.resourcePath" title="Link to this definition"></a></dt>
-<dd><p>Obtains the absolute path of the documentation. It handles development and PyInstaller bundle contexts.</p>
+<dd><p>This function obtains the absolute path of the documentation. It handles development and PyInstaller bundle contexts.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>relativePath (str): Relative path to the documentation folder.</p></li>
 </ul>
 </dd>

@@ -46,7 +46,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">APP</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">TransText</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="m1_detect_encoding.html">m1_detect_encoding package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="m2_convert_encoding.html">m2_convert_encoding package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="m3_file_text.html">m3_file_text package</a></li>
@@ -57,6 +57,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#module-m6_image_text.function_imageText">m6_image_text.function_imageText module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#m6_image_text.function_imageText.extractTextFromImage"><code class="docutils literal notranslate"><span class="pre">extractTextFromImage()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#m6_image_text.function_imageText.getLanguageCodes"><code class="docutils literal notranslate"><span class="pre">getLanguageCodes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m6_image_text.function_imageText.isImageFile"><code class="docutils literal notranslate"><span class="pre">isImageFile()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#m6_image_text.function_imageText.saveText"><code class="docutils literal notranslate"><span class="pre">saveText()</span></code></a></li>
 </ul>
 </li>
@@ -89,7 +90,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">APP</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">TransText</a></li>
       <li class="breadcrumb-item active">m6_image_text package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/m6_image_text.rst.txt" rel="nofollow"> View page source</a>
@@ -114,9 +115,9 @@ It extracts text from different types of image files using OCR (Optical Characte
 <dl class="py function">
 <dt class="sig sig-object py" id="m6_image_text.function_imageText.extractTextFromImage">
 <span class="sig-prename descclassname"><span class="pre">m6_image_text.function_imageText.</span></span><span class="sig-name descname"><span class="pre">extractTextFromImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imagePath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/function_imageText.html#extractTextFromImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.function_imageText.extractTextFromImage" title="Link to this definition"></a></dt>
-<dd><p>Extracts text from an image file.</p>
+<dd><p>This function extracts text from an image file.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>imagePath (str): Path of the image file.</p></li>
 <li><p>language (str, optional): Language code. If specified, the OCR will perform the extraction according to the specified language.</p></li>
 </ul>
@@ -135,7 +136,7 @@ It extracts text from different types of image files using OCR (Optical Characte
 <dl class="py function">
 <dt class="sig sig-object py" id="m6_image_text.function_imageText.getLanguageCodes">
 <span class="sig-prename descclassname"><span class="pre">m6_image_text.function_imageText.</span></span><span class="sig-name descname"><span class="pre">getLanguageCodes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/function_imageText.html#getLanguageCodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.function_imageText.getLanguageCodes" title="Link to this definition"></a></dt>
-<dd><p>Gets a list of language codes commonly used in OCR.</p>
+<dd><p>This function gets a list of language codes commonly used in OCR.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>list: List of language codes.</p>
 </dd>
@@ -143,11 +144,27 @@ It extracts text from different types of image files using OCR (Optical Characte
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="m6_image_text.function_imageText.isImageFile">
+<span class="sig-prename descclassname"><span class="pre">m6_image_text.function_imageText.</span></span><span class="sig-name descname"><span class="pre">isImageFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/function_imageText.html#isImageFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.function_imageText.isImageFile" title="Link to this definition"></a></dt>
+<dd><p>This function verifies if the provided file path is an image file.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>filePath (str): Path of the file.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>bool: True if the file is an image, False if the file is not an image.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="m6_image_text.function_imageText.saveText">
 <span class="sig-prename descclassname"><span class="pre">m6_image_text.function_imageText.</span></span><span class="sig-name descname"><span class="pre">saveText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputFile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/function_imageText.html#saveText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.function_imageText.saveText" title="Link to this definition"></a></dt>
-<dd><p>Saves extracted text to a specified output file.</p>
+<dd><p>This functions saves extracted text into a plain text file.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>text (str): Text to be saved.</p></li>
 <li><p>outputFile (str): Path of the output file.</p></li>
 </ul>
@@ -169,10 +186,10 @@ Once users have selected their input file and saved it into the desired director
 <dl class="py function">
 <dt class="sig sig-object py" id="m6_image_text.gui_imageText.browseFile">
 <span class="sig-prename descclassname"><span class="pre">m6_image_text.gui_imageText.</span></span><span class="sig-name descname"><span class="pre">browseFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryImage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/gui_imageText.html#browseFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.gui_imageText.browseFile" title="Link to this definition"></a></dt>
-<dd><p>This function opens a file dialog to allow the user to select the entry file.
+<dd><p>This function opens a file dialog to allow users to select the entry file.
 It also updates the entry widget with the file’s path.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>entryImage (ttk.Entry): Entry widget to update with the selected file’s path.</p></li>
 </ul>
 </dd>
@@ -188,7 +205,7 @@ It also updates the entry widget with the file’s path.</p>
 <span class="sig-prename descclassname"><span class="pre">m6_image_text.gui_imageText.</span></span><span class="sig-name descname"><span class="pre">convertFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryImage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comboLanguage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entryOutputDir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/gui_imageText.html#convertFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.gui_imageText.convertFile" title="Link to this definition"></a></dt>
 <dd><p>This function extracts the content of the image and converts it into a plain text file.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>entryImage (ttk.Entry): Entry widget containing the source image file path.</p></li>
 <li><p>comboLanguage (ttk.Combobox): Combobox widget containing the selected language for text extraction.</p></li>
 <li><p>entryOutputDir (ttk.Entry): Entry widget containing the output file path.</p></li>
@@ -211,7 +228,7 @@ It also updates the entry widget with the file’s path.</p>
 <span class="sig-prename descclassname"><span class="pre">m6_image_text.gui_imageText.</span></span><span class="sig-name descname"><span class="pre">createImageToTextGui</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/gui_imageText.html#createImageToTextGui"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.gui_imageText.createImageToTextGui" title="Link to this definition"></a></dt>
 <dd><p>This function creates a GUI for extracting an image’s textual content.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>parent (tkinter.Widget): The parent widget to create the GUI components.</p></li>
 </ul>
 </dd>
@@ -225,9 +242,9 @@ It also updates the entry widget with the file’s path.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="m6_image_text.gui_imageText.saveAs">
 <span class="sig-prename descclassname"><span class="pre">m6_image_text.gui_imageText.</span></span><span class="sig-name descname"><span class="pre">saveAs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryOutputDir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/gui_imageText.html#saveAs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.gui_imageText.saveAs" title="Link to this definition"></a></dt>
-<dd><p>This function opens a file dialog for the user to save the plain text file into another directory.</p>
+<dd><p>This function opens a file dialog for users to save the plain text file into another directory.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>entryOutputDir (ttk.Entry): Entry widget to update with the selected output file’s path.</p></li>
 </ul>
 </dd>

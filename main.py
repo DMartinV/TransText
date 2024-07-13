@@ -14,7 +14,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#Imports necessary libraries.
+# Import necessary libraries and modules.
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
@@ -36,7 +36,12 @@ It also provides users with documentation regarding the application and its diff
 
 # Functions.
 def exitApplication():
-    """Option to exit the application.""" 
+    """
+    This function opens an option to exit the application.
+    
+    Returns:
+        None.
+    """ 
     # If users want to exit the application, a message box with a question dialog will appear.
     option = messagebox.askquestion("Exit", "Are you sure you want to leave this program?")
     # If the option is "yes", the application will close.
@@ -45,39 +50,55 @@ def exitApplication():
 
 def resourcePath(relativePath):
     """
-    Obtains the absolute path of the documentation. It handles development and PyInstaller bundle contexts.
+    This function obtains the absolute path of the documentation. It handles development and PyInstaller bundle contexts.
 
-    Args:
+    Parameters:
         * relativePath (str): Relative path to the documentation folder.
     
     Returns:
         * str: Absolute path to the documentation folder.
     """
-    # Executes try/except block.
+    # Execute try/except block.
     try:
         # sys.MEIPASS is defined when the application is run by PyIntaller bundle.
         basePath = sys._MEIPASS
     except Exception:
-        # If it isn't the case, the application uses the current directory.
+        # If it is not the case, the application uses the current directory.
         basePath = os.path.abspath(".")
 
-    # Gets the absolute path by combining base path with relative path.
+    # Get the absolute path by combining the base path with the relative path.
     return os.path.join(basePath, relativePath)
 
 def openDocumentation():
-    """Opens the local HTML documentation file in the default web browser."""
-    # Specifies the path to your local HTML file.
+    """
+    This function opens the local HTML documentation file in the default web browser.
+    
+    Returns:
+        None.
+    """
+    # Specify the path to your local HTML file.
     htmlFilePath = resourcePath("docs/index.html")
 
-    # Opens the HTML file in the default web browser.
+    # Open the HTML file in the default web browser.
     webbrowser.open(htmlFilePath, new=2)
 
 def openGit():
-    """Opens the GitHub link."""
+    """
+    This function opens the GitHub link.
+    
+    Returns:
+        None.
+    """
+    # Open the link to the GitHub respository.
     webbrowser.open("https://github.com/DMartinV/TransText")
 
 def licenseApplication():
-    """Option to display a message box with the copyright license."""
+    """
+    This function opens a message box with the copyright license.
+    
+    Returns:
+        None.
+    """
     # Message box with information about the license.
     licenseText = messagebox.showinfo("License", """Copyright (C) 2024 Diana Martin.
     This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. 
@@ -86,22 +107,26 @@ def licenseApplication():
 
 
 def aboutApplication():
-    """Option to display a message box with the information about the author and the application."""
+    """This function has an option to display a message box with the information about the author and the application.
+    
+    Returns:
+        None.
+    """
     # Message box with information about the application.
     messagebox.showinfo("About", "Hello! I'm Diana Martin Vilá! This program was built for my master's degree dissertation in hopes of making file formatting more accessible for professionals in the translation world.")
 
 # Layout elements.
-# Creates the main window and set the window title.
+# Create the main window and set the window title.
 root = Tk()
 root.title("TransText")
 
-# Sets window dimension.
+# Set window dimension.
 window_heigth = 230
 window_width = 550
 root.geometry(f"{window_width}x{window_heigth}")
 root.resizable(False, False)
 
-# Sets the window icon.
+# Set the window icon.
 icon_path = resourcePath("double-chat-icon.ico")
 root.iconbitmap(icon_path)
 
@@ -142,7 +167,7 @@ myNotebook.add(myFrame4, text="PDF to Text")
 myNotebook.add(myFrame5, text="Excel to Text")
 myNotebook.add(myFrame6, text="Image to Text")
 
-# Calls the functions of the small modules to create the GUI within the corresponding tabs.
+# Call the functions of the small modules to create the GUI within the corresponding tabs.
 gui_detectEncoding.createDetectEncodingGui(myFrame1)
 gui_convertEncoding.createConvertEncodingGui(myFrame2)
 gui_fileText.createFileToText(myFrame3)

@@ -46,13 +46,15 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">APP</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">TransText</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="m1_detect_encoding.html">m1_detect_encoding package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="m2_convert_encoding.html">m2_convert_encoding package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">m3_file_text package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-m3_file_text.function_fileText">m3_file_text.function_fileText module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.extensionCheck"><code class="docutils literal notranslate"><span class="pre">extensionCheck()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.extractTextFromFile"><code class="docutils literal notranslate"><span class="pre">extractTextFromFile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.saveText"><code class="docutils literal notranslate"><span class="pre">saveText()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-m3_file_text.gui_fileText">m3_file_text.gui_fileText module</a><ul>
@@ -87,7 +89,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">APP</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">TransText</a></li>
       <li class="breadcrumb-item active">m3_file_text package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/m3_file_text.rst.txt" rel="nofollow"> View page source</a>
@@ -106,29 +108,61 @@
 <section id="module-m3_file_text.function_fileText">
 <span id="m3-file-text-function-filetext-module"></span><h2>m3_file_text.function_fileText module<a class="headerlink" href="#module-m3_file_text.function_fileText" title="Link to this heading"></a></h2>
 <p>This script serves as the functional aspect of this module.
-It extracts the textual content of various types of files and saves it into a plain text file. The script uses the ‘textract’ library to complete this task. The function ‘extractTextFromFile’ extracts the content and writes it into a plain text file.</p>
+It extracts the textual content of various types of files and saves it into a plain text file. The script uses the ‘textract’ library to complete this task. The script first checks the extension of the file before extracting the text and saving it into a plain text file.</p>
 <p>Usage: $ python function_fileText.py &lt;file&gt; [-o &lt;outputFile&gt;]</p>
 <p>Example: $ python function_fileText.py /path/document.docx -o /path/output.txt</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="m3_file_text.function_fileText.extractTextFromFile">
-<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">extractTextFromFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputFile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputPath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#extractTextFromFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.extractTextFromFile" title="Link to this definition"></a></dt>
-<dd><p>This function extracts text from a file and saves it to a plain text file.</p>
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.extensionCheck">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">extensionCheck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#extensionCheck"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.extensionCheck" title="Link to this definition"></a></dt>
+<dd><p>This function verifies if the provided file path has an acceptable extension.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
-<li><p>inputFile (str): Path of the input file.</p></li>
-<li><p>outputPath (str): Path of the output file.</p></li>
-</ul>
-</dd>
-<dt>Raises:</dt><dd><ul class="simple">
-<li><p>FileNotFoundError: If the source file is not found.</p></li>
-<li><p>Exception: If an error occurs during the conversion.</p></li>
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>filePath (str): Path of the file.</p></li>
 </ul>
 </dd>
 <dt>Returns:</dt><dd><ul class="simple">
-<li><p>None.</p></li>
+<li><p>bool: True if the file extension is in the allowed list, False otherwise.</p></li>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.extractTextFromFile">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">extractTextFromFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputFile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#extractTextFromFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.extractTextFromFile" title="Link to this definition"></a></dt>
+<dd><p>This function extracts text from a file.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>inputFile (str): Path of the input file.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>str: Extracted text from the file.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Raises:
+* FileNotFoundError: If the source file is not found.
+* Exception: If an error occurs during the conversion.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.saveText">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">saveText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputFile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#saveText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.saveText" title="Link to this definition"></a></dt>
+<dd><p>This function saves extracted text to a specified output file.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>text (str): Text to be saved.</p></li>
+<li><p>outputFile (str): Path of the output file.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>None</p></li>
+</ul>
+</dd>
+</dl>
+<p>Raises:
+Exception: If an error occurs during the extraction.</p>
 </dd></dl>
 
 </section>
@@ -172,7 +206,7 @@ Once users have selected their input file and saved it into the desired director
 <span class="sig-prename descclassname"><span class="pre">m3_file_text.gui_fileText.</span></span><span class="sig-name descname"><span class="pre">createFileToText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/gui_fileText.html#createFileToText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.gui_fileText.createFileToText" title="Link to this definition"></a></dt>
 <dd><p>This function creates a GUI for extracting the text of a file and saving it onto a plain text file.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>parent (tkinter.Widget): The parent widget to create the GUI components.</p></li>
 </ul>
 </dd>
@@ -186,7 +220,7 @@ Once users have selected their input file and saved it into the desired director
 <dl class="py function">
 <dt class="sig sig-object py" id="m3_file_text.gui_fileText.saveAs">
 <span class="sig-prename descclassname"><span class="pre">m3_file_text.gui_fileText.</span></span><span class="sig-name descname"><span class="pre">saveAs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/gui_fileText.html#saveAs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.gui_fileText.saveAs" title="Link to this definition"></a></dt>
-<dd><p>This function opens a file dialog for users to save the plain text file into another directory.</p>
+<dd><p>This function opens a file dialog for users to save the plain text file into another directory and under a different name.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><ul class="simple">
 <li><p>None</p></li>

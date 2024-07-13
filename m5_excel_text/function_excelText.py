@@ -16,61 +16,98 @@
 
 """
 This script serves as the functional aspect of this module.
-It extracts the textual content of Excel files and saves it into a plain text file. The script uses the 'openpyxl' library to complete this task. The function 'extractTextFromExcel' iterates through the Excel's rows and cells, extracting the content and writing it into a plain text file.
+It extracts the textual content of Excel files and saves it into a plain text file. The script uses the 'openpyxl' library to complete this task. The program first verifies if the extension provided is from an Excel file before extracting the text and saving it into a plain text file.
 
 Usage: $ python function_excelText.py [-i <excel_file>] [-o <outputFile>]
 
 Example: $ python function_excelText.py -i /path/document.xlsx -o /path/output.txt
 """
-
-# Imports necessary libraries.
-import argparse
+# Import the necessary libraries.
 import openpyxl
+import argparse
 import os
 
-def extractTextFromExcel(excelPath, outputPath):
+def isExcelFile(filePath):
     """
-    Extracts text from an Excel file and saves it to a plain text file.
+    This function verifies if the provided file path is an Excel file.
 
-    Args:
+    Parameters:
+        * filePath (str): Path of the file.
+
+    Returns:
+        * bool: True if the file is an Excel file, False if the file is not an Excel file.
+    """
+    # List of possible Excel extensions.
+    excelExtensions = ['.xls', '.xlsx', '.xlsm', '.xlsb', '.odf', '.ods']
+    # Obtain the extension from the source file.
+    fileExtension = os.path.splitext(filePath)[1].lower()
+    # Check if the extension is on the list.
+    return fileExtension in excelExtensions
+
+def extractTextFromExcel(excelPath):
+    """
+    This function extracts text from an Excel file.
+
+    Parameters:
         * excelPath (str): Path to the input Excel file.
-        * outputPath (str): Path to the output text file.
+
+    Returns:
+        * str: Extracted text from the Excel file.
 
     Raises:
-        * FileNotFoundError: If the source file is not found.
-        * Exception: If an error occurs during the conversion.
+        * FileNotFound: If the source file is not found.
+        * Exception: If an error occurs during the extraction.    
+    """
+    # Execute try/except block
+    try:
+        # If the file exists and it is a Excel file.
+        if os.path.exists(excelPath) and isExcelFile(excelPath):
+            # Open the Excel file.
+            wb = openpyxl.load_workbook(excelPath)
+            # Select the first sheet.
+            sheet = wb.active
+            # Initialize an empty string to store the extracted text.
+            text = ""
+
+            # Iterate over all rows and columns of the Excel file.
+            for row in sheet.iter_rows():
+                for cell in row:
+                    # Add the cell value to the text.
+                    text += str(cell.value) + '\n'
+            # Return the extracted text.
+            return text
+        # If the file does not exist or is not an Excel file, show an error message.
+        else:
+            raise Exception(f'Entry file "{excelPath}" is not a valid Excel file.')
+    # Handle file not found error and display an error message.
+    except FileNotFoundError:
+        raise FileNotFoundError(f'Source file "{excelPath}" not found.')
+    # Handle other types of errors and display and error message.
+    except Exception as e:
+        raise Exception(e)
+
+def saveText(text, outputFile):
+    """
+    This function saves the extracted text into a specified output file.
+
+    Parameters:
+        * text (str): Text to be saved.
+        * outputFile (str): Path of the output file.
 
     Returns:
         * None.
+
+    Raises:
+        * Exception: If an error occurs during the extraction.
     """
-    # Executes try/except block.
+    # Execute try/except block.
     try:
-        # Opens Excel file.
-        wb = openpyxl.load_workbook(excelPath)
-        # Selects the first sheet.
-        sheet = wb.active
-
-        # Initializes an empty string to store the extracted text.
-        text = ""
-
-        # Iterates over all rows and columns of the Excel file.
-        for row in sheet.iter_rows():
-            for cell in row:
-                # Adds the cell value to the text.
-                text += str(cell.value) + '\n'
-
-        # Saves the extracted text to a plain text file.
-        with open(outputPath, 'w', encoding='utf-8') as outputFile:
-            outputFile.write(text)
-
-        # Prints success message.
-        print(f'The conversion was a success! File: "{os.path.basename(outputPath)}" is saved in: "{os.path.abspath(outputPath)}"')
-
-    # Handles file not found error.
-    except FileNotFoundError:
-        print(f'Error: Source file "{excelPath}" not found.')
-    
-    # Handles other types of errors.
+        # Open the PDF file and write the content onto an output file.
+        with open(outputFile, 'w', encoding='utf-8') as finalFile:
+            finalFile.write(text)
+        # Print sucess message.
+        print(f'The conversion was a success! File: "{os.path.basename(outputFile)}" is saved in: "{os.path.abspath(outputFile)}"')
+    # Handle other types of errors and print an error message.
     except Exception as e:
         print(f'Error: {e}')
 
@@ -79,22 +116,37 @@ if __name__ == "__main__":
     Main execution block.
     This block parses command-line arguments to extract the content of an Excel file to a plain text file.
     It requires the path to the Excel file and optionally the path to the output file.
-    """
-    # Configures the argument parser.
-    parser = argparse.ArgumentParser(description='Program to text from an Excel file and save it to a plain text file.')
-    parser.add_argument('-i', '--input', dest='excelPath', required=True, help='Path to the input Excel file')
-    parser.add_argument('-o', '--output', dest='outputPath', help='Path to the output text file')
+    """  
+    # Create and configure the arguments parser.
+    parser = argparse.ArgumentParser(description='Program to extract text from an Excel file.')
+    parser.add_argument('-i', '--input', dest='excelPath', help='Path to the input Excel file', required=True)
+    parser.add_argument('-o', '--output', help='Path to the output text file')
 
-    # Parses the command-line arguments.
+    # Parse the arguments previously defined.
     args = parser.parse_args()
 
-    # Determines the output path.
-    if args.outputPath:
-        outputPath = args.outputPath
-    else:
-        # Creates default output file name based on input file name.
-        baseName, _ = os.path.splitext(args.excelPath)
-        outputPath = baseName + '_output.txt'
+    # Execute try/except block
+    try:
+        # Extract text from the PDF file.
+        text = extractTextFromExcel(args.excelPath)
+        # If the user provides the name of the output file in the arguments.       
+        if args.output:
+            outputFile = args.output
+        # If not, the program provides a default output name.
+        else:
+            # Get the source Excel's absolute path.
+            inputDir = os.path.dirname(os.path.abspath(args.excelPath))
+            # Obtain the name of the file without the extension.
+            baseName = os.path.splitext(os.path.basename(args.excelPath))[0]
+            # Create the default name by appending the file's base name with "_output.txt"
+            outputFile = os.path.join(inputDir, f"{baseName}_output.txt")
 
-    # Extracts text from the Excel file and saves it to the text file.
-    extractTextFromExcel(args.excelPath, outputPath)
+        # If the process is successful, save the extracted text to the output file.
+        if text:
+            saveText(text, outputFile)
+        # If not, print an error message.
+        else:
+            print("Failed to extract text from the Excel file.")
+    # Handle other types of errors and show an error message.
+    except Exception as e:
+        print(f"Error: {e}")

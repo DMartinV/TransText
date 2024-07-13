@@ -43,7 +43,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">APP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">TransText</a></li>
 </ul>
 
         </div>
@@ -96,18 +96,38 @@
 <span class="sd">Example: $ python function_imageText.py -i /path/image.jpg -l eng -o /path/output.txt</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1"># Imports necessary libraries.</span>
+<span class="c1"># Import necessary libraries.</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">textract</span>
+
+<div class="viewcode-block" id="isImageFile">
+<a class="viewcode-back" href="../../m6_image_text.html#m6_image_text.function_imageText.isImageFile">[docs]</a>
+<span class="k">def</span> <span class="nf">isImageFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function verifies if the provided file path is an image file.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        * filePath (str): Path of the file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        * bool: True if the file is an image, False if the file is not an image.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># List of common image file extensions.</span>
+    <span class="n">imageExtensions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;.jpeg&#39;</span><span class="p">,</span> <span class="s1">&#39;.png&#39;</span><span class="p">,</span> <span class="s1">&#39;.gif&#39;</span><span class="p">,</span> <span class="s1">&#39;.bmp&#39;</span><span class="p">,</span> <span class="s1">&#39;.tiff&#39;</span><span class="p">,</span> <span class="s1">&#39;.tif&#39;</span><span class="p">,</span> <span class="s1">&#39;.webp&#39;</span><span class="p">]</span>
+    <span class="c1"># Get the file extension from the file path.</span>
+    <span class="n">fileExtension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filePath</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="c1"># Check if the file extension is in the list of image extensions.</span>
+    <span class="k">return</span> <span class="n">fileExtension</span> <span class="ow">in</span> <span class="n">imageExtensions</span></div>
+
 
 <div class="viewcode-block" id="extractTextFromImage">
 <a class="viewcode-back" href="../../m6_image_text.html#m6_image_text.function_imageText.extractTextFromImage">[docs]</a>
 <span class="k">def</span> <span class="nf">extractTextFromImage</span><span class="p">(</span><span class="n">imagePath</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Extracts text from an image file.</span>
+<span class="sd">    This function extracts text from an image file.</span>
 
-<span class="sd">    Args:</span>
+<span class="sd">    Parameters:</span>
 <span class="sd">        * imagePath (str): Path of the image file.</span>
 <span class="sd">        * language (str, optional): Language code. If specified, the OCR will perform the extraction according to the specified language.</span>
 
@@ -117,33 +137,33 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        * str or None: Extracted text if successful, None otherwise.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Executes try/except block.</span>
+    <span class="c1"># Execute try/except block.</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Verifies if the source path exists.</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">imagePath</span><span class="p">):</span>
-            <span class="c1"># If source exists, it checks for a specified language.</span>
+        <span class="c1"># Verify if the source path exists and is an image file.</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span> <span class="ow">and</span> <span class="n">isImageFile</span><span class="p">(</span><span class="n">imagePath</span><span class="p">):</span>
+            <span class="c1"># If source exists and is an image, it checks for a specified language.</span>
             <span class="k">if</span> <span class="n">language</span><span class="p">:</span>
                 <span class="n">text</span> <span class="o">=</span> <span class="n">textract</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">imagePath</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="n">language</span><span class="p">)</span>
-            <span class="c1"># Extracts without specifying the language. It will use the default language (English).</span>
+            <span class="c1"># Extract without specifying the language. It will use the default language (English).</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">text</span> <span class="o">=</span> <span class="n">textract</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span>
-            <span class="c1"># Decodes the string to &#39;UTF-8&#39; and returns it.</span>
+            <span class="c1"># Decode the string to &#39;UTF-8&#39; and returns it.</span>
             <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-         <span class="c1"># If the source path doesn&#39;t exist, then an error message is displayed in the console.</span>
+        <span class="c1"># If the source path does not exist or is not an image, then an error message is displayed in the console.</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error: Entry file &quot;</span><span class="si">{</span><span class="n">imagePath</span><span class="si">}</span><span class="s1">&quot; does not exist.&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error: Entry file &quot;</span><span class="si">{</span><span class="n">imagePath</span><span class="si">}</span><span class="s1">&quot; does not exist or is not an image.&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
-    <span class="c1"># Handles other types of errors.</span>
+    <span class="c1"># Handles other types of errors and shows an error message.</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
-
+    
 <div class="viewcode-block" id="getLanguageCodes">
 <a class="viewcode-back" href="../../m6_image_text.html#m6_image_text.function_imageText.getLanguageCodes">[docs]</a>
 <span class="k">def</span> <span class="nf">getLanguageCodes</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Gets a list of language codes commonly used in OCR.</span>
+<span class="sd">    This function gets a list of language codes commonly used in OCR.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        list: List of language codes.</span>
@@ -163,28 +183,28 @@
     <span class="p">]</span>
     <span class="k">return</span> <span class="n">languageCodes</span></div>
 
-
+    
 <div class="viewcode-block" id="saveText">
 <a class="viewcode-back" href="../../m6_image_text.html#m6_image_text.function_imageText.saveText">[docs]</a>
 <span class="k">def</span> <span class="nf">saveText</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Saves extracted text to a specified output file.</span>
+<span class="sd">    This functions saves extracted text into a plain text file.</span>
 
-<span class="sd">    Args:</span>
+<span class="sd">    Parameters:</span>
 <span class="sd">        * text (str): Text to be saved.</span>
 <span class="sd">        * outputFile (str): Path of the output file.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        * None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Executes try/except block.</span>
+    <span class="c1"># Execute try/except block.</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Saves the extracted text to a plain text file.</span>
+        <span class="c1"># Save the extracted text into a plain text file.</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outputFile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">finalFile</span><span class="p">:</span>
             <span class="n">finalFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-        <span class="c1"># Prints success message.</span>
+        <span class="c1"># Print success message.</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The conversion was a success! File: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot; is saved in: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-    <span class="c1"># Handles other types of errors.</span>
+    <span class="c1"># Handle other types of errors and print error message.</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
@@ -194,32 +214,37 @@
 <span class="sd">    Main execution block.</span>
 <span class="sd">    This block parses command-line arguments to extract text from an image file and optionally save it to an output file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="c1"># Creates the argument parser.</span>
+    <span class="c1"># Create the argument parser.</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Program to extract text from an image file.&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;--input&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;imagePath&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path of the input image file.&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-l&#39;</span><span class="p">,</span> <span class="s1">&#39;--language&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Language code for OCR.&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--output&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;outputFile&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path of the output text file.&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-    <span class="c1"># Parses the arguments previously defined.</span>
+    <span class="c1"># Parse the arguments previously defined.</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
-    <span class="c1"># Extracts text from the input file.</span>
-    <span class="n">text</span> <span class="o">=</span> <span class="n">extractTextFromImage</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">language</span><span class="p">)</span>
-    
-    <span class="c1"># Determines the output file name.</span>
-    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">outputFile</span><span class="p">:</span>
-        <span class="n">output_file</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">outputFile</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># Generates output file name.</span>
-        <span class="n">base_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">imagePath</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">output_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_name</span><span class="si">}</span><span class="s2">_output.txt&quot;</span>
+    <span class="c1"># Execute try/except block</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Extract text from the input image file.</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">extractTextFromImage</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">language</span><span class="p">)</span>
+        <span class="c1"># Determine the output&#39;s file name.</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">outputFile</span><span class="p">:</span>
+            <span class="n">outputFile</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">outputFile</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Generate output file name in the same directory as the input file.</span>
+            <span class="n">inputDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">imagePath</span><span class="p">))</span>
+            <span class="n">baseName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">imagePath</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">outputFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inputDir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">baseName</span><span class="si">}</span><span class="s2">_output.txt&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Saves the extracted text to the output file if provided.</span>
-    <span class="k">if</span> <span class="n">text</span><span class="p">:</span>
-        <span class="n">saveText</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to extract text from the image file.&quot;</span><span class="p">)</span>
+        <span class="c1"># If the process is successful, save the extracted text to the output file.</span>
+        <span class="k">if</span> <span class="n">text</span><span class="p">:</span>
+            <span class="n">saveText</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">)</span>
+        <span class="c1"># If not, print an error message.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to extract text from the image file.&quot;</span><span class="p">)</span>
+    <span class="c1"># Handle other types of errors and show message.</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
            </div>

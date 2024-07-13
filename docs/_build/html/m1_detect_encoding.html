@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="m2_convert_encoding package" href="m2_convert_encoding.html" />
-    <link rel="prev" title="APP" href="modules.html" /> 
+    <link rel="prev" title="TransText" href="modules.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,7 +46,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">APP</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">TransText</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">m1_detect_encoding package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-m1_detect_encoding.function_detectEncoding">m1_detect_encoding.function_detectEncoding module</a><ul>
@@ -56,7 +56,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#module-m1_detect_encoding.gui_detectEncoding">m1_detect_encoding.gui_detectEncoding module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#m1_detect_encoding.gui_detectEncoding.browseFile"><code class="docutils literal notranslate"><span class="pre">browseFile()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#m1_detect_encoding.gui_detectEncoding.createDetectEncodingGui"><code class="docutils literal notranslate"><span class="pre">createDetectEncodingGui()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#m1_detect_encoding.gui_detectEncoding.detectEncoding"><code class="docutils literal notranslate"><span class="pre">detectEncoding()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m1_detect_encoding.gui_detectEncoding.displayEncoding"><code class="docutils literal notranslate"><span class="pre">displayEncoding()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-m1_detect_encoding">Module contents</a></li>
@@ -86,7 +86,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">APP</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">TransText</a></li>
       <li class="breadcrumb-item active">m1_detect_encoding package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/m1_detect_encoding.rst.txt" rel="nofollow"> View page source</a>
@@ -105,15 +105,15 @@
 <section id="module-m1_detect_encoding.function_detectEncoding">
 <span id="m1-detect-encoding-function-detectencoding-module"></span><h2>m1_detect_encoding.function_detectEncoding module<a class="headerlink" href="#module-m1_detect_encoding.function_detectEncoding" title="Link to this heading"></a></h2>
 <p>This script serves as the fuctional aspect of this module.
-It reads the input file in binary mode and uses the library ‘chardet’ to detect the file’s encoding. Finally, the script prints the detected encoding in console.</p>
+The program reads the input file in binary mode and uses the library ‘chardet’ to detect the file’s encoding. Additionally, the script prints the detected encoding in console.</p>
 <p>Usage: $ python function_detectEncoding.py -i &lt;file_path&gt;</p>
-<p>Example: $ python function_detectEncoding.py -i /path/file.txt</p>
+<p>Example: $ python function_detectEncoding.py -i /path/file/name.txt</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="m1_detect_encoding.function_detectEncoding.detectEncoding">
 <span class="sig-prename descclassname"><span class="pre">m1_detect_encoding.function_detectEncoding.</span></span><span class="sig-name descname"><span class="pre">detectEncoding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputFile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m1_detect_encoding/function_detectEncoding.html#detectEncoding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m1_detect_encoding.function_detectEncoding.detectEncoding" title="Link to this definition"></a></dt>
-<dd><p>Detect the character encoding of a file.</p>
+<dd><p>This funciton detects the character encoding of a file.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>inputFile (str): Path of the input file.</p></li>
 </ul>
 </dd>
@@ -132,9 +132,10 @@ This GUI allows users to browse for a file using the ‘Browse’ button, which 
 <dl class="py function">
 <dt class="sig sig-object py" id="m1_detect_encoding.gui_detectEncoding.browseFile">
 <span class="sig-prename descclassname"><span class="pre">m1_detect_encoding.gui_detectEncoding.</span></span><span class="sig-name descname"><span class="pre">browseFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryInputFile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m1_detect_encoding/gui_detectEncoding.html#browseFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m1_detect_encoding.gui_detectEncoding.browseFile" title="Link to this definition"></a></dt>
-<dd><p>This function opens a file dialog in order to allow users to select an input file. It also updates the entry widget with the file’s path.</p>
+<dd><p>This function opens a file dialog in order to allow users to select an input file.
+It also updates the entry widget with the file’s path.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>entryInputFile (tkinter.Entry): The entry widget that contains the input file’s path.</p></li>
 </ul>
 </dd>
@@ -150,7 +151,7 @@ This GUI allows users to browse for a file using the ‘Browse’ button, which 
 <span class="sig-prename descclassname"><span class="pre">m1_detect_encoding.gui_detectEncoding.</span></span><span class="sig-name descname"><span class="pre">createDetectEncodingGui</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m1_detect_encoding/gui_detectEncoding.html#createDetectEncodingGui"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m1_detect_encoding.gui_detectEncoding.createDetectEncodingGui" title="Link to this definition"></a></dt>
 <dd><p>This function creates a GUI for selecting and displaying a file’s encoding.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>parent (tkinter.Widget): Parent widget to create the GUI components.</p></li>
 </ul>
 </dd>
@@ -160,12 +161,12 @@ This GUI allows users to browse for a file using the ‘Browse’ button, which 
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="m1_detect_encoding.gui_detectEncoding.detectEncoding">
-<span class="sig-prename descclassname"><span class="pre">m1_detect_encoding.gui_detectEncoding.</span></span><span class="sig-name descname"><span class="pre">detectEncoding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryInputFile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entryEncoding</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m1_detect_encoding/gui_detectEncoding.html#detectEncoding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m1_detect_encoding.gui_detectEncoding.detectEncoding" title="Link to this definition"></a></dt>
-<dd><p>This function detects the file’s encoding and displays the result in the entryEncoding entry widget.</p>
+<dt class="sig sig-object py" id="m1_detect_encoding.gui_detectEncoding.displayEncoding">
+<span class="sig-prename descclassname"><span class="pre">m1_detect_encoding.gui_detectEncoding.</span></span><span class="sig-name descname"><span class="pre">displayEncoding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryInputFile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entryEncoding</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m1_detect_encoding/gui_detectEncoding.html#displayEncoding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m1_detect_encoding.gui_detectEncoding.displayEncoding" title="Link to this definition"></a></dt>
+<dd><p>This function detects the file’s encoding and displays the result in an entry widget.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
-<li><p>entryInputFile (tkinter.Entry): Entry widget that has the entry file’s path.</p></li>
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>entryInputFile (tkinter.Entry): Entry widget that has the path of the entry file.</p></li>
 <li><p>entryEncoding (tkinter.Entry): Entry widget that displays the encoding of the entry file.</p></li>
 </ul>
 </dd>
@@ -186,7 +187,7 @@ This GUI allows users to browse for a file using the ‘Browse’ button, which 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="modules.html" class="btn btn-neutral float-left" title="APP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-left" title="TransText" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="m2_convert_encoding.html" class="btn btn-neutral float-right" title="m2_convert_encoding package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -23,7 +23,7 @@ Usage: $ python function_convertEncoding.py <sourceFile> -e <outputEncoding> [-o
 Example: $ python function_convertEncoding.py /path/file.txt -e utf-8 -o /path/output/file.txt
 """
 
-#Import necessary libraries.
+# Import necessary libraries.
 import argparse
 import codecs
 import chardet
@@ -33,42 +33,41 @@ def detectEncoding(inputFile):
     """
     This function detects the character encoding of a file.
 
-    Args:
+    Parameters:
         * inputFile (str): Path of the input file.
 
     Returns:
         str: Character encoding of the input file.
     """
 
-    # Opens and reads the entry file (in binary data).
+    # Open and read the entry file (in binary data).
     rawData = open(inputFile, "rb").read()
 
-    # Detects the encode.
+    # Detect the file's encoding.
     encoding = chardet.detect(rawData)
 
-    # Returns the encoding
+    # Return the encoding
     return encoding["encoding"]
 
 def convertEncoding(sourceFile, outputEncoding, outputFile=None):
     """
     This function convertS the character encoding of a file.
 
-    Args:
+    Parameters:
         * sourceFile (str): Path of the source file.
         * outputEncoding (str): Encoding of the output file.
         * outputFile (str, optional): Path of the output file after the conversion.
 
-    Raises:
-        * FileNotFoundError: If the source file is not found.
-        * Exception: If an error occurs during the conversion.
-
     Returns:
         * None.
-    """
 
-    # ExecuteS try/except block
+    Raises:
+    * FileNotFoundError: If the source file is not found.
+    * Exception: If an error occurs during the conversion.
+    """
+    # Execute try/except block
     try:
-        # Detects the encoding of the input file.
+        # Detect the encoding of the input file.
         sourceEncoding = detectEncoding(sourceFile)
 
         # If the source and the output files have the same encoding, no conversion is needed.
@@ -76,29 +75,29 @@ def convertEncoding(sourceFile, outputEncoding, outputFile=None):
             print("The input file and output file have the same encoding. No conversion needed.")
             return
         
-        # Opens the content of the source file and reads the content.
+        # Open the content of the source file and read its content.
         with codecs.open(sourceFile, 'r', encoding=sourceEncoding, errors='replace') as originalFile:
             content = originalFile.read()
         
-        # If users haven't provided a name for the output file, the program generates the following default name.
+        # If users have not provided a name for the output file, the program generates the following default name.
         if outputFile is None:
-            outputFile = os.path.splitext(sourceFile)[0] + "-" + outputEncoding + ".txt"
+            outputFile = os.path.splitext(sourceFile)[0] + "_" + outputEncoding + ".txt"
 
-        # Writes the content of the output file into the desired encoding.
+        # Write the content of the output file into the desired encoding.
         with codecs.open(outputFile, 'w', encoding=outputEncoding, errors='replace') as finalFile:
             finalFile.write(content)
 
-        # PrintS success message.        
+        # Print success message.        
         print(f'The conversion was a success!. File: "{outputFile}" has been converted to "{outputEncoding}" encoding.')
         
-        # PrintS output file's new path.
+        # Print output file's new path.
         print(f'File: "{outputFile}" is saved in: "{os.path.abspath(outputFile)}"')
     
-    # Handles file not found error.
+    # Handle file not found error.
     except FileNotFoundError:
         print(f'Error: Source file "{sourceFile}" not found.')
     
-    # Handles other types of errors.
+    # Handle other types of errors.
     except Exception as e:
         print(f'Error: {e}')
 
@@ -106,18 +105,19 @@ if __name__ == "__main__":
     """
     Main execution block.
     This block parses command-line arguments to convert a file's encoding to another.
-    It requires the source file and the output encoding and optionally the output file
+    It requires the source file, the output encoding and optionally the output file
     """
-    
-    # Creates the argument parser.
+    # Create the argument parser.
     parser = argparse.ArgumentParser(description='Program to convert the character encoding of a file.')
+    
+    # Define the required arguments parser.
     parser.add_argument('-i', '--input', dest='sourceFile', help='Route of the source file.', required=True)
     parser.add_argument('-e', '--outputEncoding', help='Encoding of the output file.', required=True,)
     parser.add_argument('-o', '--outputFile', help='Route of the output file after the conversion.')
 
-    # Parsers the argument previously defined.
+    # Parser the arguments previously defined.
     args = parser.parse_args()
 
-    # Converts the file encoding.
+    # Convert the file's encoding.
     convertEncoding(args.sourceFile, args.outputEncoding, args.outputFile)
 

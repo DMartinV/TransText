@@ -46,7 +46,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">APP</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">TransText</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="m1_detect_encoding.html">m1_detect_encoding package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="m2_convert_encoding.html">m2_convert_encoding package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="m3_file_text.html">m3_file_text package</a></li>
@@ -54,6 +54,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-m4_pdf_text.function_pdfText">m4_pdf_text.function_pdfText module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#m4_pdf_text.function_pdfText.extractTextFromPdf"><code class="docutils literal notranslate"><span class="pre">extractTextFromPdf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m4_pdf_text.function_pdfText.isPdfFile"><code class="docutils literal notranslate"><span class="pre">isPdfFile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m4_pdf_text.function_pdfText.saveText"><code class="docutils literal notranslate"><span class="pre">saveText()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-m4_pdf_text.gui_pdfText">m4_pdf_text.gui_pdfText module</a><ul>
@@ -87,7 +89,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">APP</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">TransText</a></li>
       <li class="breadcrumb-item active">m4_pdf_text package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/m4_pdf_text.rst.txt" rel="nofollow"> View page source</a>
@@ -106,26 +108,62 @@
 <section id="module-m4_pdf_text.function_pdfText">
 <span id="m4-pdf-text-function-pdftext-module"></span><h2>m4_pdf_text.function_pdfText module<a class="headerlink" href="#module-m4_pdf_text.function_pdfText" title="Link to this heading"></a></h2>
 <p>This script serves as the functional aspect of this module.
-It extracts the textual content of PDF files and saves it into a plain text file. The script uses the ‘PyPDF2’ library to complete this task. The function ‘extractTextFromPdf’ iterates through the PDF’s pages, extracting the content and writing it into a plain text file.</p>
+It extracts the textual content of PDF files and saves it into a plain text file. The script uses the ‘PyPDF2’ library to complete this task. The script first verifies if the input file is a PDF file before starting the extraction process. Once the process is completed, the program adds the textual content into a plain text file.</p>
 <p>Usage: $ python function_pdfText.py [-i &lt;pdf_file&gt;] [-o &lt;outputFile&gt;]</p>
 <p>Example: $ python function_pdfText.py -i /path/document.pdf -o /path/output.txt</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="m4_pdf_text.function_pdfText.extractTextFromPdf">
-<span class="sig-prename descclassname"><span class="pre">m4_pdf_text.function_pdfText.</span></span><span class="sig-name descname"><span class="pre">extractTextFromPdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdfFile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputPath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m4_pdf_text/function_pdfText.html#extractTextFromPdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m4_pdf_text.function_pdfText.extractTextFromPdf" title="Link to this definition"></a></dt>
-<dd><p>This function extracts text from a PDF and saves it onto a plain text file.</p>
+<span class="sig-prename descclassname"><span class="pre">m4_pdf_text.function_pdfText.</span></span><span class="sig-name descname"><span class="pre">extractTextFromPdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdfFile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m4_pdf_text/function_pdfText.html#extractTextFromPdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m4_pdf_text.function_pdfText.extractTextFromPdf" title="Link to this definition"></a></dt>
+<dd><p>This function extracts text from a PDF file.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><ul class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
 <li><p>pdfFile (str): Path of the input PDF file.</p></li>
-<li><p>outputPath (str): Path of the output file.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>str: Extracted text from the PDF.</p></li>
 </ul>
 </dd>
 <dt>Raises:</dt><dd><ul class="simple">
-<li><p>FileNotFoundError: If the source file is not found.</p></li>
-<li><p>Exception: If an error occurs during the conversion.</p></li>
+<li><p>FileNotFound: If the source file is not found.</p></li>
+<li><p>Exception: If an error occurs during the extraction.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m4_pdf_text.function_pdfText.isPdfFile">
+<span class="sig-prename descclassname"><span class="pre">m4_pdf_text.function_pdfText.</span></span><span class="sig-name descname"><span class="pre">isPdfFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m4_pdf_text/function_pdfText.html#isPdfFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m4_pdf_text.function_pdfText.isPdfFile" title="Link to this definition"></a></dt>
+<dd><p>This function checks if the provided path is a PDF file.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>filePath (str): Path of the file.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>bool: True if the file is a PDF file, False if the file is not a PDF.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m4_pdf_text.function_pdfText.saveText">
+<span class="sig-prename descclassname"><span class="pre">m4_pdf_text.function_pdfText.</span></span><span class="sig-name descname"><span class="pre">saveText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputFile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m4_pdf_text/function_pdfText.html#saveText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m4_pdf_text.function_pdfText.saveText" title="Link to this definition"></a></dt>
+<dd><p>This function saves the extracted text into a specified output file.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>text (str): Extracted text.</p></li>
+<li><p>outputFile (str): Path of the output file.</p></li>
 </ul>
 </dd>
 <dt>Returns:</dt><dd><ul class="simple">
 <li><p>None.</p></li>
+</ul>
+</dd>
+<dt>Raises:</dt><dd><ul class="simple">
+<li><p>Exception: If an error occurs during the extraction.</p></li>
 </ul>
 </dd>
 </dl>
@@ -135,7 +173,7 @@ It extracts the textual content of PDF files and saves it into a plain text file
 <section id="module-m4_pdf_text.gui_pdfText">
 <span id="m4-pdf-text-gui-pdftext-module"></span><h2>m4_pdf_text.gui_pdfText module<a class="headerlink" href="#module-m4_pdf_text.gui_pdfText" title="Link to this heading"></a></h2>
 <p>This script serves as the graphical user interface of this module.
-This GUI allows users to browse for PDF file using the ‘Browse’ button, opening a file dialog to select the PDF file. 
+This GUI allows users to browse for a PDF file using the ‘Browse’ button, opening a file dialog to select the PDF file. 
 Users can also specify the output directory using the ‘Save as’ button.
 Once users have selected their input file and saved it into the desired directory, the conversion will automatically start when the “Convert” button is clicked.</p>
 <dl class="py function">
@@ -170,7 +208,7 @@ Once users have selected their input file and saved it into the desired director
 <dl class="py function">
 <dt class="sig sig-object py" id="m4_pdf_text.gui_pdfText.createPdfToTextGui">
 <span class="sig-prename descclassname"><span class="pre">m4_pdf_text.gui_pdfText.</span></span><span class="sig-name descname"><span class="pre">createPdfToTextGui</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m4_pdf_text/gui_pdfText.html#createPdfToTextGui"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m4_pdf_text.gui_pdfText.createPdfToTextGui" title="Link to this definition"></a></dt>
-<dd><p>This function creates a GUI for extracting the text of a PDF and saving it onto a plain text file.</p>
+<dd><p>This function creates a GUI for extracting the text of a PDF and saving it into a plain text file.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><ul class="simple">
 <li><p>parent (tkinter.Widget): The parent widget to create the GUI components.</p></li>
@@ -186,7 +224,7 @@ Once users have selected their input file and saved it into the desired director
 <dl class="py function">
 <dt class="sig sig-object py" id="m4_pdf_text.gui_pdfText.saveAs">
 <span class="sig-prename descclassname"><span class="pre">m4_pdf_text.gui_pdfText.</span></span><span class="sig-name descname"><span class="pre">saveAs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/m4_pdf_text/gui_pdfText.html#saveAs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m4_pdf_text.gui_pdfText.saveAs" title="Link to this definition"></a></dt>
-<dd><p>This function opens a file dialog for users to save the plain text file into another directory.</p>
+<dd><p>This function opens a file dialog for users to save the plain text file into another directory and under a different name.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><ul class="simple">
 <li><p>None.</p></li>

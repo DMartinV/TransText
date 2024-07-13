@@ -43,7 +43,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">APP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">TransText</a></li>
 </ul>
 
         </div>
@@ -96,7 +96,7 @@
 <span class="sd">Example: $ python function_convertEncoding.py /path/file.txt -e utf-8 -o /path/output/file.txt</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1">#Import necessary libraries.</span>
+<span class="c1"># Import necessary libraries.</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">codecs</span>
 <span class="kn">import</span> <span class="nn">chardet</span>
@@ -108,20 +108,20 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function detects the character encoding of a file.</span>
 
-<span class="sd">    Args:</span>
+<span class="sd">    Parameters:</span>
 <span class="sd">        * inputFile (str): Path of the input file.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        str: Character encoding of the input file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># Opens and reads the entry file (in binary data).</span>
+    <span class="c1"># Open and read the entry file (in binary data).</span>
     <span class="n">rawData</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">inputFile</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
-    <span class="c1"># Detects the encode.</span>
+    <span class="c1"># Detect the file&#39;s encoding.</span>
     <span class="n">encoding</span> <span class="o">=</span> <span class="n">chardet</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">rawData</span><span class="p">)</span>
 
-    <span class="c1"># Returns the encoding</span>
+    <span class="c1"># Return the encoding</span>
     <span class="k">return</span> <span class="n">encoding</span><span class="p">[</span><span class="s2">&quot;encoding&quot;</span><span class="p">]</span></div>
 
 
@@ -131,22 +131,21 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function convertS the character encoding of a file.</span>
 
-<span class="sd">    Args:</span>
+<span class="sd">    Parameters:</span>
 <span class="sd">        * sourceFile (str): Path of the source file.</span>
 <span class="sd">        * outputEncoding (str): Encoding of the output file.</span>
 <span class="sd">        * outputFile (str, optional): Path of the output file after the conversion.</span>
 
-<span class="sd">    Raises:</span>
-<span class="sd">        * FileNotFoundError: If the source file is not found.</span>
-<span class="sd">        * Exception: If an error occurs during the conversion.</span>
-
 <span class="sd">    Returns:</span>
 <span class="sd">        * None.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># ExecuteS try/except block</span>
+<span class="sd">    Raises:</span>
+<span class="sd">    * FileNotFoundError: If the source file is not found.</span>
+<span class="sd">    * Exception: If an error occurs during the conversion.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Execute try/except block</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Detects the encoding of the input file.</span>
+        <span class="c1"># Detect the encoding of the input file.</span>
         <span class="n">sourceEncoding</span> <span class="o">=</span> <span class="n">detectEncoding</span><span class="p">(</span><span class="n">sourceFile</span><span class="p">)</span>
 
         <span class="c1"># If the source and the output files have the same encoding, no conversion is needed.</span>
@@ -154,29 +153,29 @@
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The input file and output file have the same encoding. No conversion needed.&quot;</span><span class="p">)</span>
             <span class="k">return</span>
         
-        <span class="c1"># Opens the content of the source file and reads the content.</span>
+        <span class="c1"># Open the content of the source file and read its content.</span>
         <span class="k">with</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">sourceFile</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">sourceEncoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">originalFile</span><span class="p">:</span>
             <span class="n">content</span> <span class="o">=</span> <span class="n">originalFile</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         
-        <span class="c1"># If users haven&#39;t provided a name for the output file, the program generates the following default name.</span>
+        <span class="c1"># If users have not provided a name for the output file, the program generates the following default name.</span>
         <span class="k">if</span> <span class="n">outputFile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">outputFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">sourceFile</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">outputEncoding</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span>
+            <span class="n">outputFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">sourceFile</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">outputEncoding</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span>
 
-        <span class="c1"># Writes the content of the output file into the desired encoding.</span>
+        <span class="c1"># Write the content of the output file into the desired encoding.</span>
         <span class="k">with</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">outputFile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">outputEncoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">finalFile</span><span class="p">:</span>
             <span class="n">finalFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
 
-        <span class="c1"># PrintS success message.        </span>
+        <span class="c1"># Print success message.        </span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The conversion was a success!. File: &quot;</span><span class="si">{</span><span class="n">outputFile</span><span class="si">}</span><span class="s1">&quot; has been converted to &quot;</span><span class="si">{</span><span class="n">outputEncoding</span><span class="si">}</span><span class="s1">&quot; encoding.&#39;</span><span class="p">)</span>
         
-        <span class="c1"># PrintS output file&#39;s new path.</span>
+        <span class="c1"># Print output file&#39;s new path.</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;File: &quot;</span><span class="si">{</span><span class="n">outputFile</span><span class="si">}</span><span class="s1">&quot; is saved in: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
     
-    <span class="c1"># Handles file not found error.</span>
+    <span class="c1"># Handle file not found error.</span>
     <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error: Source file &quot;</span><span class="si">{</span><span class="n">sourceFile</span><span class="si">}</span><span class="s1">&quot; not found.&#39;</span><span class="p">)</span>
     
-    <span class="c1"># Handles other types of errors.</span>
+    <span class="c1"># Handle other types of errors.</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
@@ -185,19 +184,20 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Main execution block.</span>
 <span class="sd">    This block parses command-line arguments to convert a file&#39;s encoding to another.</span>
-<span class="sd">    It requires the source file and the output encoding and optionally the output file</span>
+<span class="sd">    It requires the source file, the output encoding and optionally the output file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="c1"># Creates the argument parser.</span>
+    <span class="c1"># Create the argument parser.</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Program to convert the character encoding of a file.&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Define the required arguments parser.</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;--input&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;sourceFile&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Route of the source file.&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-e&#39;</span><span class="p">,</span> <span class="s1">&#39;--outputEncoding&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Encoding of the output file.&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--outputFile&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Route of the output file after the conversion.&#39;</span><span class="p">)</span>
 
-    <span class="c1"># Parsers the argument previously defined.</span>
+    <span class="c1"># Parser the arguments previously defined.</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
-    <span class="c1"># Converts the file encoding.</span>
+    <span class="c1"># Convert the file&#39;s encoding.</span>
     <span class="n">convertEncoding</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">sourceFile</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">outputEncoding</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">outputFile</span><span class="p">)</span>
 
 </pre></div>

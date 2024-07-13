@@ -16,70 +16,101 @@
 
 """
 This script serves as the functional aspect of this module.
-It extracts the textual content of PDF files and saves it into a plain text file. The script uses the 'PyPDF2' library to complete this task. The function 'extractTextFromPdf' iterates through the PDF's pages, extracting the content and writing it into a plain text file.
+It extracts the textual content of PDF files and saves it into a plain text file. The script uses the 'PyPDF2' library to complete this task. The script first verifies if the input file is a PDF file before starting the extraction process. Once the process is completed, the program adds the textual content into a plain text file.
 
 Usage: $ python function_pdfText.py [-i <pdf_file>] [-o <outputFile>]
 
 Example: $ python function_pdfText.py -i /path/document.pdf -o /path/output.txt
 """
-
-# Imports necessary libraries.
+# Import the necessary libraries.
 import PyPDF2
 import argparse
 import os
 
-def extractTextFromPdf(pdfFile, outputPath):
+def isPdfFile(filePath):
     """
-    This function extracts text from a PDF and saves it onto a plain text file.
+    This function checks if the provided path is a PDF file.
 
-    Args:
+    Parameters:
+        * filePath (str): Path of the file.
+
+    Returns:
+        * bool: True if the file is a PDF file, False if the file is not a PDF.
+    """
+    # List of the PDF extension.
+    pdfExtensions = ['.pdf']
+    # Get the extension from the PDF file.
+    fileExtension = os.path.splitext(filePath)[1].lower()
+    # Check if the extension is on the list.
+    return fileExtension in pdfExtensions
+
+
+def extractTextFromPdf(pdfFile):
+    """
+    This function extracts text from a PDF file.
+
+    Parameters:
         * pdfFile (str): Path of the input PDF file.
-        * outputPath (str): Path of the output file.
+
+    Returns:
+        * str: Extracted text from the PDF.
 
     Raises:
-        * FileNotFoundError: If the source file is not found.
-        * Exception: If an error occurs during the conversion.
+        * FileNotFound: If the source file is not found.
+        * Exception: If an error occurs during the extraction.
+    """
+    try:
+        # If the file exists and if it is a PDF file.
+        if os.path.exists(pdfFile) and isPdfFile(pdfFile):
+            # Open the PDF file.
+            with open(pdfFile, 'rb') as file:
+                # Create a PDF Reader object.
+                pdfReader = PyPDF2.PdfReader(file)
+                # Initialize an empty string to store the extracted text.
+                text = ""
+                
+                # Iterate over all the pages of the PDF.
+                for pageNum in range(len(pdfReader.pages)):
+                    # Get the current page object.
+                    page = pdfReader.pages[pageNum]
+                    # Extract text from the page.
+                    text += page.extract_text() if page.extract_text() else ""
+            # Return the extracted text.
+            return text
+        # If the file does not exist or the file is not a PDF, the program displays an error message.
+        else:
+            raise Exception(f'Entry file "{pdfFile}" is not a valid PDF file.')
+    # Handle file not found error and shows error message.
+    except FileNotFoundError:
+        raise FileNotFoundError(f'Source file "{pdfFile}" not found.')
+    # Handle other types of errors and shows error message.
+    except Exception as e:
+        raise Exception(e)
+
+def saveText(text, outputFile):
+    """
+    This function saves the extracted text into a specified output file.
+
+    Parameters:
+        * text (str): Extracted text.
+        * outputFile (str): Path of the output file.
 
     Returns:
         * None.
+
+    Raises:
+        * Exception: If an error occurs during the extraction.
     """
-    # ExecuteS try/except block.
+    # Execute try/except block
     try:
-        # Opens the PDF file.
-        with open(pdfFile, 'rb') as file:
-            # Create a PDF Reader object.
-            pdfReader = PyPDF2.PdfReader(file)
-            
-            # Initialize an empty string to store the extracted text.
-            text = ""
-            
-            # Iterates over all the pages of the PDF.
-            for pageNum in range(len(pdfReader.pages)):
-                # Gets the current page object
-                page = pdfReader.pages[pageNum]
-                
-                # Extracts text from the page.
-                text += page.extract_text() if page.extract_text() else ""
-        
-        # Ensures the output directory exists.
-        outputDir = os.path.dirname(outputPath)
-        if outputDir and not os.path.exists(outputDir):
-            os.makedirs(outputDir)
-
-        # Saves the extracted text to a plain text file.
-        with open(outputPath, 'w', encoding='utf-8') as outputFile:
-            outputFile.write(text)
-
-        # Prints success message.
-        print(f'The conversion was a success! File: "{os.path.basename(outputPath)}" is saved in: "{os.path.abspath(outputPath)}"')
-
-    # Handles file not found error.
-    except FileNotFoundError:
-        print(f'Error: Source file "{pdfFile}" not found.')
-    
-    # Handles other types of errors.
+        # Open the PDF file and write the content into an output file.
+        with open(outputFile, 'w', encoding ='utf-8') as finalFile:
+            finalFile.write(text)
+        # Print sucess message.
+        print(f'The conversion was a success! File: "{os.path.basename(outputFile)}" is saved in: "{os.path.abspath(outputFile)}"')
+    # Handle other types of errors and print ann error message.
     except Exception as e:
-        print(f'Error: {e}')    
+        print(f'Error: {e}')
 
 if __name__ == "__main__":
     """
@@ -87,22 +118,36 @@ if __name__ == "__main__":
     This block parses command-line arguments to extract the content of a PDF file to a plain text file.
     It requires the path to the PDF file and optionally the path to the output file.
     """
-    # Configures the argument parser.
+    # Create and configure the arguments parser.
     parser = argparse.ArgumentParser(description='Program to extract text from a PDF file.')
     parser.add_argument('-i', '--input', dest='pdfFile', help='Path to the PDF file', required=True)
-    parser.add_argument('-o', '--output', dest='outputPath', help='Path to the output text file')
-    
-    # Parses the arguments.
+    parser.add_argument('-o', '--output', help='Path to the output text file')
+
+    # Parse the arguments previously defined.
     args = parser.parse_args()
 
-    # Determines the output path.
-    if args.outputPath:
-        outputPath = args.outputPath
-    else:
-        # Creates default output file name based on input file name.
-        baseName, _ = os.path.splitext(args.pdfFile)
-        outputPath = baseName + '_output.txt'
-    
-    # Extracts text from the PDF and save it to the specified text file.
-    extractTextFromPdf(args.pdfFile, outputPath)
-
+    # Execute try/except block
+    try:
+        # Extract text from the PDF file.
+        text = extractTextFromPdf(args.pdfFile)
+        # If the user provides the name of the output file in the arguments.       
+        if args.output:
+            outputFile = args.output
+        # If not, the program provides a default output name.
+        else:
+            # Get the source PDF's absolute path.
+            inputDir = os.path.dirname(os.path.abspath(args.pdfFile))
+            # Obtain the name of the file without the extension.
+            baseName = os.path.splitext(os.path.basename(args.pdfFile))[0]
+            # Create the default name by appending the file's base name with "_output.txt"
+            outputFile = os.path.join(inputDir, f"{baseName}_output.txt")
+        
+        # If the process is successful, save the extracted text to the output file.
+        if text:
+            saveText(text, outputFile)
+        # If not, prints an error message.
+        else:
+            print("Failed to extract text from the PDF file.")
+    # Handle other types of errors and shows error message.
+    except Exception as e:
+        print(f"Error: {e}")

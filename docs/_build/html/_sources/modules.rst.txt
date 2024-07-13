@@ -1,5 +1,5 @@
-APP
-===
+TransText
+=========
 
 .. toctree::
    :maxdepth: 4

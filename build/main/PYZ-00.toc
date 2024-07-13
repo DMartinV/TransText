@@ -1,4 +1,5 @@
-('C:\\Users\\Diana Martin Vilá\\Desktop\\APP_2\\build\\main\\PYZ-00.pyz',
+('C:\\Users\\Diana Martin '
+ 'Vilá\\Documents\\GitHub\\TransText\\build\\main\\PYZ-00.pyz',
  [('Crypto',
    'C:\\Users\\Diana Martin '
    'Vilá\\AppData\\Roaming\\Python\\Python312\\site-packages\\Crypto\\__init__.py',
@@ -1369,70 +1370,75 @@
   ('lzma', 'C:\\Program Files\\Python312\\Lib\\lzma.py', 'PYMODULE'),
   ('m1_detect_encoding',
    'C:\\Users\\Diana Martin '
-   'Vilá\\Desktop\\APP_2\\m1_detect_encoding\\__init__.py',
+   'Vilá\\Documents\\GitHub\\TransText\\m1_detect_encoding\\__init__.py',
    'PYMODULE'),
   ('m1_detect_encoding.function_detectEncoding',
    'C:\\Users\\Diana Martin '
-   'Vilá\\Desktop\\APP_2\\m1_detect_encoding\\function_detectEncoding.py',
+   'Vilá\\Documents\\GitHub\\TransText\\m1_detect_encoding\\function_detectEncoding.py',
    'PYMODULE'),
   ('m1_detect_encoding.gui_detectEncoding',
    'C:\\Users\\Diana Martin '
-   'Vilá\\Desktop\\APP_2\\m1_detect_encoding\\gui_detectEncoding.py',
+   'Vilá\\Documents\\GitHub\\TransText\\m1_detect_encoding\\gui_detectEncoding.py',
    'PYMODULE'),
   ('m2_convert_encoding',
    'C:\\Users\\Diana Martin '
-   'Vilá\\Desktop\\APP_2\\m2_convert_encoding\\__init__.py',
+   'Vilá\\Documents\\GitHub\\TransText\\m2_convert_encoding\\__init__.py',
    'PYMODULE'),
   ('m2_convert_encoding.function_convertEncoding',
    'C:\\Users\\Diana Martin '
-   'Vilá\\Desktop\\APP_2\\m2_convert_encoding\\function_convertEncoding.py',
+   'Vilá\\Documents\\GitHub\\TransText\\m2_convert_encoding\\function_convertEncoding.py',
    'PYMODULE'),
   ('m2_convert_encoding.gui_convertEncoding',
    'C:\\Users\\Diana Martin '
-   'Vilá\\Desktop\\APP_2\\m2_convert_encoding\\gui_convertEncoding.py',
+   'Vilá\\Documents\\GitHub\\TransText\\m2_convert_encoding\\gui_convertEncoding.py',
    'PYMODULE'),
   ('m3_file_text',
-   'C:\\Users\\Diana Martin Vilá\\Desktop\\APP_2\\m3_file_text\\__init__.py',
+   'C:\\Users\\Diana Martin '
+   'Vilá\\Documents\\GitHub\\TransText\\m3_file_text\\__init__.py',
    'PYMODULE'),
   ('m3_file_text.function_fileText',
    'C:\\Users\\Diana Martin '
-   'Vilá\\Desktop\\APP_2\\m3_file_text\\function_fileText.py',
+   'Vilá\\Documents\\GitHub\\TransText\\m3_file_text\\function_fileText.py',
    'PYMODULE'),
   ('m3_file_text.gui_fileText',
    'C:\\Users\\Diana Martin '
-   'Vilá\\Desktop\\APP_2\\m3_file_text\\gui_fileText.py',
+   'Vilá\\Documents\\GitHub\\TransText\\m3_file_text\\gui_fileText.py',
    'PYMODULE'),
   ('m4_pdf_text',
-   'C:\\Users\\Diana Martin Vilá\\Desktop\\APP_2\\m4_pdf_text\\__init__.py',
+   'C:\\Users\\Diana Martin '
+   'Vilá\\Documents\\GitHub\\TransText\\m4_pdf_text\\__init__.py',
    'PYMODULE'),
   ('m4_pdf_text.function_pdfText',
    'C:\\Users\\Diana Martin '
-   'Vilá\\Desktop\\APP_2\\m4_pdf_text\\function_pdfText.py',
+   'Vilá\\Documents\\GitHub\\TransText\\m4_pdf_text\\function_pdfText.py',
    'PYMODULE'),
   ('m4_pdf_text.gui_pdfText',
-   'C:\\Users\\Diana Martin Vilá\\Desktop\\APP_2\\m4_pdf_text\\gui_pdfText.py',
+   'C:\\Users\\Diana Martin '
+   'Vilá\\Documents\\GitHub\\TransText\\m4_pdf_text\\gui_pdfText.py',
    'PYMODULE'),
   ('m5_excel_text',
-   'C:\\Users\\Diana Martin Vilá\\Desktop\\APP_2\\m5_excel_text\\__init__.py',
+   'C:\\Users\\Diana Martin '
+   'Vilá\\Documents\\GitHub\\TransText\\m5_excel_text\\__init__.py',
    'PYMODULE'),
   ('m5_excel_text.function_excelText',
    'C:\\Users\\Diana Martin '
-   'Vilá\\Desktop\\APP_2\\m5_excel_text\\function_excelText.py',
+   'Vilá\\Documents\\GitHub\\TransText\\m5_excel_text\\function_excelText.py',
    'PYMODULE'),
   ('m5_excel_text.gui_excelText',
    'C:\\Users\\Diana Martin '
-   'Vilá\\Desktop\\APP_2\\m5_excel_text\\gui_excelText.py',
+   'Vilá\\Documents\\GitHub\\TransText\\m5_excel_text\\gui_excelText.py',
    'PYMODULE'),
   ('m6_image_text',
-   'C:\\Users\\Diana Martin Vilá\\Desktop\\APP_2\\m6_image_text\\__init__.py',
+   'C:\\Users\\Diana Martin '
+   'Vilá\\Documents\\GitHub\\TransText\\m6_image_text\\__init__.py',
    'PYMODULE'),
   ('m6_image_text.function_imageText',
    'C:\\Users\\Diana Martin '
-   'Vilá\\Desktop\\APP_2\\m6_image_text\\function_imageText.py',
+   'Vilá\\Documents\\GitHub\\TransText\\m6_image_text\\function_imageText.py',
    'PYMODULE'),
   ('m6_image_text.gui_imageText',
    'C:\\Users\\Diana Martin '
-   'Vilá\\Desktop\\APP_2\\m6_image_text\\gui_imageText.py',
+   'Vilá\\Documents\\GitHub\\TransText\\m6_image_text\\gui_imageText.py',
    'PYMODULE'),
   ('mimetypes', 'C:\\Program Files\\Python312\\Lib\\mimetypes.py', 'PYMODULE'),
   ('multiprocessing',

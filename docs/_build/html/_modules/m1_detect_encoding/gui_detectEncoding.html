@@ -43,7 +43,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">APP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">TransText</a></li>
 </ul>
 
         </div>
@@ -92,63 +92,63 @@
 <span class="sd">This GUI allows users to browse for a file using the &#39;Browse&#39; button, which opens a file dialog to select the input file. After selecting the file, users must click the &#39;Detect&#39; button to automatically display the file&#39;s encoding.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1">#Imports necessary libraries.</span>
+<span class="c1"># Import necessary libraries and modules.</span>
 <span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span><span class="p">,</span> <span class="n">filedialog</span>
 
-<span class="c1"># Executes try/except block.</span>
+<span class="c1"># Execute try/except block.</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="c1"># When running as part of a package.</span>
+    <span class="c1"># When script is running as part of a package.</span>
     <span class="kn">from</span> <span class="nn">.function_detectEncoding</span> <span class="kn">import</span> <span class="n">detectEncoding</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="c1"># When running as a standalone script.</span>
+    <span class="c1"># When script is running as a standalone script.</span>
     <span class="kn">from</span> <span class="nn">function_detectEncoding</span> <span class="kn">import</span> <span class="n">detectEncoding</span>
 
 <div class="viewcode-block" id="browseFile">
 <a class="viewcode-back" href="../../m1_detect_encoding.html#m1_detect_encoding.gui_detectEncoding.browseFile">[docs]</a>
 <span class="k">def</span> <span class="nf">browseFile</span><span class="p">(</span><span class="n">entryInputFile</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function opens a file dialog in order to allow users to select an input file. It also updates the entry widget with the file&#39;s path.</span>
+<span class="sd">    This function opens a file dialog in order to allow users to select an input file.</span>
+<span class="sd">    It also updates the entry widget with the file&#39;s path.</span>
 
-<span class="sd">    Args:</span>
+<span class="sd">    Parameters:</span>
 <span class="sd">        * entryInputFile (tkinter.Entry): The entry widget that contains the input file&#39;s path.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        * None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Opens file dialog to select the file.</span>
-    <span class="n">inputFilePath</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">askopenfilename</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Select the input File&quot;</span><span class="p">)</span>
+    <span class="c1"># Open file dialog to select the file.</span>
+    <span class="n">inputFilePath</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">askopenfilename</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Select the Input File&quot;</span><span class="p">,</span> <span class="n">filetypes</span><span class="o">=</span><span class="p">((</span><span class="s2">&quot;All Files&quot;</span><span class="p">,</span> <span class="s2">&quot;*.*&quot;</span><span class="p">),))</span>
     
-    <span class="c1"># If it has any text, it deletes the content and adds the path of the select file.</span>
+    <span class="c1"># If the entry has any sort text, it deletes the content and adds the path of the select file.</span>
     <span class="k">if</span> <span class="n">inputFilePath</span><span class="p">:</span>
         <span class="n">entryInputFile</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">END</span><span class="p">)</span>
         <span class="n">entryInputFile</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inputFilePath</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="detectEncoding">
-<a class="viewcode-back" href="../../m1_detect_encoding.html#m1_detect_encoding.gui_detectEncoding.detectEncoding">[docs]</a>
-<span class="k">def</span> <span class="nf">detectEncoding</span><span class="p">(</span><span class="n">entryInputFile</span><span class="p">,</span> <span class="n">entryEncoding</span><span class="p">):</span>
+<div class="viewcode-block" id="displayEncoding">
+<a class="viewcode-back" href="../../m1_detect_encoding.html#m1_detect_encoding.gui_detectEncoding.displayEncoding">[docs]</a>
+<span class="k">def</span> <span class="nf">displayEncoding</span><span class="p">(</span><span class="n">entryInputFile</span><span class="p">,</span> <span class="n">entryEncoding</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function detects the file&#39;s encoding and displays the result in the entryEncoding entry widget.</span>
+<span class="sd">    This function detects the file&#39;s encoding and displays the result in an entry widget.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        * entryInputFile (tkinter.Entry): Entry widget that has the entry file&#39;s path.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        * entryInputFile (tkinter.Entry): Entry widget that has the path of the entry file.</span>
 <span class="sd">        * entryEncoding (tkinter.Entry): Entry widget that displays the encoding of the entry file.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        * None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="c1"># Gets the file&#39;s path from the entryInputFile widget.</span>
+    <span class="c1"># Get the file&#39;s path from the entryInputFile widget.</span>
     <span class="n">entryInputFile_text</span> <span class="o">=</span> <span class="n">entryInputFile</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
-    <span class="c1"># Detects the encoding of the file using the function script.</span>
+    <span class="c1"># Detect the encoding of the file using the functional script.</span>
     <span class="n">encoding</span> <span class="o">=</span> <span class="n">detectEncoding</span><span class="p">(</span><span class="n">entryInputFile_text</span><span class="p">)</span>
 
-    <span class="c1"># Deletes any text from the entryEncoding widget.</span>
+    <span class="c1"># Delete any text from the entryEncoding widget.</span>
     <span class="n">entryEncoding</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">END</span><span class="p">)</span>
 
-    <span class="c1"># Adds the encoding into the entryEncoding widget.</span>
+    <span class="c1"># Add the encoding into the entryEncoding widget.</span>
     <span class="n">entryEncoding</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">encoding</span><span class="p">)</span></div>
 
 
@@ -158,16 +158,16 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function creates a GUI for selecting and displaying a file&#39;s encoding.</span>
 
-<span class="sd">    Args:</span>
+<span class="sd">    Parameters:</span>
 <span class="sd">        * parent (tkinter.Widget): Parent widget to create the GUI components.</span>
 <span class="sd">    </span>
 <span class="sd">    Returns:</span>
 <span class="sd">        None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Frame to hold the components and widgets of the gui.</span>
+    <span class="c1"># Frame that holds the components and widgets of the GUI.</span>
     <span class="n">frame</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
 
-    <span class="c1"># Creates and place labels, entries and buttons.</span>
+    <span class="c1"># Create and place labels, entries and buttons.</span>
     <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Source File:&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
     <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Detected Encoding:&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
@@ -177,9 +177,9 @@
     <span class="n">entryEncoding</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="p">(</span><span class="n">tk</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">E</span><span class="p">),</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
     <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Browse&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">browseFile</span><span class="p">(</span><span class="n">entryInputFile</span><span class="p">))</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Detect&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">detectEncoding</span><span class="p">(</span><span class="n">entryInputFile</span><span class="p">,</span> <span class="n">entryEncoding</span><span class="p">))</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Detect&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">displayEncoding</span><span class="p">(</span><span class="n">entryInputFile</span><span class="p">,</span> <span class="n">entryEncoding</span><span class="p">))</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
-    <span class="c1"># Packs the frame into the main application.</span>
+    <span class="c1"># Pack the frame. </span>
     <span class="n">frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></div>
 
 
@@ -188,11 +188,11 @@
 <span class="sd">    Main entry point for the app.</span>
 <span class="sd">    Initializes the Tkinter root window (the main application).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Initializes and sets title of the root window (the main application).</span>
+    <span class="c1"># Initialize and set title of the root window (the main application).</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
     <span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Detect Encoding Functionality&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Creates GUI components in the root window (the main application) and starts the main event loop.</span>
+    <span class="c1"># Create GUI components in the root window (the main application) and start the main event loop.</span>
     <span class="n">createDetectEncodingGui</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
     <span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
 </pre></div>

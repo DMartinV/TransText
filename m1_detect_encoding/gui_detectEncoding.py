@@ -19,74 +19,74 @@ This script serves as the graphical user interface of this module.
 This GUI allows users to browse for a file using the 'Browse' button, which opens a file dialog to select the input file. After selecting the file, users must click the 'Detect' button to automatically display the file's encoding.
 """
 
-#Imports necessary libraries.
+# Import necessary libraries and modules.
 import tkinter as tk
 from tkinter import ttk, filedialog
 
-# Executes try/except block.
+# Execute try/except block.
 try:
-    # When running as part of a package.
+    # When script is running as part of a package.
     from .function_detectEncoding import detectEncoding
 except ImportError:
-    # When running as a standalone script.
+    # When script is running as a standalone script.
     from function_detectEncoding import detectEncoding
 
 def browseFile(entryInputFile):
     """
-    This function opens a file dialog in order to allow users to select an input file. It also updates the entry widget with the file's path.
+    This function opens a file dialog in order to allow users to select an input file.
+    It also updates the entry widget with the file's path.
 
-    Args:
+    Parameters:
         * entryInputFile (tkinter.Entry): The entry widget that contains the input file's path.
 
     Returns:
         * None.
     """
-    # Opens file dialog to select the file.
-    inputFilePath = filedialog.askopenfilename(title="Select the input File")
+    # Open file dialog to select the file.
+    inputFilePath = filedialog.askopenfilename(title="Select the Input File", filetypes=(("All Files", "*.*"),))
     
-    # If it has any text, it deletes the content and adds the path of the select file.
+    # If the entry has any sort text, it deletes the content and adds the path of the select file.
     if inputFilePath:
         entryInputFile.delete(0, tk.END)
         entryInputFile.insert(0, inputFilePath)
 
-def detectEncoding(entryInputFile, entryEncoding):
+def displayEncoding(entryInputFile, entryEncoding):
     """
-    This function detects the file's encoding and displays the result in the entryEncoding entry widget.
+    This function detects the file's encoding and displays the result in an entry widget.
 
-    Args:
-        * entryInputFile (tkinter.Entry): Entry widget that has the entry file's path.
+    Parameters:
+        * entryInputFile (tkinter.Entry): Entry widget that has the path of the entry file.
         * entryEncoding (tkinter.Entry): Entry widget that displays the encoding of the entry file.
 
     Returns:
         * None.
     """
-
-    # Gets the file's path from the entryInputFile widget.
+    # Get the file's path from the entryInputFile widget.
     entryInputFile_text = entryInputFile.get()
 
-    # Detects the encoding of the file using the function script.
+    # Detect the encoding of the file using the functional script.
     encoding = detectEncoding(entryInputFile_text)
 
-    # Deletes any text from the entryEncoding widget.
+    # Delete any text from the entryEncoding widget.
     entryEncoding.delete(0, tk.END)
 
-    # Adds the encoding into the entryEncoding widget.
+    # Add the encoding into the entryEncoding widget.
     entryEncoding.insert(0, encoding)
 
 def createDetectEncodingGui(parent):
     """
     This function creates a GUI for selecting and displaying a file's encoding.
 
-    Args:
+    Parameters:
         * parent (tkinter.Widget): Parent widget to create the GUI components.
     
     Returns:
         None.
     """
-    # Frame to hold the components and widgets of the gui.
+    # Frame that holds the components and widgets of the GUI.
     frame = ttk.Frame(parent)
 
-    # Creates and place labels, entries and buttons.
+    # Create and place labels, entries and buttons.
     ttk.Label(frame, text="Source File:").grid(row=0, column=0, sticky="w", padx=10, pady=5)
     ttk.Label(frame, text="Detected Encoding:").grid(row=1, column=0, sticky="w", padx=10, pady=5)
 
@@ -96,9 +96,9 @@ def createDetectEncodingGui(parent):
     entryEncoding.grid(row=1, column=1, sticky=(tk.W, tk.E), padx=10, pady=5)
 
     ttk.Button(frame, text="Browse", command=lambda: browseFile(entryInputFile)).grid(row=0, column=2, padx=10, pady=5)
-    ttk.Button(frame, text="Detect", command=lambda: detectEncoding(entryInputFile, entryEncoding)).grid(row=1, column=2, padx=10, pady=5)
+    ttk.Button(frame, text="Detect", command=lambda: displayEncoding(entryInputFile, entryEncoding)).grid(row=1, column=2, padx=10, pady=5)
 
-    # Packs the frame into the main application.
+    # Pack the frame. 
     frame.pack(fill='both', expand=True, padx=10, pady=10)
 
 if __name__ == "__main__":
@@ -106,10 +106,10 @@ if __name__ == "__main__":
     Main entry point for the app.
     Initializes the Tkinter root window (the main application).
     """
-    # Initializes and sets title of the root window (the main application).
+    # Initialize and set title of the root window (the main application).
     root = tk.Tk()
     root.title("Detect Encoding Functionality")
 
-    # Creates GUI components in the root window (the main application) and starts the main event loop.
+    # Create GUI components in the root window (the main application) and start the main event loop.
     createDetectEncodingGui(root)
     root.mainloop()
