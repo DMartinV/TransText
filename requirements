@@ -1,7 +1,7 @@
 Version of Python: 3.12.0
 
 Libraries used:
-- chardet. 
+- chardet. For more information about this library, check out their [documentation](https://chardet.readthedocs.io/en/latest/index.html).
 - codecs. 
 - textract.
 - PyPDF2.
