@@ -27,6 +27,23 @@ import textract
 import argparse
 import os
 
+def extensionCheck(filePath):
+    """
+    This function checks if the provided path is a file.
+
+    Parameters:
+        * filePath (str): Path of the file.
+
+    Returns:
+        * bool: True if the file is a file, False if is not a file.
+    """
+    # List of the PDF extension.
+    fileExtensions = ['.epub', '.eml', '.msg', '.html', '.htm', '.json', '.pptx', '.doc', '.docx', '.odt', '.rtf']
+    # Get the extension from the PDF file.
+    fileExtension = os.path.splitext(filePath)[1].lower()
+    # Check if the extension is on the list.
+    return fileExtension in fileExtensions
+
 def extractTextFromFile(inputFile, outputPath):
     """
     This function extracts text from a file and saves it to a plain text file.
@@ -44,19 +61,22 @@ def extractTextFromFile(inputFile, outputPath):
     """
     # Execute try/except block
     try:
-        # Extract text from the file using textract
-        text = textract.process(inputFile)
-        
-        # Convert bytes to string
-        text = text.decode('utf-8')
+        # If the file exists and if it is a PDF file.
+        if os.path.exists(inputFile) and extensionCheck(inputFile):
+            # Extract text from the file using textract
+            text = textract.process(inputFile)
+            
+            # Convert bytes to string
+            text = text.decode('utf-8')
 
-        # Save the extracted text to a plain text file
-        with open(outputPath, 'w', encoding='utf-8') as outputFile:
-            outputFile.write(text)
+            # Save the extracted text to a plain text file
+            with open(outputPath, 'w', encoding='utf-8') as outputFile:
+                outputFile.write(text)
 
-        # Print success message.        
-        print(f'The conversion was a success! File "{os.path.basename(outputPath)}" is saved in: "{os.path.abspath(outputPath)}"')
-    
+            # Print success message.        
+            print(f'The conversion was a success! File "{os.path.basename(outputPath)}" is saved in: "{os.path.abspath(outputPath)}"')
+        else:
+            raise Exception(f'Entry file "{inputFile}" is not a valid file.')
     # Handle file not found error.
     except FileNotFoundError:
         print(f'Error: Source file "{inputFile}" not found.')
@@ -84,6 +104,7 @@ if __name__ == "__main__":
         outputPath = args.output
     else:
         # Create default output file name based on input file name
+        inputDir = os.path.dirname(os.path.abspath(args.inputFile))
         baseName, _ = os.path.splitext(args.inputFile)
         outputPath = baseName + '_output.txt'
 
