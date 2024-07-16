@@ -54,8 +54,22 @@ def saveAs():
     Returns:
         * None
     """
+    # Get the input file path from the entry widget.
+    inputFilePath = entryInputFile.get()
+    
+    # If the user has not selected a file, show a warning message.
+    if not inputFilePath:
+        messagebox.showwarning("Error", "Please select a file.")
+        return
+
+    # Get the base name of the file without the extension.
+    baseName = os.path.splitext(os.path.basename(inputFilePath))[0]
+
+    # Default output filename based on the input file.
+    suggestedName = f"{baseName}_output.txt"
+
     # Opens a file dialog to save the output file.
-    outputPath = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt")])
+    outputPath = filedialog.asksaveasfilename(defaultextension=".txt", initialfile=suggestedName, filetypes=[("Text Files", "*.txt")])
     
     # If the user has selected an output path, it clears any text and adds the output file's path.
     if outputPath:
