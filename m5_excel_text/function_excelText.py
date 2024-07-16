@@ -69,20 +69,22 @@ def extractTextFromExcel(excelPath):
             # Initialize an empty string to store the extracted text.
             text = ""
 
-            # Iterate over all rows and columns of the Excel file.
+            # Iterate over all the rows from the Excel sheet.
             for row in sheet.iter_rows():
-                for cell in row:
-                    # Add the cell value to the text.
-                    text += str(cell.value) + '\n'
+                # Create a list of cell values as strings, using an empty string for any None values.
+                rowData = [str(cell.value) if cell.value is not None else '' for cell in row]
+                # Join the list of cell values with a tab delimiter and add the resulting string to the acumulator variable.
+                text += '\t'.join(rowData) + '\n'
             # Return the extracted text.
             return text
+        
         # If the file does not exist or is not an Excel file, show an error message.
         else:
             raise Exception(f'Entry file "{excelPath}" is not a valid Excel file.')
     # Handle file not found error and display an error message.
     except FileNotFoundError:
         raise FileNotFoundError(f'Source file "{excelPath}" not found.')
-    # Handle other types of errors and display and error message.
+    # Handle other types of errors and display an error message.
     except Exception as e:
         raise Exception(e)
 
@@ -102,10 +104,10 @@ def saveText(text, outputFile):
     """
     # Execute try/except block.
     try:
-        # Open the PDF file and write the content onto an output file.
+        # Open the output file and write the content onto it.
         with open(outputFile, 'w', encoding='utf-8') as finalFile:
             finalFile.write(text)
-        # Print sucess message.
+        # Print success message.
         print(f'The conversion was a success! File: "{os.path.basename(outputFile)}" is saved in: "{os.path.abspath(outputFile)}"')
     # Handle other types of errors and print an error message.
     except Exception as e:
@@ -127,7 +129,7 @@ if __name__ == "__main__":
 
     # Execute try/except block
     try:
-        # Extract text from the PDF file.
+        # Extract text from the Excel file.
         text = extractTextFromExcel(args.excelPath)
         # If the user provides the name of the output file in the arguments.       
         if args.output:

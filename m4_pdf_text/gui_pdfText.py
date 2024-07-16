@@ -20,7 +20,6 @@ This GUI allows users to browse for a PDF file using the 'Browse' button, openin
 Users can also specify the output directory using the 'Save as' button.
 Once users have selected their input file and saved it into the desired directory, the conversion will automatically start when the "Convert" button is clicked.
 """
-
 # Import the necessary libraries and modules.
 import os
 import tkinter as tk
@@ -57,8 +56,23 @@ def saveAs():
     Returns:
         * None.
     """
+
+    # Get the input PDF file path from the entry widget.
+    inputPdfFile = entryPdf.get()
+    
+    # If the user has not selected a PDF file, show a warning message.
+    if not inputPdfFile:
+        messagebox.showwarning("Error", "Please select a PDF file.")
+        return
+
+    # Get the base name of the PDF file without the extension.
+    baseName = os.path.splitext(os.path.basename(inputPdfFile))[0]
+
+    # Default output filename based on the input PDF file.
+    suggestedName = f"{baseName}_output.txt"
+
     # Open a file dialog to save the output file.
-    outputPath = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt")])
+    outputPath = filedialog.asksaveasfilename(defaultextension=".txt", initialfile=suggestedName, filetypes=[("Text Files", "*.txt")])
     
     # If users have selected an output path, it clears any text and adds the output file's path in the entryOutputDir entry widget.
     if outputPath:

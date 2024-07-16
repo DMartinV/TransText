@@ -147,20 +147,22 @@
             <span class="c1"># Initialize an empty string to store the extracted text.</span>
             <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-            <span class="c1"># Iterate over all rows and columns of the Excel file.</span>
+            <span class="c1"># Iterate over all the rows from the Excel sheet.</span>
             <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">sheet</span><span class="o">.</span><span class="n">iter_rows</span><span class="p">():</span>
-                <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
-                    <span class="c1"># Add the cell value to the text.</span>
-                    <span class="n">text</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+                <span class="c1"># Create a list of cell values as strings, using an empty string for any None values.</span>
+                <span class="n">rowData</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span>
+                <span class="c1"># Join the list of cell values with a tab delimiter and add the resulting string to the acumulator variable.</span>
+                <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rowData</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
             <span class="c1"># Return the extracted text.</span>
             <span class="k">return</span> <span class="n">text</span>
+        
         <span class="c1"># If the file does not exist or is not an Excel file, show an error message.</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Entry file &quot;</span><span class="si">{</span><span class="n">excelPath</span><span class="si">}</span><span class="s1">&quot; is not a valid Excel file.&#39;</span><span class="p">)</span>
     <span class="c1"># Handle file not found error and display an error message.</span>
     <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Source file &quot;</span><span class="si">{</span><span class="n">excelPath</span><span class="si">}</span><span class="s1">&quot; not found.&#39;</span><span class="p">)</span>
-    <span class="c1"># Handle other types of errors and display and error message.</span>
+    <span class="c1"># Handle other types of errors and display an error message.</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
@@ -183,10 +185,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Execute try/except block.</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Open the PDF file and write the content onto an output file.</span>
+        <span class="c1"># Open the output file and write the content onto it.</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outputFile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">finalFile</span><span class="p">:</span>
             <span class="n">finalFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-        <span class="c1"># Print sucess message.</span>
+        <span class="c1"># Print success message.</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The conversion was a success! File: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot; is saved in: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
     <span class="c1"># Handle other types of errors and print an error message.</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -209,7 +211,7 @@
 
     <span class="c1"># Execute try/except block</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Extract text from the PDF file.</span>
+        <span class="c1"># Extract text from the Excel file.</span>
         <span class="n">text</span> <span class="o">=</span> <span class="n">extractTextFromExcel</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">excelPath</span><span class="p">)</span>
         <span class="c1"># If the user provides the name of the output file in the arguments.       </span>
         <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">:</span>

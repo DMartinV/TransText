@@ -138,10 +138,11 @@ if __name__ == "__main__":
     # Parse the arguments previously defined.
     args = parser.parse_args()
 
+    # Extract text from the input image file.
+    text = extractTextFromImage(args.imagePath, args.language)
+
     # Execute try/except block
     try:
-        # Extract text from the input image file.
-        text = extractTextFromImage(args.imagePath, args.language)
         # Determine the output's file name.
         if args.outputFile:
             outputFile = args.outputFile

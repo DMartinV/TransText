@@ -93,7 +93,6 @@
 <span class="sd">Users can also specify the output directory using the &#39;Save as&#39; button.</span>
 <span class="sd">Once users have selected their input file and saved it into the desired directory, the conversion will automatically start when the &quot;Convert&quot; button is clicked.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
 <span class="c1"># Import the necessary libraries and modules.</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
@@ -135,8 +134,23 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        * None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Get the input PDF file path from the entry widget.</span>
+    <span class="n">inputPdfFile</span> <span class="o">=</span> <span class="n">entryPdf</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    
+    <span class="c1"># If the user has not selected a PDF file, show a warning message.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inputPdfFile</span><span class="p">:</span>
+        <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="s2">&quot;Please select a PDF file.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Get the base name of the PDF file without the extension.</span>
+    <span class="n">baseName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">inputPdfFile</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Default output filename based on the input PDF file.</span>
+    <span class="n">suggestedName</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">baseName</span><span class="si">}</span><span class="s2">_output.txt&quot;</span>
+
     <span class="c1"># Open a file dialog to save the output file.</span>
-    <span class="n">outputPath</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">asksaveasfilename</span><span class="p">(</span><span class="n">defaultextension</span><span class="o">=</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span> <span class="n">filetypes</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Text Files&quot;</span><span class="p">,</span> <span class="s2">&quot;*.txt&quot;</span><span class="p">)])</span>
+    <span class="n">outputPath</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">asksaveasfilename</span><span class="p">(</span><span class="n">defaultextension</span><span class="o">=</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span> <span class="n">initialfile</span><span class="o">=</span><span class="n">suggestedName</span><span class="p">,</span> <span class="n">filetypes</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Text Files&quot;</span><span class="p">,</span> <span class="s2">&quot;*.txt&quot;</span><span class="p">)])</span>
     
     <span class="c1"># If users have selected an output path, it clears any text and adds the output file&#39;s path in the entryOutputDir entry widget.</span>
     <span class="k">if</span> <span class="n">outputPath</span><span class="p">:</span>

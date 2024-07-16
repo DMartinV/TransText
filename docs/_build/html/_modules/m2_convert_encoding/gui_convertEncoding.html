@@ -229,23 +229,39 @@
 
 <div class="viewcode-block" id="saveAs">
 <a class="viewcode-back" href="../../m2_convert_encoding.html#m2_convert_encoding.gui_convertEncoding.saveAs">[docs]</a>
-<span class="k">def</span> <span class="nf">saveAs</span><span class="p">(</span><span class="n">entryOutputDir</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">saveAs</span><span class="p">(</span><span class="n">entryOutputDir</span><span class="p">,</span> <span class="n">entryInputFile</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function opens a file dialog to select the directory where users are going to save the output file.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">        * entryOutputDir (ttk.Entry): Entry widget that contains the path where the output file will be saved. </span>
-<span class="sd">    </span>
+<span class="sd">        * entryOutputDir (ttk.Entry): Entry widget that contains the path where the output file will be saved.</span>
+<span class="sd">        * entryInputFile (ttk.Entry): Entry widget that contains the path of the input file.</span>
+
 <span class="sd">    Returns:</span>
-<span class="sd">        * None.</span>
+<span class="sd">        * None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Open the file dialog for the purpose of saving the output file.</span>
-    <span class="n">directoryPath</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">asksaveasfilename</span><span class="p">(</span><span class="n">filetypes</span><span class="o">=</span><span class="p">((</span><span class="s2">&quot;Plain Text&quot;</span><span class="p">,</span> <span class="s2">&quot;*.txt&quot;</span><span class="p">),(</span><span class="s2">&quot;All Files&quot;</span><span class="p">,</span> <span class="s2">&quot;*.*&quot;</span><span class="p">)</span> <span class="p">))</span>
+    <span class="c1"># Get the input file path from the entry widget.</span>
+    <span class="n">inputFilePath</span> <span class="o">=</span> <span class="n">entryInputFile</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     
-    <span class="c1"># Check if the directory has been selected by users (deletes any remaining text and adds the directory path).</span>
-    <span class="k">if</span> <span class="n">directoryPath</span><span class="p">:</span>
+    <span class="c1"># If no file is imported into the program, show a warning message.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inputFilePath</span><span class="p">:</span>
+        <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="s2">&quot;Please select a file.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Get the base name of the input file without the extension.</span>
+    <span class="n">baseName</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">inputFilePath</span><span class="p">))</span>
+    
+    <span class="c1"># Default output filename based on the input file.</span>
+    <span class="n">suggestedName</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">baseName</span><span class="si">}</span><span class="s2">_output&quot;</span>
+
+    <span class="c1"># Open a file dialog to save the output file.</span>
+    <span class="n">outputPath</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">asksaveasfilename</span><span class="p">(</span><span class="n">initialfile</span><span class="o">=</span><span class="n">suggestedName</span><span class="p">,</span> <span class="n">filetypes</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Text Files&quot;</span><span class="p">,</span> <span class="s2">&quot;*.txt&quot;</span><span class="p">)])</span>
+
+    <span class="c1"># If users have selected an output path, it clears any text and adds the path into the entry widget.</span>
+    <span class="k">if</span> <span class="n">outputPath</span><span class="p">:</span>
         <span class="n">entryOutputDir</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">END</span><span class="p">)</span>
-        <span class="n">entryOutputDir</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">directoryPath</span><span class="p">)</span></div>
+        <span class="n">entryOutputDir</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">outputPath</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="createConvertEncodingGui">
@@ -274,7 +290,7 @@
     <span class="n">entryOutputDir</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="p">(</span><span class="n">tk</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">E</span><span class="p">),</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
     <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Browse&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">browseFile</span><span class="p">(</span><span class="n">entryInputFile</span><span class="p">))</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Save as&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">saveAs</span><span class="p">(</span><span class="n">entryOutputDir</span><span class="p">))</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Save as&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">saveAs</span><span class="p">(</span><span class="n">entryOutputDir</span><span class="p">,</span> <span class="n">entryInputFile</span><span class="p">))</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
     <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Convert&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">convertFile</span><span class="p">(</span><span class="n">entryInputFile</span><span class="p">,</span> <span class="n">combo</span><span class="p">,</span> <span class="n">entryOutputDir</span><span class="p">))</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
     <span class="n">encodings</span> <span class="o">=</span> <span class="n">getEncodings</span><span class="p">()</span>

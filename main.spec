@@ -5,7 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('double-chat-icon.ico', '.'), ('C:\\Users\\Diana Martin Vilá\\Documents\\Github\\TransText\\docs\\_build\\html', 'docs')],
+    datas=[('C:\\Users\\Diana Martin Vilá\\Documents\\GitHub\\TransText\\docs\\_build\\html', 'docs')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -35,5 +35,4 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['double-chat-icon.ico'],
 )

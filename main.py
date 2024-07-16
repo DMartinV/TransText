@@ -126,10 +126,6 @@ window_width = 550
 root.geometry(f"{window_width}x{window_heigth}")
 root.resizable(False, False)
 
-# Set the window icon.
-icon_path = resourcePath("double-chat-icon.ico")
-root.iconbitmap(icon_path)
-
 # Menu bar.
 barMenu = Menu(root)
 root.config(menu=barMenu, width=300, height=300)

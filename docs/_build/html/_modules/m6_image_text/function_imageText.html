@@ -223,10 +223,11 @@
     <span class="c1"># Parse the arguments previously defined.</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
+    <span class="c1"># Extract text from the input image file.</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">extractTextFromImage</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">language</span><span class="p">)</span>
+
     <span class="c1"># Execute try/except block</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Extract text from the input image file.</span>
-        <span class="n">text</span> <span class="o">=</span> <span class="n">extractTextFromImage</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">language</span><span class="p">)</span>
         <span class="c1"># Determine the output&#39;s file name.</span>
         <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">outputFile</span><span class="p">:</span>
             <span class="n">outputFile</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">outputFile</span>

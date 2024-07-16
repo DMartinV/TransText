@@ -133,8 +133,22 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        * None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Get the input file path from the entry widget.</span>
+    <span class="n">inputFilePath</span> <span class="o">=</span> <span class="n">entryInputFile</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    
+    <span class="c1"># If no file is selected, show a warning message.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inputFilePath</span><span class="p">:</span>
+        <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="s2">&quot;Please select a file.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Get the base name of the input file without the extension.</span>
+    <span class="n">baseName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">inputFilePath</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Default output filename based on the input file.</span>
+    <span class="n">suggestedName</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">baseName</span><span class="si">}</span><span class="s2">_output.txt&quot;</span>
+
     <span class="c1"># Open a file dialog to save the output file.</span>
-    <span class="n">outputPath</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">asksaveasfilename</span><span class="p">(</span><span class="n">defaultextension</span><span class="o">=</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span> <span class="n">filetypes</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Text Files&quot;</span><span class="p">,</span> <span class="s2">&quot;*.txt&quot;</span><span class="p">)])</span>
+    <span class="n">outputPath</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">asksaveasfilename</span><span class="p">(</span><span class="n">defaultextension</span><span class="o">=</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span> <span class="n">initialfile</span><span class="o">=</span><span class="n">suggestedName</span><span class="p">,</span> <span class="n">filetypes</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Text Files&quot;</span><span class="p">,</span> <span class="s2">&quot;*.txt&quot;</span><span class="p">)])</span>
     
     <span class="c1"># If users have selected an output path, it clears any text and adds the output file&#39;s path into the entryOutputDir entry widget.</span>
     <span class="k">if</span> <span class="n">outputPath</span><span class="p">:</span>

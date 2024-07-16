@@ -186,7 +186,7 @@ Once users have selected their input file and saved it into the desired director
 <dl class="py function">
 <dt class="sig sig-object py" id="m6_image_text.gui_imageText.browseFile">
 <span class="sig-prename descclassname"><span class="pre">m6_image_text.gui_imageText.</span></span><span class="sig-name descname"><span class="pre">browseFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryImage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/gui_imageText.html#browseFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.gui_imageText.browseFile" title="Link to this definition"></a></dt>
-<dd><p>This function opens a file dialog to allow users to select the entry file.
+<dd><p>This function opens a file dialog to allow users to select the input image file.
 It also updates the entry widget with the file’s path.</p>
 <dl class="simple">
 <dt>Parameters:</dt><dd><ul class="simple">
@@ -241,11 +241,13 @@ It also updates the entry widget with the file’s path.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="m6_image_text.gui_imageText.saveAs">
-<span class="sig-prename descclassname"><span class="pre">m6_image_text.gui_imageText.</span></span><span class="sig-name descname"><span class="pre">saveAs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryOutputDir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/gui_imageText.html#saveAs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.gui_imageText.saveAs" title="Link to this definition"></a></dt>
-<dd><p>This function opens a file dialog for users to save the plain text file into another directory.</p>
+<span class="sig-prename descclassname"><span class="pre">m6_image_text.gui_imageText.</span></span><span class="sig-name descname"><span class="pre">saveAs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entryOutputDir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entryImage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m6_image_text/gui_imageText.html#saveAs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m6_image_text.gui_imageText.saveAs" title="Link to this definition"></a></dt>
+<dd><p>This function opens a file dialog for users to save the plain text file into another directory.
+It suggests a default filename based on the selected image file.</p>
 <dl class="simple">
 <dt>Parameters:</dt><dd><ul class="simple">
 <li><p>entryOutputDir (ttk.Entry): Entry widget to update with the selected output file’s path.</p></li>
+<li><p>entryImage (ttk.Entry): Entry widget containing the source image file path.</p></li>
 </ul>
 </dd>
 <dt>Returns:</dt><dd><ul class="simple">

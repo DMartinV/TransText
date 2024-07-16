@@ -133,28 +133,28 @@
 <span class="sd">        * str: Extracted text from the file.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">    * FileNotFoundError: If the source file is not found.</span>
-<span class="sd">    * Exception: If an error occurs during the conversion.</span>
+<span class="sd">        * FileNotFoundError: If the source file is not found.</span>
+<span class="sd">        * Exception: If an error occurs during the conversion.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the file extension is supported</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">extensionCheck</span><span class="p">(</span><span class="n">inputFile</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Entry file &quot;</span><span class="si">{</span><span class="n">inputFile</span><span class="si">}</span><span class="s1">&quot; cannot be converted. Unsupported file type.&#39;</span><span class="p">)</span>
+
     <span class="c1"># Execute try/except block</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Verify if the source path exists and the file&#39;s extension is in the list of allowed extension.</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span> <span class="ow">and</span> <span class="n">extensionCheck</span><span class="p">(</span><span class="n">inputFile</span><span class="p">):</span>
+        <span class="c1"># Verify if the source path exists</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">inputFile</span><span class="p">):</span>
             <span class="c1"># Extract the textual content of the source file.</span>
             <span class="n">text</span> <span class="o">=</span> <span class="n">textract</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
             <span class="c1"># Return the content.</span>
             <span class="k">return</span> <span class="n">text</span>
-        <span class="c1"># If the source path does not exist.</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Entry file &quot;</span><span class="si">{</span><span class="n">inputFile</span><span class="si">}</span><span class="s1">&quot; cannot be converted. If &quot;</span><span class="si">{</span><span class="n">inputFile</span><span class="si">}</span><span class="s1">&quot; is a PDF or Excel file, try using the other features available in the program.&#39;</span><span class="p">)</span>
-    <span class="c1"># Handle file not found error.</span>
-    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Source file &quot;</span><span class="si">{</span><span class="n">inputFile</span><span class="si">}</span><span class="s1">&quot; not found.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Source file &quot;</span><span class="si">{</span><span class="n">inputFile</span><span class="si">}</span><span class="s1">&quot; not found.&#39;</span><span class="p">)</span>
     <span class="c1"># Handles other types of errors.</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
-    
+
 <div class="viewcode-block" id="saveText">
 <a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.saveText">[docs]</a>
 <span class="k">def</span> <span class="nf">saveText</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">):</span>
@@ -169,7 +169,7 @@
 <span class="sd">        * None</span>
 <span class="sd">    </span>
 <span class="sd">    Raises:</span>
-<span class="sd">    Exception: If an error occurs during the extraction.</span>
+<span class="sd">        * Exception: If an error occurs during the extraction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Execute try/except block</span>
     <span class="k">try</span><span class="p">:</span>
@@ -199,8 +199,13 @@
 
     <span class="c1"># Execute try/except block</span>
     <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Check file extension</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">extensionCheck</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">inputFile</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Entry file &quot;</span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">inputFile</span><span class="si">}</span><span class="s1">&quot; cannot be converted. Unsupported file type.&#39;</span><span class="p">)</span>
+        
         <span class="c1"># Extract text from the input file.</span>
         <span class="n">text</span> <span class="o">=</span> <span class="n">extractTextFromFile</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">inputFile</span><span class="p">)</span>
+
         <span class="c1"># If the user provides the name of the output file in the arguments.       </span>
         <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">:</span>
             <span class="n">outputFile</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span>
@@ -219,7 +224,7 @@
         <span class="c1"># If not, print an error message.</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to extract text from the file.&quot;</span><span class="p">)</span>
-
+    
     <span class="c1"># Handle other types of errors and show message.</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>

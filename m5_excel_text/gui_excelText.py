@@ -48,15 +48,30 @@ def browseFile():
         entryExcel.delete(0, tk.END)
         entryExcel.insert(0, inputExcelFile)
 
-def saveAs():
+def saveAs(entryOutputDir, entryExcel):
     """
     This function opens a file dialog for users to save the plain text file into another directory. 
     
     Returns:
         * None.
     """
+
+    # Get the input Excel file path from the entry widget.
+    inputExcelFile = entryExcel.get()
+    
+    # If the user has not selected an Excel file, show a warning message.
+    if not inputExcelFile:
+        messagebox.showwarning("Error", "Please select an Excel file.")
+        return
+    
+    # Get the base name of the Excel file without the extension.
+    baseName = os.path.splitext(os.path.basename(inputExcelFile))[0]
+
+    # Default output filename based on the input Excel file.
+    suggestedName = f"{baseName}_output.txt"
+
     # Open a file dialog to save the output file.
-    outputPath = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text files", "*.txt")])
+    outputPath = filedialog.asksaveasfilename(defaultextension=".txt", initialfile=suggestedName, filetypes=[("Text files", "*.txt")])
     
     # If users have selected an output path, it clears any text and adds the output file's path into the entryOutputDir entry widget.
     if outputPath:
@@ -121,7 +136,7 @@ def createExcelToTextGui(parent):
     entryOutputDir.grid(row=1, column=1, sticky=(tk.W, tk.E), padx=10, pady=5)
 
     ttk.Button(frame, text="Browse", command=browseFile).grid(row=0, column=2, padx=10, pady=5)
-    ttk.Button(frame, text="Save as", command=saveAs).grid(row=1, column=2, padx=10, pady=5)
+    ttk.Button(frame, text="Save as", command=lambda: saveAs(entryOutputDir, entryExcel)).grid(row=1, column=2, padx=10, pady=5)
     ttk.Button(frame, text="Convert", command=convertFile).grid(row=2, column=0, columnspan=3, pady=10)
 
     # Pack the frame.

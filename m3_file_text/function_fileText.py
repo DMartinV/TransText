@@ -55,27 +55,27 @@ def extractTextFromFile(inputFile):
         * str: Extracted text from the file.
 
     Raises:
-    * FileNotFoundError: If the source file is not found.
-    * Exception: If an error occurs during the conversion.
+        * FileNotFoundError: If the source file is not found.
+        * Exception: If an error occurs during the conversion.
     """
+    # Check if the file extension is supported
+    if not extensionCheck(inputFile):
+        raise Exception(f'Entry file "{inputFile}" cannot be converted. Unsupported file type.')
+
     # Execute try/except block
     try:
-        # Verify if the source path exists and the file's extension is in the list of allowed extension.
-        if os.path.exists(inputFile) and extensionCheck(inputFile):
+        # Verify if the source path exists
+        if os.path.exists(inputFile):
             # Extract the textual content of the source file.
             text = textract.process(inputFile).decode('utf-8')
             # Return the content.
             return text
-        # If the source path does not exist.
         else:
-            raise Exception(f'Entry file "{inputFile}" cannot be converted. If "{inputFile}" is a PDF or Excel file, try using the other features available in the program.')
-    # Handle file not found error.
-    except FileNotFoundError:
-        raise FileNotFoundError(f'Source file "{inputFile}" not found.')
+            raise FileNotFoundError(f'Source file "{inputFile}" not found.')
     # Handles other types of errors.
     except Exception as e:
         raise Exception(e)
-    
+
 def saveText(text, outputFile):
     """
     This function saves extracted text to a specified output file.
@@ -88,7 +88,7 @@ def saveText(text, outputFile):
         * None
     
     Raises:
-    Exception: If an error occurs during the extraction.
+        * Exception: If an error occurs during the extraction.
     """
     # Execute try/except block
     try:
@@ -117,8 +117,13 @@ if __name__ == "__main__":
 
     # Execute try/except block
     try:
+        # Check file extension
+        if not extensionCheck(args.inputFile):
+            raise Exception(f'Entry file "{args.inputFile}" cannot be converted. Unsupported file type.')
+        
         # Extract text from the input file.
         text = extractTextFromFile(args.inputFile)
+
         # If the user provides the name of the output file in the arguments.       
         if args.output:
             outputFile = args.output
@@ -137,7 +142,7 @@ if __name__ == "__main__":
         # If not, print an error message.
         else:
             print("Failed to extract text from the file.")
-
+    
     # Handle other types of errors and show message.
     except Exception as e:
         print(f"Error: {e}")

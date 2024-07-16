@@ -142,23 +142,39 @@ def convertFile(entryInputFile, combo, entryOutputDir):
     except Exception as e:
         messagebox.showwarning("Error", f'Conversion error: {e}')
 
-def saveAs(entryOutputDir):
+def saveAs(entryOutputDir, entryInputFile):
     """
     This function opens a file dialog to select the directory where users are going to save the output file.
 
     Parameters:
-        * entryOutputDir (ttk.Entry): Entry widget that contains the path where the output file will be saved. 
-    
+        * entryOutputDir (ttk.Entry): Entry widget that contains the path where the output file will be saved.
+        * entryInputFile (ttk.Entry): Entry widget that contains the path of the input file.
+
     Returns:
-        * None.
+        * None
     """
-    # Open the file dialog for the purpose of saving the output file.
-    directoryPath = filedialog.asksaveasfilename(filetypes=(("Plain Text", "*.txt"),("All Files", "*.*") ))
+    # Get the input file path from the entry widget.
+    inputFilePath = entryInputFile.get()
     
-    # Check if the directory has been selected by users (deletes any remaining text and adds the directory path).
-    if directoryPath:
+    # If no file is imported into the program, show a warning message.
+    if not inputFilePath:
+        messagebox.showwarning("Error", "Please select a file.")
+        return
+
+    # Get the base name of the input file without the extension.
+    baseName, _ = os.path.splitext(os.path.basename(inputFilePath))
+    
+    # Default output filename based on the input file.
+    suggestedName = f"{baseName}_output"
+
+    # Open a file dialog to save the output file.
+    outputPath = filedialog.asksaveasfilename(initialfile=suggestedName, filetypes=[("Text Files", "*.txt")])
+
+    # If users have selected an output path, it clears any text and adds the path into the entry widget.
+    if outputPath:
         entryOutputDir.delete(0, tk.END)
-        entryOutputDir.insert(0, directoryPath)
+        entryOutputDir.insert(0, outputPath)
+
 
 def createConvertEncodingGui(parent):
     """
@@ -184,7 +200,7 @@ def createConvertEncodingGui(parent):
     entryOutputDir.grid(row=2, column=1, sticky=(tk.W, tk.E), padx=10, pady=5)
 
     ttk.Button(frame, text="Browse", command=lambda: browseFile(entryInputFile)).grid(row=0, column=2, padx=10, pady=5)
-    ttk.Button(frame, text="Save as", command=lambda: saveAs(entryOutputDir)).grid(row=2, column=2, padx=10, pady=5)
+    ttk.Button(frame, text="Save as", command=lambda: saveAs(entryOutputDir, entryInputFile)).grid(row=2, column=2, padx=10, pady=5)
     ttk.Button(frame, text="Convert", command=lambda: convertFile(entryInputFile, combo, entryOutputDir)).grid(row=4, column=0, columnspan=3, pady=10)
 
     encodings = getEncodings()
