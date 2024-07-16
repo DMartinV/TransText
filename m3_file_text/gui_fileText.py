@@ -20,59 +20,44 @@ This GUI allows users to browse for file using the 'Browse' button, opening a fi
 Users can also specify the output directory using the 'Save as' button.
 Once users have selected their input file and saved it into the desired directory, the conversion will automatically start when the "Convert" button is clicked.
 """
-# Import the necessary libraries and modules.
+# Import necessary libraries.
 import os
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 
-# Execute try/except block.
 try:
-    # When the script is running as part of a package.
-    from .function_fileText import extractTextFromFile, saveText
+    # When running as part of a package
+    from .function_fileText import extractTextFromFile
 except ImportError:
-    # When the script is running as a standalone script.
-    from function_fileText import extractTextFromFile, saveText
+    # When running as a standalone script
+    from function_fileText import extractTextFromFile
 
 def browseFile():
     """
-    This function opens a file dialog for users to select a file. 
+    This function opens a file dialog for the user to select a file. 
     
     Returns:
         * None
     """
-    # Open a file dialog to select the file.
-    inputFilePath = filedialog.askopenfilename(title="Select the Input File", filetypes=(("All Files", "*.*"),))
+    # Opens a file dialog to select the file.
+    inputFilePath = filedialog.askopenfilename(title="Select the input File", filetypes=(("All Files", "*.*"),))
     
-    # If file is selected, it clears any text and adds the file path into the entryInputFile entry widget.
+    # If file is selected, it clears any text and adds the file path.
     if inputFilePath:
         entryInputFile.delete(0, tk.END)
         entryInputFile.insert(0, inputFilePath)
 
 def saveAs():
     """
-    This function opens a file dialog for users to save the plain text file into another directory and under a different name. 
+    This function opens a file dialog for the user to save the plain text file into another directory. 
     
     Returns:
         * None
     """
-    # Get the input file path from the entry widget.
-    inputFilePath = entryInputFile.get()
+    # Opens a file dialog to save the output file.
+    outputPath = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt")])
     
-    # If no file is selected, show a warning message.
-    if not inputFilePath:
-        messagebox.showwarning("Error", "Please select a file.")
-        return
-
-    # Get the base name of the input file without the extension.
-    baseName = os.path.splitext(os.path.basename(inputFilePath))[0]
-
-    # Default output filename based on the input file.
-    suggestedName = f"{baseName}_output.txt"
-
-    # Open a file dialog to save the output file.
-    outputPath = filedialog.asksaveasfilename(defaultextension=".txt", initialfile=suggestedName, filetypes=[("Text Files", "*.txt")])
-    
-    # If users have selected an output path, it clears any text and adds the output file's path into the entryOutputDir entry widget.
+    # If the user has selected an output path, it clears any text and adds the output file's path.
     if outputPath:
         entryOutputDir.delete(0, tk.END)
         entryOutputDir.insert(0, outputPath)
@@ -88,41 +73,37 @@ def convertFile():
         * FileNotFoundError: If the source file is not found.
         * Exception: If an error occurs during the conversion.
     """
-    # Get the entry path and the output file path from the entry widgets.    
+    # Get the entry path and the output file path.    
     inputFilePath = entryInputFile.get()
     outputPath = entryOutputDir.get()
 
-    # Execute try/except block.
+    # Execute try/except block
     try:
-        # Extract the textual content from the PDF file by calling the "extractTextFromFile" function.
-        text = extractTextFromFile(inputFilePath)
-        # Save the extracted text into the output file.
-        saveText(text, outputPath)
-        # Print a message if the conversion is a success.
-        messagebox.showinfo("Success", f'The conversion was a success! File: "{os.path.basename(outputPath)}" is saved in: "{os.path.abspath(outputPath)}"')
+        # Call function to extract the text and save it onto a plain text file.
+        extractTextFromFile(inputFilePath, outputPath)
+        messagebox.showinfo("Success", f'The conversion was a success. File: "{os.path.basename(outputPath)}" is saved in: "{os.path.abspath(outputPath)}"')
     
-    # Handle file not found error and show error message.
-    except FileNotFoundError as fnfError:
-        messagebox.showwarning("Error", f"Source file not found:\n{fnfError}")
+    # Handle file not found error and display error message.
+    except FileNotFoundError:
+        messagebox.showwarning("Error", f'Source file: "{inputFilePath}" not found.')
 
-    # Handle other types of errors and show error message. 
+    # Handle other types of errors and display error message. 
     except Exception as e:
-        messagebox.showwarning("Error", f'Conversion error:\n{e}. If "{inputFilePath}" is a PDF or Excel file, try using the other features available in the program.')
+        messagebox.showwarning("Error", f'Conversion error: {e}')
 
 def createFileToText(parent):
     """
     This function creates a GUI for extracting the text of a file and saving it onto a plain text file.
 
-    Parameters:
+    Args:
         * parent (tkinter.Widget): The parent widget to create the GUI components.
     
     Returns:
         * None.
     """
-    # Global variables.
     global entryInputFile, entryOutputDir
     
-    # Frame that holds the components and widgets of the GUI.
+    # Frame to hold the components and widgets of the GUI.
     frame = ttk.Frame(parent)
 
     # Create and place labels, entries, and buttons.
@@ -139,13 +120,13 @@ def createFileToText(parent):
     ttk.Button(frame, text="Save as", command=saveAs).grid(row=1, column=2, padx=10, pady=5)
     ttk.Button(frame, text="Convert", command=convertFile).grid(row=2, column=0, columnspan=3, pady=10)
 
-    # Pack the frame.
+    # Pack the frame into the main application.
     frame.pack(fill='both', expand=True, padx=10, pady=10)
 
 if __name__ == "__main__":
     """
     Main entry point for the app.
-    Initialize the Tkinter root window (the main application).
+    Initializes the Tkinter root window (the main application).
     """
     # Initialize and set title of the root window (the main application).
     root = tk.Tk()
