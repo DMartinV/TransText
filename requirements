@@ -1,0 +1,8 @@
+Version of Python: 
+
+Libraries used:
+- chardet. 
+- codecs. 
+- textract.
+- PyPDF2.
+- openpyxl. 
