@@ -3,6 +3,9 @@ Version of Python: 3.12.0
 Libraries used:
 - chardet.
 - codecs. 
-- textract.
 - PyPDF2.
 - openpyxl. 
+- python-pptx.
+- ebooklib.
+- python-docx.
+- beautifulsoup
