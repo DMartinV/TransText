@@ -8,4 +8,5 @@ Libraries used:
 - python-pptx.
 - ebooklib.
 - python-docx.
-- beautifulsoup
+- beautifulsoup.
+- pytesseract.
