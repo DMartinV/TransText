@@ -20,132 +20,145 @@ This GUI allows users to browse for file using the 'Browse' button, opening a fi
 Users can also specify the output directory using the 'Save as' button.
 Once users have selected their input file and saved it into the desired directory, the conversion will automatically start when the "Convert" button is clicked.
 """
-# Import necessary libraries.
+# gui_fileText.py
+
 import os
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
+import sys
 
 try:
-    # When running as part of a package
-    from .function_fileText import extractTextFromFile
+    # Attempt to import when the script is part of a package
+    from .function_fileText import (
+        extract_text_from_epub,
+        extract_text_from_html,
+        extract_text_from_json,
+        extract_text_from_pptx,
+        extract_text_from_docx,
+        extract_text_from_odt,
+        save_text
+    )
 except ImportError:
-    # When running as a standalone script
-    from function_fileText import extractTextFromFile
+    # Fallback to importing when the script is standalone
+    from function_fileText import (
+        extract_text_from_epub,
+        extract_text_from_html,
+        extract_text_from_json,
+        extract_text_from_pptx,
+        extract_text_from_docx,
+        extract_text_from_odt,
+        save_text
+    )
 
-def browseFile():
+def browse_file():
     """
-    This function opens a file dialog for the user to select a file. 
-    
-    Returns:
-        * None
+    Opens a file dialog for users to select a file of any supported type.
     """
-    # Opens a file dialog to select the file.
-    inputFilePath = filedialog.askopenfilename(title="Select the input File", filetypes=(("All Files", "*.*"),))
-    
-    # If file is selected, it clears any text and adds the file path.
-    if inputFilePath:
-        entryInputFile.delete(0, tk.END)
-        entryInputFile.insert(0, inputFilePath)
+    filetypes = [
+        ("EPUB Files", "*.epub"),
+        ("HTML Files", "*.html;*.htm"),
+        ("JSON Files", "*.json"),
+        ("PPTX Files", "*.pptx"),
+        ("DOCX Files", "*.docx"),
+        ("ODT Files", "*.odt"),
+        ("All Files", "*.*")
+    ]
 
-def saveAs():
+    input_file = filedialog.askopenfilename(
+        title="Select File",
+        filetypes=filetypes
+    )
+
+    if input_file:
+        entry_file.delete(0, tk.END)
+        entry_file.insert(0, input_file)
+
+def save_as():
     """
-    This function opens a file dialog for the user to save the plain text file into another directory. 
-    
-    Returns:
-        * None
+    Opens a file dialog for users to save the plain text file into another directory and under a different name.
     """
-    # Get the input file path from the entry widget.
-    inputFilePath = entryInputFile.get()
-    
-    # If the user has not selected a file, show a warning message.
-    if not inputFilePath:
+    input_file = entry_file.get()
+
+    if not input_file:
         messagebox.showwarning("Error", "Please select a file.")
         return
 
-    # Get the base name of the file without the extension.
-    baseName = os.path.splitext(os.path.basename(inputFilePath))[0]
+    base_name = os.path.splitext(os.path.basename(input_file))[0]
+    suggested_name = f"{base_name}_output.txt"
 
-    # Default output filename based on the input file.
-    suggestedName = f"{baseName}_output.txt"
+    output_path = filedialog.asksaveasfilename(
+        defaultextension=".txt",
+        initialfile=suggested_name,
+        filetypes=[("Text Files", "*.txt")]
+    )
 
-    # Opens a file dialog to save the output file.
-    outputPath = filedialog.asksaveasfilename(defaultextension=".txt", initialfile=suggestedName, filetypes=[("Text Files", "*.txt")])
-    
-    # If the user has selected an output path, it clears any text and adds the output file's path.
-    if outputPath:
-        entryOutputDir.delete(0, tk.END)
-        entryOutputDir.insert(0, outputPath)
+    if output_path:
+        entry_output.delete(0, tk.END)
+        entry_output.insert(0, output_path)
 
-def convertFile():
+def convert_file():
     """
-    This function converts the file to a plain text file.
-    
-    Returns:
-        * None.
-
-    Raises:
-        * FileNotFoundError: If the source file is not found.
-        * Exception: If an error occurs during the conversion.
+    Extracts text from the selected file and saves it to the specified output file.
     """
-    # Get the entry path and the output file path.    
-    inputFilePath = entryInputFile.get()
-    outputPath = entryOutputDir.get()
+    input_file = entry_file.get()
+    output_file = entry_output.get()
 
-    # Execute try/except block
+    if not input_file:
+        messagebox.showwarning("Error", "Please select a file.")
+        return
+
     try:
-        # Call function to extract the text and save it onto a plain text file.
-        extractTextFromFile(inputFilePath, outputPath)
-        messagebox.showinfo("Success", f'The conversion was a success. File: "{os.path.basename(outputPath)}" is saved in: "{os.path.abspath(outputPath)}"')
-    
-    # Handle file not found error and display error message.
+        if input_file.endswith('.epub'):
+            text = extract_text_from_epub(input_file)
+        elif input_file.endswith('.html') or input_file.endswith('.htm'):
+            text = extract_text_from_html(input_file)
+        elif input_file.endswith('.json'):
+            text = extract_text_from_json(input_file)
+        elif input_file.endswith('.pptx'):
+            text = extract_text_from_pptx(input_file)
+        elif input_file.endswith('.docx'):
+            text = extract_text_from_docx(input_file)
+        elif input_file.endswith('.odt'):
+            text = extract_text_from_odt(input_file)
+        else:
+            messagebox.showwarning("Error", "Unsupported file format.")
+            return
+
+        save_text(text, output_file)
+        messagebox.showinfo("Success", f"Conversion successful! File saved as:\n{os.path.abspath(output_file)}")
+
     except FileNotFoundError:
-        messagebox.showwarning("Error", f'Source file: "{inputFilePath}" not found.')
-
-    # Handle other types of errors and display error message. 
+        messagebox.showwarning("Error", f"File not found: {input_file}")
     except Exception as e:
-        messagebox.showwarning("Error", f'Conversion error: {e}')
+        messagebox.showerror("Error", f"Conversion error: {str(e)}")
 
-def createFileToText(parent):
+def create_gui(parent):
     """
-    This function creates a GUI for extracting the text of a file and saving it onto a plain text file.
+    Creates the GUI for extracting text from various file formats and saving it into a plain text file.
+    """
+    global entry_file, entry_output
 
-    Args:
-        * parent (tkinter.Widget): The parent widget to create the GUI components.
-    
-    Returns:
-        * None.
-    """
-    global entryInputFile, entryOutputDir
-    
-    # Frame to hold the components and widgets of the GUI.
     frame = ttk.Frame(parent)
 
-    # Create and place labels, entries, and buttons.
-    ttk.Label(frame, text="Source File:").grid(row=0, column=0, sticky="w", padx=10, pady=5)
-    ttk.Label(frame, text="Output Directory:").grid(row=1, column=0, sticky="w", padx=10, pady=5)
+    ttk.Label(frame, text="File:").grid(row=0, column=0, sticky="w", padx=10, pady=5)
+    ttk.Label(frame, text="Output File:").grid(row=1, column=0, sticky="w", padx=10, pady=5)
 
-    entryInputFile = ttk.Entry(frame, width=40)
-    entryInputFile.grid(row=0, column=1, sticky=(tk.W, tk.E), padx=10, pady=5)
+    entry_file = ttk.Entry(frame, width=40)
+    entry_file.grid(row=0, column=1, sticky=(tk.W, tk.E), padx=10, pady=5)
 
-    entryOutputDir = ttk.Entry(frame, width=40)
-    entryOutputDir.grid(row=1, column=1, sticky=(tk.W, tk.E), padx=10, pady=5)
-    
-    ttk.Button(frame, text="Browse", command=browseFile).grid(row=0, column=2, padx=10, pady=5)
-    ttk.Button(frame, text="Save as", command=saveAs).grid(row=1, column=2, padx=10, pady=5)
-    ttk.Button(frame, text="Convert", command=convertFile).grid(row=2, column=0, columnspan=3, pady=10)
+    entry_output = ttk.Entry(frame, width=40)
+    entry_output.grid(row=1, column=1, sticky=(tk.W, tk.E), padx=10, pady=5)
 
-    # Pack the frame into the main application.
+    ttk.Button(frame, text="Browse", command=browse_file).grid(row=0, column=2, padx=10, pady=5)
+    ttk.Button(frame, text="Save as", command=save_as).grid(row=1, column=2, padx=10, pady=5)
+    ttk.Button(frame, text="Convert", command=convert_file).grid(row=2, column=0, columnspan=3, pady=10)
+
     frame.pack(fill='both', expand=True, padx=10, pady=10)
 
 if __name__ == "__main__":
-    """
-    Main entry point for the app.
-    Initializes the Tkinter root window (the main application).
-    """
-    # Initialize and set title of the root window (the main application).
     root = tk.Tk()
-    root.title("File to Text Functionality")
+    root.title("File to Text Conversion")
 
-    # Create GUI components in the root window (the main application) and start the main event loop.
-    createFileToText(root)
+    create_gui(root)
+
     root.mainloop()

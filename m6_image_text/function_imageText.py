@@ -16,76 +16,82 @@
 
 """
 This script serves as the functional aspect of this module.
-It extracts text from different types of image files using OCR (Optical Character Recognition). The script processes the file using the 'textract' library to decode and extract the text from the image. The user can also specify the language of the source image (it is recommended). If the language is not specified, it defaults to English. The script also includes a function with a list of language codes supported by the library. Furthermore, this script handles errors, including checking for the existence of the file, etc.
+It extracts text from different types of image files using OCR (Optical Character Recognition). The script processes the file using the 'pytesseract' library to decode and extract the text from the image. The user can also specify the language of the source image (it is recommended). If the language is not specified, it defaults to English. The script also includes a function with a list of language codes supported by the library. Furthermore, this script handles errors, including checking for the existence of the file, etc.
 
 Usage: $ python function_imageText.py -i <image_path> [-l <language_code>] [-o <output_file>]
 
 Example: $ python function_imageText.py -i /path/image.jpg -l eng -o /path/output.txt
+
 """
-
-# Import necessary libraries.
-import argparse
+# Import the necessary libraries.
 import os
-import textract
+import argparse
+import pytesseract
+from PIL import Image
 
-def isImageFile(filePath):
+def extractTextFromImage(pathSource, language=None):
     """
-    This function verifies if the provided file path is an image file.
+    This function extracts the textual content from an image file.
 
     Parameters:
-        * filePath (str): Path of the file.
-
-    Returns:
-        * bool: True if the file is an image, False if the file is not an image.
-    """
-    # List of common image file extensions.
-    imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.tif', '.webp']
-    # Get the file extension from the file path.
-    fileExtension = os.path.splitext(filePath)[1].lower()
-    # Check if the file extension is in the list of image extensions.
-    return fileExtension in imageExtensions
-
-def extractTextFromImage(imagePath, language=None):
-    """
-    This function extracts text from an image file.
-
-    Parameters:
-        * imagePath (str): Path of the image file.
-        * language (str, optional): Language code. If specified, the OCR will perform the extraction according to the specified language.
-
-    Raises:
-        * Exception: If an error occurs during the conversion.
+        * pathSource (str): Path of the image file.
+        * language (str, optional): Language code. it is highly recommended to specify the language to perform a better extraction.
 
     Returns:
         * str or None: Extracted text if successful, None otherwise.
     """
     # Execute try/except block.
     try:
-        # Verify if the source path exists and is an image file.
-        if os.path.exists(imagePath) and isImageFile(imagePath):
+        # Verify if the source path exists.
+        if os.path.exists(pathSource):
+            # Open the image imported into the program.
+            img = Image.open(pathSource)
             # If source exists and is an image, it checks for a specified language.
             if language:
-                text = textract.process(imagePath, language=language)
-            # Extract without specifying the language. It will use the default language (English).
+                # Extract text with the specified language.
+                text = pytesseract.image_to_string(img, lang=language)
             else:
-                text = textract.process(imagePath)
-            # Decode the string to 'UTF-8' and returns it.
-            return text.decode('utf-8')
-        # If the source path does not exist or is not an image, then an error message is displayed in the console.
+                # Extract text with the default language (English).
+                text = pytesseract.image_to_string(img)
+            # Return the extracted content.
+            return text
+        # If the source path does not exist, then show an error message.
         else:
-            print(f'Error: Entry file "{imagePath}" does not exist or is not an image.')
+            print("Error", "Entry file does not exist.")
             return None
-    # Handles other types of errors and shows an error message.
+    # Handle other types of errors and show an error message.
     except Exception as e:
-        print(f'Error: {e}')
+        print("Error", f"An error occurred: {e}")
         return None
-    
+
+def saveText(text, outputFile):
+    """
+    This function saves the extracted text to a specified output file.
+
+    Parameters:
+        * text (str): Text to be saved.
+        * outputFile (str): Path of the output text file.
+
+    Returns:
+        * None.
+    """
+    # Execute try/except block.
+    try:
+        # Save the extracted text into a plain text file.
+        with open(outputFile, 'w', encoding='utf-8') as file:
+            file.write(text)
+        # Print success message.
+        print(f"Text saved successfully to: {outputFile}")
+    # Handle other types of errors and print error message.
+    except Exception as e:
+        print(f"Error: Failed to save text to {outputFile}. Error: {e}")
+
 def getLanguageCodes():
     """
     This function gets a list of language codes commonly used in OCR.
 
     Returns:
-        list: List of language codes.
+    - list: List of language codes.
     """
     # List that contains language codes.
     languageCodes = [
@@ -101,28 +107,6 @@ def getLanguageCodes():
         "vie", "xho", "yor", "zho", "zul"
     ]
     return languageCodes
-    
-def saveText(text, outputFile):
-    """
-    This functions saves extracted text into a plain text file.
-
-    Parameters:
-        * text (str): Text to be saved.
-        * outputFile (str): Path of the output file.
-
-    Returns:
-        * None
-    """
-    # Execute try/except block.
-    try:
-        # Save the extracted text into a plain text file.
-        with open(outputFile, 'w', encoding='utf-8') as finalFile:
-            finalFile.write(text)
-        # Print success message.
-        print(f'The conversion was a success! File: "{os.path.basename(outputFile)}" is saved in: "{os.path.abspath(outputFile)}"')
-    # Handle other types of errors and print error message.
-    except Exception as e:
-        print(f'Error: {e}')
 
 if __name__ == "__main__":
     """

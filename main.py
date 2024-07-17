@@ -14,6 +14,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+"""
+This script serves as the graphical user interface of the application as a whole.
+This GUI allows users to easily navigate through the different functionalities organized in tabs. 
+It also provides users with documentation regarding the application and its different functionalities.
+"""
 # Import necessary libraries and modules.
 from tkinter import *
 from tkinter import ttk
@@ -26,13 +31,7 @@ from m2_convert_encoding import gui_convertEncoding
 from m3_file_text import gui_fileText
 from m4_pdf_text import gui_pdfText
 from m5_excel_text import gui_excelText
-from m6_image_text import gui_imageText
-
-"""
-This script serves as the graphical user interface of the application as a whole.
-This GUI allows users to easily navigate through the different functionalities organized in tabs. 
-It also provides users with documentation regarding the application and its different functionalities.
-"""
+from m6_image_text import gui_imageText 
 
 # Functions.
 def exitApplication():
@@ -89,7 +88,7 @@ def openGit():
     Returns:
         None.
     """
-    # Open the link to the GitHub respository.
+    # Open the link to the GitHub repository.
     webbrowser.open("https://github.com/DMartinV/TransText")
 
 def licenseApplication():
@@ -121,9 +120,9 @@ root = Tk()
 root.title("TransText")
 
 # Set window dimension.
-window_heigth = 230
+window_height = 230
 window_width = 550
-root.geometry(f"{window_width}x{window_heigth}")
+root.geometry(f"{window_width}x{window_height}")
 root.resizable(False, False)
 
 # Menu bar.
@@ -141,7 +140,7 @@ barMenu.add_cascade(label="Resources", menu=resourceMenu)
 
 # About menu and adding it as a cascade to the bar menu.
 aboutMenu = Menu(barMenu, tearoff=0)
-aboutMenu.add_command(label="Licence", command=licenseApplication)
+aboutMenu.add_command(label="License", command=licenseApplication)
 aboutMenu.add_command(label="About me", command=aboutApplication)
 barMenu.add_cascade(label="About", menu=aboutMenu)
 
@@ -166,7 +165,7 @@ myNotebook.add(myFrame6, text="Image to Text")
 # Call the functions of the small modules to create the GUI within the corresponding tabs.
 gui_detectEncoding.createDetectEncodingGui(myFrame1)
 gui_convertEncoding.createConvertEncodingGui(myFrame2)
-gui_fileText.createFileToText(myFrame3)
+gui_fileText.create_gui(myFrame3)
 gui_pdfText.createPdfToTextGui(myFrame4)
 gui_excelText.createExcelToTextGui(myFrame5)
 gui_imageText.createImageToTextGui(myFrame6)
