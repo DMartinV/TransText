@@ -91,7 +91,7 @@ def getLanguageCodes():
     This function gets a list of language codes commonly used in OCR.
 
     Returns:
-        * list: List of language codes.
+        *  list: List of language codes.
     """
     # List that contains language codes.
     languageCodes = [
