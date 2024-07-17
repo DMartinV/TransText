@@ -9,4 +9,4 @@ Libraries used:
 - ebooklib.
 - python-docx.
 - beautifulsoup.
-- pytesseract.
+- pytesseract: to use the Image to Text Function. 

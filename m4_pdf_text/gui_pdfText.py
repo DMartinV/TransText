@@ -117,7 +117,7 @@ def createPdfToTextGui(parent):
     """
     This function creates a GUI for extracting the text of a PDF and saving it into a plain text file.
 
-    Args:
+    Parameters:
         * parent (tkinter.Widget): The parent widget to create the GUI components.
     
     Returns:
