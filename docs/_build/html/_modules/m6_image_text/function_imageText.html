@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>m6_image_text.function_imageText &mdash; TransText 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            TransText
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">TransText</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">TransText</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">m6_image_text.function_imageText</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for m6_image_text.function_imageText</h1><div class="highlight"><pre>
+<span></span><span class="c1">#    function_imageText</span>
+<span class="c1">#    Copyright (C) 2024  Diana Martin</span>
+<span class="c1">#</span>
+<span class="c1">#    This program is free software: you can redistribute it and/or modify</span>
+<span class="c1">#    it under the terms of the GNU General Public License as published by</span>
+<span class="c1">#    the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1">#    (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1">#    This program is distributed in the hope that it will be useful,</span>
+<span class="c1">#    but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1">#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1">#    GNU General Public License for more details.</span>
+
+<span class="c1">#    You should have received a copy of the GNU General Public License</span>
+<span class="c1">#    along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script serves as the functional aspect of this module.</span>
+<span class="sd">It extracts text from different types of image files using OCR (Optical Character Recognition). The script processes the file using the &#39;pytesseract&#39; library to decode and extract the text from the image. The user can also specify the language of the source image (it is recommended). If the language is not specified, it defaults to English. The script also includes a function with a list of language codes supported by the library. Furthermore, this script handles errors, including checking for the existence of the file, etc.</span>
+
+<span class="sd">Usage: $ python function_imageText.py -i &lt;image_path&gt; [-l &lt;language_code&gt;] [-o &lt;output_file&gt;]</span>
+
+<span class="sd">Example: $ python function_imageText.py -i /path/image.jpg -l eng -o /path/output.txt</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Import the necessary libraries.</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">pytesseract</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+
+<div class="viewcode-block" id="extractTextFromImage">
+<a class="viewcode-back" href="../../m6_image_text.html#m6_image_text.function_imageText.extractTextFromImage">[docs]</a>
+<span class="k">def</span> <span class="nf">extractTextFromImage</span><span class="p">(</span><span class="n">pathSource</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function extracts the textual content from an image file.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        * pathSource (str): Path of the image file.</span>
+<span class="sd">        * language (str, optional): Language code. it is highly recommended to specify the language to perform a better extraction.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        * str or None: Extracted text if successful, None otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Execute try/except block.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Verify if the source path exists.</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">pathSource</span><span class="p">):</span>
+            <span class="c1"># Open the image imported into the program.</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">pathSource</span><span class="p">)</span>
+            <span class="c1"># If source exists and is an image, it checks for a specified language.</span>
+            <span class="k">if</span> <span class="n">language</span><span class="p">:</span>
+                <span class="c1"># Extract text with the specified language.</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">pytesseract</span><span class="o">.</span><span class="n">image_to_string</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="n">language</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Extract text with the default language (English).</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">pytesseract</span><span class="o">.</span><span class="n">image_to_string</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+            <span class="c1"># Return the extracted content.</span>
+            <span class="k">return</span> <span class="n">text</span>
+        <span class="c1"># If the source path does not exist, then show an error message.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="s2">&quot;Entry file does not exist.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+    <span class="c1"># Handle other types of errors and show an error message.</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;An error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="saveText">
+<a class="viewcode-back" href="../../m6_image_text.html#m6_image_text.function_imageText.saveText">[docs]</a>
+<span class="k">def</span> <span class="nf">saveText</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function saves the extracted text to a specified output file.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        * text (str): Text to be saved.</span>
+<span class="sd">        * outputFile (str): Path of the output text file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        * None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Execute try/except block.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Save the extracted text into a plain text file.</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outputFile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="c1"># Print success message.</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Text saved successfully to: </span><span class="si">{</span><span class="n">outputFile</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Handle other types of errors and print error message.</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: Failed to save text to </span><span class="si">{</span><span class="n">outputFile</span><span class="si">}</span><span class="s2">. Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="getLanguageCodes">
+<a class="viewcode-back" href="../../m6_image_text.html#m6_image_text.function_imageText.getLanguageCodes">[docs]</a>
+<span class="k">def</span> <span class="nf">getLanguageCodes</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function gets a list of language codes commonly used in OCR.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - list: List of language codes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># List that contains language codes.</span>
+    <span class="n">languageCodes</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;afr&quot;</span><span class="p">,</span> <span class="s2">&quot;amh&quot;</span><span class="p">,</span> <span class="s2">&quot;ara&quot;</span><span class="p">,</span> <span class="s2">&quot;aze&quot;</span><span class="p">,</span> <span class="s2">&quot;bel&quot;</span><span class="p">,</span> <span class="s2">&quot;ben&quot;</span><span class="p">,</span> <span class="s2">&quot;bos&quot;</span><span class="p">,</span> <span class="s2">&quot;bul&quot;</span><span class="p">,</span> <span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="s2">&quot;ceb&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;ces&quot;</span><span class="p">,</span> <span class="s2">&quot;chi_sim&quot;</span><span class="p">,</span> <span class="s2">&quot;chi_tra&quot;</span><span class="p">,</span> <span class="s2">&quot;cym&quot;</span><span class="p">,</span> <span class="s2">&quot;dan&quot;</span><span class="p">,</span> <span class="s2">&quot;deu&quot;</span><span class="p">,</span> <span class="s2">&quot;ell&quot;</span><span class="p">,</span> <span class="s2">&quot;eng&quot;</span><span class="p">,</span> <span class="s2">&quot;epo&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;est&quot;</span><span class="p">,</span> <span class="s2">&quot;eus&quot;</span><span class="p">,</span> <span class="s2">&quot;fas&quot;</span><span class="p">,</span> <span class="s2">&quot;fin&quot;</span><span class="p">,</span> <span class="s2">&quot;fra&quot;</span><span class="p">,</span> <span class="s2">&quot;gle&quot;</span><span class="p">,</span> <span class="s2">&quot;glg&quot;</span><span class="p">,</span> <span class="s2">&quot;guj&quot;</span><span class="p">,</span> <span class="s2">&quot;hat&quot;</span><span class="p">,</span> <span class="s2">&quot;hau&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;heb&quot;</span><span class="p">,</span> <span class="s2">&quot;hin&quot;</span><span class="p">,</span> <span class="s2">&quot;hrv&quot;</span><span class="p">,</span> <span class="s2">&quot;hun&quot;</span><span class="p">,</span> <span class="s2">&quot;hye&quot;</span><span class="p">,</span> <span class="s2">&quot;ind&quot;</span><span class="p">,</span> <span class="s2">&quot;isl&quot;</span><span class="p">,</span> <span class="s2">&quot;ita&quot;</span><span class="p">,</span> <span class="s2">&quot;jav&quot;</span><span class="p">,</span> <span class="s2">&quot;jpn&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;kan&quot;</span><span class="p">,</span> <span class="s2">&quot;kat&quot;</span><span class="p">,</span> <span class="s2">&quot;kaz&quot;</span><span class="p">,</span> <span class="s2">&quot;khm&quot;</span><span class="p">,</span> <span class="s2">&quot;kir&quot;</span><span class="p">,</span> <span class="s2">&quot;kor&quot;</span><span class="p">,</span> <span class="s2">&quot;kur&quot;</span><span class="p">,</span> <span class="s2">&quot;lao&quot;</span><span class="p">,</span> <span class="s2">&quot;lat&quot;</span><span class="p">,</span> <span class="s2">&quot;lav&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;lit&quot;</span><span class="p">,</span> <span class="s2">&quot;ltz&quot;</span><span class="p">,</span> <span class="s2">&quot;mal&quot;</span><span class="p">,</span> <span class="s2">&quot;mar&quot;</span><span class="p">,</span> <span class="s2">&quot;mkd&quot;</span><span class="p">,</span> <span class="s2">&quot;mlg&quot;</span><span class="p">,</span> <span class="s2">&quot;mlt&quot;</span><span class="p">,</span> <span class="s2">&quot;mon&quot;</span><span class="p">,</span> <span class="s2">&quot;msa&quot;</span><span class="p">,</span> <span class="s2">&quot;mya&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;nep&quot;</span><span class="p">,</span> <span class="s2">&quot;nld&quot;</span><span class="p">,</span> <span class="s2">&quot;nor&quot;</span><span class="p">,</span> <span class="s2">&quot;nya&quot;</span><span class="p">,</span> <span class="s2">&quot;pan&quot;</span><span class="p">,</span> <span class="s2">&quot;pol&quot;</span><span class="p">,</span> <span class="s2">&quot;por&quot;</span><span class="p">,</span> <span class="s2">&quot;pus&quot;</span><span class="p">,</span> <span class="s2">&quot;ron&quot;</span><span class="p">,</span> <span class="s2">&quot;rus&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;sin&quot;</span><span class="p">,</span> <span class="s2">&quot;slk&quot;</span><span class="p">,</span> <span class="s2">&quot;slv&quot;</span><span class="p">,</span> <span class="s2">&quot;snd&quot;</span><span class="p">,</span> <span class="s2">&quot;som&quot;</span><span class="p">,</span> <span class="s2">&quot;spa&quot;</span><span class="p">,</span> <span class="s2">&quot;sqi&quot;</span><span class="p">,</span> <span class="s2">&quot;srp&quot;</span><span class="p">,</span> <span class="s2">&quot;sun&quot;</span><span class="p">,</span> <span class="s2">&quot;swa&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;swe&quot;</span><span class="p">,</span> <span class="s2">&quot;tam&quot;</span><span class="p">,</span> <span class="s2">&quot;tel&quot;</span><span class="p">,</span> <span class="s2">&quot;tgk&quot;</span><span class="p">,</span> <span class="s2">&quot;tgl&quot;</span><span class="p">,</span> <span class="s2">&quot;tha&quot;</span><span class="p">,</span> <span class="s2">&quot;tur&quot;</span><span class="p">,</span> <span class="s2">&quot;ukr&quot;</span><span class="p">,</span> <span class="s2">&quot;urd&quot;</span><span class="p">,</span> <span class="s2">&quot;uzb&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;vie&quot;</span><span class="p">,</span> <span class="s2">&quot;xho&quot;</span><span class="p">,</span> <span class="s2">&quot;yor&quot;</span><span class="p">,</span> <span class="s2">&quot;zho&quot;</span><span class="p">,</span> <span class="s2">&quot;zul&quot;</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">languageCodes</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main execution block.</span>
+<span class="sd">    This block parses command-line arguments to extract text from an image file and optionally save it to an output file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Create the argument parser.</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Program to extract text from an image file.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;--input&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;imagePath&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path of the input image file.&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-l&#39;</span><span class="p">,</span> <span class="s1">&#39;--language&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Language code for OCR.&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--output&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;outputFile&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path of the output text file.&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Parse the arguments previously defined.</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="c1"># Extract text from the input image file.</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">extractTextFromImage</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">language</span><span class="p">)</span>
+
+    <span class="c1"># Execute try/except block</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Determine the output&#39;s file name.</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">outputFile</span><span class="p">:</span>
+            <span class="n">outputFile</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">outputFile</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Generate output file name in the same directory as the input file.</span>
+            <span class="n">inputDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">imagePath</span><span class="p">))</span>
+            <span class="n">baseName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">imagePath</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">outputFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inputDir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">baseName</span><span class="si">}</span><span class="s2">_output.txt&quot;</span><span class="p">)</span>
+
+        <span class="c1"># If the process is successful, save the extracted text to the output file.</span>
+        <span class="k">if</span> <span class="n">text</span><span class="p">:</span>
+            <span class="n">saveText</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">)</span>
+        <span class="c1"># If not, print an error message.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to extract text from the image file.&quot;</span><span class="p">)</span>
+    <span class="c1"># Handle other types of errors and show message.</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Diana Martin Vilá.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

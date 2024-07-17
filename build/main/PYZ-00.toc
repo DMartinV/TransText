@@ -1812,7 +1812,10 @@
    'C:\\Users\\Diana Martin '
    'Vilá\\Documents\\GitHub\\TransText\\m5_excel_text\\gui_excelText.py',
    'PYMODULE'),
-  ('m6_image_text', '-', 'PYMODULE'),
+  ('m6_image_text',
+   'C:\\Users\\Diana Martin '
+   'Vilá\\Documents\\GitHub\\TransText\\m6_image_text\\__init__.py',
+   'PYMODULE'),
   ('m6_image_text.function_imageText',
    'C:\\Users\\Diana Martin '
    'Vilá\\Documents\\GitHub\\TransText\\m6_image_text\\function_imageText.py',

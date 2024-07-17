@@ -24,7 +24,6 @@ Once users have selected their input file and saved it into the desired director
 import os
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
-import sys
 
 try:
     # Try to import when the script is being run as part of a package.
@@ -34,7 +33,6 @@ try:
         extractTextFromJson,
         extractTextFromPptx,
         extractTextFromDocx,
-        extractTextFromOdt,
         saveText
     )
 except ImportError:
@@ -45,7 +43,6 @@ except ImportError:
         extractTextFromJson,
         extractTextFromPptx,
         extractTextFromDocx,
-        extractTextFromOdt,
         saveText
     )
 
@@ -63,11 +60,10 @@ def browseFile():
         ("JSON Files", "*.json"),
         ("PPTX Files", "*.pptx"),
         ("DOCX Files", "*.docx"),
-        ("ODT Files", "*.odt"),
         ("All Files", "*.*")
     ]
     # Open a file dialog to select the file.
-    inputFile = filedialog.askopenfilename(title="Select File",filetypes=fileTypes)
+    inputFile = filedialog.askopenfilename(title="Select the Input File",filetypes=fileTypes)
     
     # If file is selected, it clears any text and adds the file path.
     if inputFile:
@@ -135,8 +131,6 @@ def convertFile():
             text = extractTextFromPptx(inputFile)
         elif inputFile.endswith('.docx'):
             text = extractTextFromDocx(inputFile)
-        elif inputFile.endswith('.odt'):
-            text = extractTextFromOdt(inputFile)
         else:
             # Show warning message if the file is not supported in this program.
             messagebox.showwarning("Error", "Unsupported file format.")
@@ -144,7 +138,7 @@ def convertFile():
         # Call the function to save text.
         saveText(text, outputFile)
         # Show information message.
-        messagebox.showinfo("Success", f"Conversion successful! File saved as:\n{os.path.abspath(outputFile)}")
+        messagebox.showinfo("Success", f'The conversion was a success. File: "{os.path.basename(outputFile)}" is saved in: "{os.path.abspath(outputFile)}"')
     # Handle file not found error and display error message.
     except FileNotFoundError:
         messagebox.showwarning("Error", f"File not found: {inputFile}")
@@ -156,7 +150,7 @@ def createFileToText(parent):
     """
     This function creates a GUI for extracting the text of a file and saving it onto a plain text file.
 
-    Args:
+    Parameters:
         * parent (tkinter.Widget): The parent widget to create the GUI components.
     
     Returns:

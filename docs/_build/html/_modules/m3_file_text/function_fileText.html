@@ -104,7 +104,6 @@
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">import</span> <span class="nn">ebooklib</span>
 <span class="kn">from</span> <span class="nn">ebooklib</span> <span class="kn">import</span> <span class="n">epub</span>
-<span class="kn">import</span> <span class="nn">zipfile</span>
 
 <div class="viewcode-block" id="isEpub">
 <a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.isEpub">[docs]</a>
@@ -186,22 +185,6 @@
     <span class="k">return</span> <span class="n">filePath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.docx&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="isOdt">
-<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.isOdt">[docs]</a>
-<span class="k">def</span> <span class="nf">isOdt</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function verifies if the input file is an ODT file.</span>
-<span class="sd">    </span>
-<span class="sd">    Parameters: </span>
-<span class="sd">        * filePath (str): The path of the input file.</span>
-
-<span class="sd">    Returns: </span>
-<span class="sd">        * bool: True if the file is an &#39;.odt&#39;, False if the file is not.  </span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Check if the file&#39;s extension is a &#39;.odt&#39;.</span>
-    <span class="k">return</span> <span class="n">filePath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.odt&#39;</span><span class="p">)</span></div>
-
-
 <div class="viewcode-block" id="extractTextFromEpub">
 <a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.extractTextFromEpub">[docs]</a>
 <span class="k">def</span> <span class="nf">extractTextFromEpub</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
@@ -280,7 +263,7 @@
 <span class="sd">    Returns: </span>
 <span class="sd">        * str: The extracted content of the &#39;.pptx&#39; file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1">## Open the input file.</span>
+    <span class="c1"># Open the input file.</span>
     <span class="n">prs</span> <span class="o">=</span> <span class="n">Presentation</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
     <span class="c1"># Initialize an empty list to store the content of the input file.</span>
     <span class="n">textRuns</span> <span class="o">=</span> <span class="p">[]</span>
@@ -319,37 +302,6 @@
     <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullText</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="extractTextFromOdt">
-<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.extractTextFromOdt">[docs]</a>
-<span class="k">def</span> <span class="nf">extractTextFromOdt</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function extracts the textual content of an ODT file.</span>
-<span class="sd">    </span>
-<span class="sd">    Parameters: </span>
-<span class="sd">        * filePath (str): The path of the input file.</span>
-
-<span class="sd">    Returns: </span>
-<span class="sd">        * str: The extracted content of the &#39;.odt&#39; file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Initialize an empty list to store the content of the input file.</span>
-    <span class="n">textContent</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="c1"># Open zip (which is the input file).</span>
-    <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zipRef</span><span class="p">:</span>
-        <span class="c1"># Iterate through each file in the zip.</span>
-        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">zipRef</span><span class="o">.</span><span class="n">namelist</span><span class="p">():</span>
-            <span class="c1"># If the file ends in &#39;.xml&#39;.</span>
-            <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.xml&#39;</span><span class="p">):</span>
-                <span class="c1"># Open the XML file.</span>
-                <span class="k">with</span> <span class="n">zipRef</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                    <span class="c1"># Read the content and decode the content in &#39;utf8&#39;.</span>
-                    <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-                    <span class="c1"># Parse the XML content using BeautifulSoup</span>
-                    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s1">&#39;xml&#39;</span><span class="p">)</span>
-                    <span class="c1"># Append the content into the text_content list.</span>
-                    <span class="n">textContent</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
-    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">textContent</span><span class="p">)</span></div>
-
-
 <div class="viewcode-block" id="extractText">
 <a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.extractText">[docs]</a>
 <span class="k">def</span> <span class="nf">extractText</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
@@ -376,8 +328,6 @@
         <span class="k">return</span> <span class="n">extractTextFromPptx</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">isDocx</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">extractTextFromDocx</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">isOdt</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">extractTextFromOdt</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported file format for </span><span class="si">{</span><span class="n">filePath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>m6_image_text.gui_imageText &mdash; TransText 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            TransText
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">TransText</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">TransText</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">m6_image_text.gui_imageText</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for m6_image_text.gui_imageText</h1><div class="highlight"><pre>
+<span></span><span class="c1">#    function_imageText</span>
+<span class="c1">#    Copyright (C) 2024  Diana Martin</span>
+<span class="c1">#</span>
+<span class="c1">#    This program is free software: you can redistribute it and/or modify</span>
+<span class="c1">#    it under the terms of the GNU General Public License as published by</span>
+<span class="c1">#    the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1">#    (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1">#    This program is distributed in the hope that it will be useful,</span>
+<span class="c1">#    but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1">#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1">#    GNU General Public License for more details.</span>
+
+<span class="c1">#    You should have received a copy of the GNU General Public License</span>
+<span class="c1">#    along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script serves as the graphical user interface of this module.</span>
+<span class="sd">This GUI allows users to browse for an image file using the &#39;Browse&#39; button, opening a file dialog to select the input file. </span>
+<span class="sd">It also enables users to choose the language of the image from a dropdown menu and save the file output file in a different directory.</span>
+<span class="sd">Once users have selected their input file and saved it into the desired directory, the conversion will automatically start when the &quot;Convert&quot; button is clicked.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Import the necessary libraries and modules.</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span><span class="p">,</span> <span class="n">filedialog</span><span class="p">,</span> <span class="n">messagebox</span>
+
+<span class="c1"># Execute try/except block.</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># When the script is being executed as part of a package.</span>
+    <span class="kn">from</span> <span class="nn">function_imageText</span> <span class="kn">import</span> <span class="n">extractTextFromImage</span><span class="p">,</span> <span class="n">getLanguageCodes</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="c1"># When the script is being executed as a standalone script.</span>
+    <span class="kn">from</span> <span class="nn">.function_imageText</span> <span class="kn">import</span> <span class="n">extractTextFromImage</span><span class="p">,</span> <span class="n">getLanguageCodes</span>
+
+<div class="viewcode-block" id="browseFile">
+<a class="viewcode-back" href="../../m6_image_text.html#m6_image_text.gui_imageText.browseFile">[docs]</a>
+<span class="k">def</span> <span class="nf">browseFile</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function opens a file dialog to allow users to select the input image file.</span>
+<span class="sd">    It also updates the entry widget with the file&#39;s path.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        * None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Open file dialog to select the file.</span>
+    <span class="n">filePath</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">askopenfilename</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Select Input Image File&quot;</span><span class="p">,</span> <span class="n">filetypes</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Image Files&quot;</span><span class="p">,</span> <span class="s2">&quot;*.jpg *.jpeg *.png *.gif *.bmp *.tiff *.tif *.webp&quot;</span><span class="p">)])</span>
+    
+    <span class="c1"># Check if there is any text, delete it and replace it with the input file&#39;s path.</span>
+    <span class="k">if</span> <span class="n">filePath</span><span class="p">:</span>
+        <span class="n">entrySource</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">END</span><span class="p">)</span>
+        <span class="n">entrySource</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">filePath</span><span class="p">)</span>
+        
+        <span class="c1"># If the output file name entry widget is empty, generate a default file name based on the input image file name.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">entryOutputName</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="c1"># Generate default name based on the input image file.</span>
+            <span class="n">baseName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filePath</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># Insert the default name into the entry widget.</span>
+            <span class="n">entryOutputName</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">baseName</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="saveAs">
+<a class="viewcode-back" href="../../m6_image_text.html#m6_image_text.gui_imageText.saveAs">[docs]</a>
+<span class="k">def</span> <span class="nf">saveAs</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function opens a file dialog for users to save the plain text file into another directory.</span>
+<span class="sd">    It suggests a default filename based on the selected image file.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        * None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Get the base name from the source image file path.</span>
+    <span class="n">inputFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">entrySource</span><span class="o">.</span><span class="n">get</span><span class="p">()))[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="c1"># Open a file dialog to save the file.</span>
+    <span class="n">directoryPath</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">asksaveasfilename</span><span class="p">(</span><span class="n">initialfile</span><span class="o">=</span><span class="n">inputFileName</span><span class="p">,</span> <span class="n">defaultextension</span><span class="o">=</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span> <span class="n">filetypes</span><span class="o">=</span><span class="p">((</span><span class="s2">&quot;Plain Text&quot;</span><span class="p">,</span> <span class="s2">&quot;*.txt&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;All Files&quot;</span><span class="p">,</span> <span class="s2">&quot;*.*&quot;</span><span class="p">)))</span>
+    <span class="c1"># If the user chooses a directory path. </span>
+    <span class="k">if</span> <span class="n">directoryPath</span><span class="p">:</span>
+        <span class="c1"># Clear the output directory entry widget and insert the chosen directory path.</span>
+        <span class="n">entryOutputDir</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">END</span><span class="p">)</span>
+        <span class="n">outputDir</span><span class="p">,</span> <span class="n">outputFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">directoryPath</span><span class="p">)</span>
+        <span class="n">entryOutputDir</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">outputDir</span><span class="p">)</span>
+        <span class="c1"># Clear the output file name entry widget and insert the file name.</span>
+        <span class="n">entryOutputName</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">END</span><span class="p">)</span>
+        <span class="n">entryOutputName</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convertFile">
+<a class="viewcode-back" href="../../m6_image_text.html#m6_image_text.gui_imageText.convertFile">[docs]</a>
+<span class="k">def</span> <span class="nf">convertFile</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function extracts the content of the image and converts it into a plain text file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        * None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Get the source file path from the widget and the language from the combobox.</span>
+    <span class="n">sourcePath</span> <span class="o">=</span> <span class="n">entrySource</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="n">language</span> <span class="o">=</span> <span class="n">ComboLanguage</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+    <span class="c1"># Use the &quot;extractTextFromImage&quot; function to extract the text from the image.</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">extractTextFromImage</span><span class="p">(</span><span class="n">sourcePath</span><span class="p">,</span> <span class="n">language</span><span class="p">)</span>
+
+    <span class="c1"># If extraction is successful.</span>
+    <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Use the output path directly from the entry widget.</span>
+        <span class="n">outputDirectory</span> <span class="o">=</span> <span class="n">entryOutputDir</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">outputFileName</span> <span class="o">=</span> <span class="n">entryOutputName</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">outputFileName</span><span class="p">:</span>
+            <span class="c1"># If the user has not provided an output file name, show a warning message.</span>
+            <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="s2">&quot;Please provide a file name.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="c1"># Construct the full output file path.</span>
+        <span class="n">outputFilePath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outputDirectory</span><span class="p">,</span> <span class="n">outputFileName</span><span class="p">)</span>
+        
+        <span class="c1"># Write the extracted text onto the output file.</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outputFilePath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outputFile</span><span class="p">:</span>
+            <span class="n">outputFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        
+        <span class="c1"># Show an the success message.</span>
+        <span class="n">messagebox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s2">&quot;Success&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;The text has been extracted and saved to: </span><span class="si">{</span><span class="n">outputFilePath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="createImageToTextGui">
+<a class="viewcode-back" href="../../m6_image_text.html#m6_image_text.gui_imageText.createImageToTextGui">[docs]</a>
+<span class="k">def</span> <span class="nf">createImageToTextGui</span><span class="p">(</span><span class="n">parent</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function creates a GUI for extracting an image&#39;s textual content.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        * parent (tkinter.Widget): The parent widget to create the GUI components.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        * None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">entrySource</span><span class="p">,</span> <span class="n">entryOutputDir</span><span class="p">,</span> <span class="n">entryOutputName</span><span class="p">,</span> <span class="n">ComboLanguage</span>
+
+    <span class="c1"># Frame that holds the components and widgets of the GUI.</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+    
+    <span class="c1"># Create and place labels, entries, and buttons.</span>
+    <span class="n">labelSource</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Image File:&quot;</span><span class="p">)</span>
+    <span class="n">labelSource</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>  
+
+    <span class="n">labelOutputDir</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Output Directory:&quot;</span><span class="p">)</span>
+    <span class="n">labelOutputDir</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>  
+
+    <span class="n">labelOutputName</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Output File Name:&quot;</span><span class="p">)</span>
+    <span class="n">labelOutputName</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>  
+
+    <span class="n">labelLanguage</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Language:&quot;</span><span class="p">)</span>
+    <span class="n">labelLanguage</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>  
+
+    <span class="n">entrySource</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+    <span class="n">entrySource</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;we&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> 
+
+    <span class="n">entryOutputDir</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+    <span class="n">entryOutputDir</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;we&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> 
+
+    <span class="n">entryOutputName</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+    <span class="n">entryOutputName</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;we&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> 
+
+    <span class="n">buttonBrowse</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Browse&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">browseFile</span><span class="p">)</span>
+    <span class="n">buttonBrowse</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> 
+
+    <span class="n">buttonSaveAs</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Save as&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">saveAs</span><span class="p">)</span>
+    <span class="n">buttonSaveAs</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> 
+
+    <span class="n">buttonConvert</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Convert&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">convertFile</span><span class="p">)</span>
+    <span class="n">buttonConvert</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>  
+
+    <span class="n">languageCodes</span> <span class="o">=</span> <span class="n">getLanguageCodes</span><span class="p">()</span>
+    <span class="n">ComboLanguage</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Combobox</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">languageCodes</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">37</span><span class="p">)</span>
+    <span class="n">ComboLanguage</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;we&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> 
+    <span class="n">ComboLanguage</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;Select Language&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Pack the frame.</span>
+    <span class="n">frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>  </div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main entry point for the app.</span>
+<span class="sd">    Initializes the Tkinter root window (the main application).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Initialize and set title of the root window (the main application).</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+    <span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Image to Text Functionality&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Create GUI components in the root window (the main application) and start the main event loop.</span>
+    <span class="n">createImageToTextGui</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+    <span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Diana Martin Vilá.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

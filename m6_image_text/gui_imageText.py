@@ -31,7 +31,7 @@ try:
     from function_imageText import extractTextFromImage, getLanguageCodes
 except ImportError:
     # When the script is being executed as a standalone script.
-    from m6_image_text.function_imageText import extractTextFromImage, getLanguageCodes
+    from .function_imageText import extractTextFromImage, getLanguageCodes
 
 def browseFile():
     """

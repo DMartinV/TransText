@@ -31,7 +31,6 @@ from docx import Document
 from bs4 import BeautifulSoup
 import ebooklib
 from ebooklib import epub
-import zipfile
 
 def isEpub(filePath):
     """
@@ -97,19 +96,6 @@ def isDocx(filePath):
     """
     # Check if the file's extension is a '.docx'.
     return filePath.endswith('.docx')
-
-def isOdt(filePath):
-    """
-    This function verifies if the input file is an ODT file.
-    
-    Parameters: 
-        * filePath (str): The path of the input file.
-
-    Returns: 
-        * bool: True if the file is an '.odt', False if the file is not.  
-    """
-    # Check if the file's extension is a '.odt'.
-    return filePath.endswith('.odt')
 
 def extractTextFromEpub(filePath):
     """
@@ -178,7 +164,7 @@ def extractTextFromPptx(filePath):
     Returns: 
         * str: The extracted content of the '.pptx' file.
     """
-    ## Open the input file.
+    # Open the input file.
     prs = Presentation(filePath)
     # Initialize an empty list to store the content of the input file.
     textRuns = []
@@ -213,34 +199,6 @@ def extractTextFromDocx(filePath):
     # Join the text with newline characters and retun the extracted text.
     return '\n'.join(fullText)
 
-def extractTextFromOdt(filePath):
-    """
-    This function extracts the textual content of an ODT file.
-    
-    Parameters: 
-        * filePath (str): The path of the input file.
-
-    Returns: 
-        * str: The extracted content of the '.odt' file.
-    """
-    # Initialize an empty list to store the content of the input file.
-    textContent = []
-    # Open zip (which is the input file).
-    with zipfile.ZipFile(filePath, 'r') as zipRef:
-        # Iterate through each file in the zip.
-        for file in zipRef.namelist():
-            # If the file ends in '.xml'.
-            if file.endswith('.xml'):
-                # Open the XML file.
-                with zipRef.open(file) as f:
-                    # Read the content and decode the content in 'utf8'.
-                    content = f.read().decode('utf-8')
-                    # Parse the XML content using BeautifulSoup
-                    soup = BeautifulSoup(content, 'xml')
-                    # Append the content into the text_content list.
-                    textContent.append(soup.get_text())
-    return '\n'.join(textContent)
-
 def extractText(filePath):
     """
     This function determines the file format based on the file's extension.
@@ -265,8 +223,6 @@ def extractText(filePath):
         return extractTextFromPptx(filePath)
     elif isDocx(filePath):
         return extractTextFromDocx(filePath)
-    elif isOdt(filePath):
-        return extractTextFromOdt(filePath)
     else:
         raise ValueError(f'Unsupported file format for {filePath}')
 
