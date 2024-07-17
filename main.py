@@ -165,7 +165,7 @@ myNotebook.add(myFrame6, text="Image to Text")
 # Call the functions of the small modules to create the GUI within the corresponding tabs.
 gui_detectEncoding.createDetectEncodingGui(myFrame1)
 gui_convertEncoding.createConvertEncodingGui(myFrame2)
-gui_fileText.create_gui(myFrame3)
+gui_fileText.createFileToText(myFrame3)
 gui_pdfText.createPdfToTextGui(myFrame4)
 gui_excelText.createExcelToTextGui(myFrame5)
 gui_imageText.createImageToTextGui(myFrame6)

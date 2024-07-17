@@ -89,70 +89,297 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This script serves as the functional aspect of this module.</span>
-<span class="sd">It extracts the textual content of various types of files and saves it into a plain text file. The script uses the &#39;textract&#39; library to complete this task. The script first checks the extension of the file before extracting the text and saving it into a plain text file.</span>
+<span class="sd">This script extracts the textual content of various file types and saves it into a plain text file. This program uses several libraries to extract text from various file types.</span>
 
-<span class="sd">Usage: $ python function_fileText.py &lt;file&gt; [-o &lt;outputFile&gt;]</span>
+<span class="sd">Usage: $ python function_fileText.py &lt;inputFile&gt; [-o &lt;outputFile&gt;]</span>
 
 <span class="sd">Example: $ python function_fileText.py /path/document.docx -o /path/output.txt</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1"># Import necessary libraries.</span>
-<span class="kn">import</span> <span class="nn">textract</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">pptx</span> <span class="kn">import</span> <span class="n">Presentation</span>
+<span class="kn">from</span> <span class="nn">docx</span> <span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">ebooklib</span>
+<span class="kn">from</span> <span class="nn">ebooklib</span> <span class="kn">import</span> <span class="n">epub</span>
+<span class="kn">import</span> <span class="nn">zipfile</span>
 
-<div class="viewcode-block" id="extensionCheck">
-<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.extensionCheck">[docs]</a>
-<span class="k">def</span> <span class="nf">extensionCheck</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+<div class="viewcode-block" id="isEpub">
+<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.isEpub">[docs]</a>
+<span class="k">def</span> <span class="nf">isEpub</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function verifies if the provided file path has an acceptable extension.</span>
+<span class="sd">    This function verifies if the input file is an EPUB file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters: </span>
+<span class="sd">        * filePath (str): The path of the input file.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">        * filePath (str): Path of the file.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        * bool: True if the file extension is in the allowed list, False otherwise.</span>
+<span class="sd">    Returns: </span>
+<span class="sd">        * bool: True if the file is an &#39;.epub&#39;, False if the file is not.  </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># List of extensions allowed in this program.</span>
-    <span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;.epub&#39;</span><span class="p">,</span> <span class="s1">&#39;.eml&#39;</span><span class="p">,</span> <span class="s1">&#39;.msg&#39;</span><span class="p">,</span> <span class="s1">&#39;.html&#39;</span><span class="p">,</span> <span class="s1">&#39;.htm&#39;</span><span class="p">,</span> <span class="s1">&#39;.json&#39;</span><span class="p">,</span> <span class="s1">&#39;.pptx&#39;</span><span class="p">,</span> <span class="s1">&#39;.doc&#39;</span><span class="p">,</span> <span class="s1">&#39;.docx&#39;</span><span class="p">,</span> <span class="s1">&#39;.odt&#39;</span><span class="p">,</span> <span class="s1">&#39;.rtf&#39;</span><span class="p">]</span>
-    <span class="c1"># Obtain the file extension from the file path.</span>
-    <span class="n">fileExtension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filePath</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="c1"># Verify that the file extension is on the list.</span>
-    <span class="k">return</span> <span class="n">fileExtension</span> <span class="ow">in</span> <span class="n">extensions</span></div>
+    <span class="c1"># Check if the file&#39;s extension is an &#39;.epub&#39;.</span>
+    <span class="k">return</span> <span class="n">filePath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.epub&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="extractTextFromFile">
-<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.extractTextFromFile">[docs]</a>
-<span class="k">def</span> <span class="nf">extractTextFromFile</span><span class="p">(</span><span class="n">inputFile</span><span class="p">):</span>
+<div class="viewcode-block" id="isHtml">
+<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.isHtml">[docs]</a>
+<span class="k">def</span> <span class="nf">isHtml</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function extracts text from a file.</span>
+<span class="sd">    This function verifies if the input file is an HTML or HTM file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters: </span>
+<span class="sd">        * filePath (str): The path of the input file.</span>
+
+<span class="sd">    Returns: </span>
+<span class="sd">        * bool: True if the file is an &#39;.html&#39; or &#39;.htm&#39;, False if the file is not.  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the file&#39;s extension is an &#39;.html&#39; or &#39;.htm&#39;.</span>
+    <span class="k">return</span> <span class="n">filePath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.html&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">filePath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.htm&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="isJson">
+<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.isJson">[docs]</a>
+<span class="k">def</span> <span class="nf">isJson</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function verifies if the input file is a JSON file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters: </span>
+<span class="sd">        * filePath (str): The path of the input file.</span>
+
+<span class="sd">    Returns: </span>
+<span class="sd">        * bool: True if the file is a &#39;.json&#39;, False if the file is not.  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the file&#39;s extension is a &#39;.json&#39;.</span>
+    <span class="k">return</span> <span class="n">filePath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.json&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="isPptx">
+<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.isPptx">[docs]</a>
+<span class="k">def</span> <span class="nf">isPptx</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function verifies if the input file is a PPTX file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters: </span>
+<span class="sd">        * filePath (str): The path of the input file.</span>
+
+<span class="sd">    Returns: </span>
+<span class="sd">        * bool: True if the file is a &#39;.pptx&#39;, False if the file is not.  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the file&#39;s extension is a &#39;.pptx&#39;.</span>
+    <span class="k">return</span> <span class="n">filePath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.pptx&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="isDocx">
+<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.isDocx">[docs]</a>
+<span class="k">def</span> <span class="nf">isDocx</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function verifies if the input file is a DOCX file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters: </span>
+<span class="sd">        * filePath (str): The path of the input file.</span>
+
+<span class="sd">    Returns: </span>
+<span class="sd">        * bool: True if the file is a &#39;.docx&#39;, False if the file is not.  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the file&#39;s extension is a &#39;.docx&#39;.</span>
+    <span class="k">return</span> <span class="n">filePath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.docx&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="isOdt">
+<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.isOdt">[docs]</a>
+<span class="k">def</span> <span class="nf">isOdt</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function verifies if the input file is an ODT file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters: </span>
+<span class="sd">        * filePath (str): The path of the input file.</span>
+
+<span class="sd">    Returns: </span>
+<span class="sd">        * bool: True if the file is an &#39;.odt&#39;, False if the file is not.  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the file&#39;s extension is a &#39;.odt&#39;.</span>
+    <span class="k">return</span> <span class="n">filePath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.odt&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extractTextFromEpub">
+<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.extractTextFromEpub">[docs]</a>
+<span class="k">def</span> <span class="nf">extractTextFromEpub</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function extracts the textual content of an EPUB file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters: </span>
+<span class="sd">        * filePath (str): The path of the input file.</span>
+
+<span class="sd">    Returns: </span>
+<span class="sd">        * str: The extracted content of the &#39;.epub&#39; file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Read the file using the epub.read_epub function.</span>
+    <span class="n">book</span> <span class="o">=</span> <span class="n">epub</span><span class="o">.</span><span class="n">read_epub</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+    <span class="c1"># Initialize an empty list to store the content.</span>
+    <span class="n">texts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Iterate through each item.</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">book</span><span class="o">.</span><span class="n">get_items</span><span class="p">():</span>
+        <span class="c1"># Check if the item is a document.</span>
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">get_type</span><span class="p">()</span> <span class="o">==</span> <span class="n">ebooklib</span><span class="o">.</span><span class="n">ITEM_DOCUMENT</span><span class="p">:</span>
+            <span class="c1"># Decode the content of the document and append it to the text list.</span>
+            <span class="n">texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_body_content</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+    <span class="c1"># Join the text with newline characters and retun the extracted text.</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extractTextFromHtml">
+<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.extractTextFromHtml">[docs]</a>
+<span class="k">def</span> <span class="nf">extractTextFromHtml</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function extracts the textual content of an HTML or HTM file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters: </span>
+<span class="sd">        * filePath (str): The path of the input file.</span>
+
+<span class="sd">    Returns: </span>
+<span class="sd">        * str: The extracted content of the &#39;.html&#39; or &#39;.htm&#39; file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Open the input file in reading mode with &#39;utf-8&#39; encoding.</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="c1"># Parse the file content using BeautifulSoup with the &#39;html.parser&#39; parser.</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+        <span class="c1"># Extract and return the extracted text.</span>
+        <span class="k">return</span> <span class="n">soup</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="extractTextFromJson">
+<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.extractTextFromJson">[docs]</a>
+<span class="k">def</span> <span class="nf">extractTextFromJson</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function extracts the textual content of a JSON file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters: </span>
+<span class="sd">        * filePath (str): The path of the input file.</span>
+
+<span class="sd">    Returns: </span>
+<span class="sd">        * str: The extracted content of the &#39;.json&#39; file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Open the input file in reading mode with &#39;utf-8&#39; encoding. </span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="c1"># Load the content into a Python dictionary or list.</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="c1"># Convert the loaded content into a script and return it.</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extractTextFromPptx">
+<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.extractTextFromPptx">[docs]</a>
+<span class="k">def</span> <span class="nf">extractTextFromPptx</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function extracts the textual content of a PPTX file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters: </span>
+<span class="sd">        * filePath (str): The path of the input file.</span>
+
+<span class="sd">    Returns: </span>
+<span class="sd">        * str: The extracted content of the &#39;.pptx&#39; file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">## Open the input file.</span>
+    <span class="n">prs</span> <span class="o">=</span> <span class="n">Presentation</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+    <span class="c1"># Initialize an empty list to store the content of the input file.</span>
+    <span class="n">textRuns</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Iterate through each slide.</span>
+    <span class="k">for</span> <span class="n">slide</span> <span class="ow">in</span> <span class="n">prs</span><span class="o">.</span><span class="n">slides</span><span class="p">:</span>
+        <span class="c1"># Iterate throught each shape in the slide.</span>
+        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">slide</span><span class="o">.</span><span class="n">shapes</span><span class="p">:</span>
+            <span class="c1"># Verify if the the shape object is a text.</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">):</span>
+                <span class="c1"># Append the text from the shape an into the text_runs list. </span>
+                <span class="n">textRuns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">textRuns</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extractTextFromDocx">
+<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.extractTextFromDocx">[docs]</a>
+<span class="k">def</span> <span class="nf">extractTextFromDocx</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function extracts the textual content of a DOCX file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters: </span>
+<span class="sd">        * filePath (str): The path of the input file.</span>
+
+<span class="sd">    Returns: </span>
+<span class="sd">        * str: The extracted content of the &#39;.docx&#39; file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Open the input file.</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+    <span class="c1"># Initialize an empty list to store the content of the input file.</span>
+    <span class="n">fullText</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Iterate through each paragraph.</span>
+    <span class="k">for</span> <span class="n">para</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">paragraphs</span><span class="p">:</span>
+        <span class="c1"># Append the text from the paragraphs an into the full_text list. </span>
+        <span class="n">fullText</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">para</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1"># Join the text with newline characters and retun the extracted text.</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullText</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extractTextFromOdt">
+<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.extractTextFromOdt">[docs]</a>
+<span class="k">def</span> <span class="nf">extractTextFromOdt</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function extracts the textual content of an ODT file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters: </span>
+<span class="sd">        * filePath (str): The path of the input file.</span>
+
+<span class="sd">    Returns: </span>
+<span class="sd">        * str: The extracted content of the &#39;.odt&#39; file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Initialize an empty list to store the content of the input file.</span>
+    <span class="n">textContent</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Open zip (which is the input file).</span>
+    <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zipRef</span><span class="p">:</span>
+        <span class="c1"># Iterate through each file in the zip.</span>
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">zipRef</span><span class="o">.</span><span class="n">namelist</span><span class="p">():</span>
+            <span class="c1"># If the file ends in &#39;.xml&#39;.</span>
+            <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.xml&#39;</span><span class="p">):</span>
+                <span class="c1"># Open the XML file.</span>
+                <span class="k">with</span> <span class="n">zipRef</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="c1"># Read the content and decode the content in &#39;utf8&#39;.</span>
+                    <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+                    <span class="c1"># Parse the XML content using BeautifulSoup</span>
+                    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s1">&#39;xml&#39;</span><span class="p">)</span>
+                    <span class="c1"># Append the content into the text_content list.</span>
+                    <span class="n">textContent</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">textContent</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extractText">
+<a class="viewcode-back" href="../../m3_file_text.html#m3_file_text.function_fileText.extractText">[docs]</a>
+<span class="k">def</span> <span class="nf">extractText</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function determines the file format based on the file&#39;s extension.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">        * inputFile (str): Path of the input file.</span>
-
+<span class="sd">        * filePath (str): Path of the input file.</span>
+<span class="sd">    </span>
 <span class="sd">    Returns:</span>
-<span class="sd">        * str: Extracted text from the file.</span>
+<span class="sd">        * str: The extracted content from the files.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        * FileNotFoundError: If the source file is not found.</span>
-<span class="sd">        * Exception: If an error occurs during the conversion.</span>
+<span class="sd">        * ValueError: In case the file format entered is not supported.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Check if the file extension is supported</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">extensionCheck</span><span class="p">(</span><span class="n">inputFile</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Entry file &quot;</span><span class="si">{</span><span class="n">inputFile</span><span class="si">}</span><span class="s1">&quot; cannot be converted. Unsupported file type.&#39;</span><span class="p">)</span>
-
-    <span class="c1"># Execute try/except block</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Verify if the source path exists</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">inputFile</span><span class="p">):</span>
-            <span class="c1"># Extract the textual content of the source file.</span>
-            <span class="n">text</span> <span class="o">=</span> <span class="n">textract</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-            <span class="c1"># Return the content.</span>
-            <span class="k">return</span> <span class="n">text</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Source file &quot;</span><span class="si">{</span><span class="n">inputFile</span><span class="si">}</span><span class="s1">&quot; not found.&#39;</span><span class="p">)</span>
-    <span class="c1"># Handles other types of errors.</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+    <span class="c1"># Verifies if the file supported and calls the appropiate function.</span>
+    <span class="k">if</span> <span class="n">isEpub</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">extractTextFromEpub</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">isHtml</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">extractTextFromHtml</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">isJson</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">extractTextFromJson</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">isPptx</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">extractTextFromPptx</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">isDocx</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">extractTextFromDocx</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">isOdt</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">extractTextFromOdt</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported file format for </span><span class="si">{</span><span class="n">filePath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="saveText">
@@ -167,48 +394,35 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        * None</span>
-<span class="sd">    </span>
-<span class="sd">    Raises:</span>
-<span class="sd">        * Exception: If an error occurs during the extraction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Execute try/except block</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Open the source file and write the content onto the output file.</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outputFile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">finalFile</span><span class="p">:</span>
-            <span class="n">finalFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-        <span class="c1"># Print success message.  </span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The conversion was a success! File: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot; is saved in: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-    <span class="c1"># Handle other types of errors.</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+    <span class="c1"># Open the source file and write the content onto the output file.</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outputFile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1"># Print the sucess message.</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Successfully saved extracted text to </span><span class="si">{</span><span class="n">outputFile</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Main execution block.</span>
-<span class="sd">    This block parses command-line arguments to extract the content of a file to a plain text file.</span>
+<span class="sd">    This block parses command-line arguments to extract the content of various file types to a plain text file.</span>
 <span class="sd">    It requires the path to the input file and optionally the path to the output file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Configure the arguments parser.</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Program to extract text from various types of files.&#39;</span><span class="p">)</span>
+    <span class="c1"># Configure argument parser for command-line usage.</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Script to extract text from various file formats.&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;--input&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;inputFile&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to the input file&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--output&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to the output text file&#39;</span><span class="p">)</span>
-    
-    <span class="c1"># Parse the arguments previously defined.</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--output&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;outputFile&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to the output text file&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Parse command-line arguments.</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
-    <span class="c1"># Execute try/except block</span>
+    <span class="c1"># Execute the extraction and saving process.</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Check file extension</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">extensionCheck</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">inputFile</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Entry file &quot;</span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">inputFile</span><span class="si">}</span><span class="s1">&quot; cannot be converted. Unsupported file type.&#39;</span><span class="p">)</span>
-        
-        <span class="c1"># Extract text from the input file.</span>
-        <span class="n">text</span> <span class="o">=</span> <span class="n">extractTextFromFile</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">inputFile</span><span class="p">)</span>
-
-        <span class="c1"># If the user provides the name of the output file in the arguments.       </span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">:</span>
-            <span class="n">outputFile</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span>
+        <span class="n">extractedText</span> <span class="o">=</span> <span class="n">extractText</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">inputFile</span><span class="p">)</span>
+        <span class="c1"># If the user provides the name of the output file in the arguments.</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">outputFile</span><span class="p">:</span>
+            <span class="c1"># Extract text from the source file and save it with the choosen output filename.</span>
+            <span class="n">saveText</span><span class="p">(</span><span class="n">extractedText</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">outputFile</span><span class="p">)</span>
         <span class="c1"># If not, the program provides a default output name.</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Get the source file&#39;s absolute path. </span>
@@ -216,18 +430,12 @@
             <span class="c1"># Obtain the name of the file without the extension.</span>
             <span class="n">baseName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">inputFile</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
             <span class="c1"># Create the default name by appending the file&#39;s base name with &quot;_output.txt&quot;</span>
-            <span class="n">outputFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inputDir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">baseName</span><span class="si">}</span><span class="s2">_output.txt&quot;</span><span class="p">)</span>
-        
-        <span class="c1"># If the process is successful, save the extracted text to the output file.</span>
-        <span class="k">if</span> <span class="n">text</span><span class="p">:</span>
-            <span class="n">saveText</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">)</span>
-        <span class="c1"># If not, print an error message.</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to extract text from the file.&quot;</span><span class="p">)</span>
-    
+            <span class="n">outputFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inputDir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">baseName</span><span class="si">}</span><span class="s1">_output.txt&#39;</span><span class="p">)</span>
+            <span class="c1"># Extract text from the source file and save it with the default output filename.</span>
+            <span class="n">saveText</span><span class="p">(</span><span class="n">extractedText</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">)</span>
     <span class="c1"># Handle other types of errors and show message.</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 
            </div>

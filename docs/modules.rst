@@ -9,5 +9,4 @@ TransText
    m3_file_text
    m4_pdf_text
    m5_excel_text
-   m6_image_text
    main

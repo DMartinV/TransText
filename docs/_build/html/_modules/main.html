@@ -87,6 +87,11 @@
 <span class="c1">#    You should have received a copy of the GNU General Public License</span>
 <span class="c1">#    along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script serves as the graphical user interface of the application as a whole.</span>
+<span class="sd">This GUI allows users to easily navigate through the different functionalities organized in tabs. </span>
+<span class="sd">It also provides users with documentation regarding the application and its different functionalities.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="c1"># Import necessary libraries and modules.</span>
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span>
@@ -99,13 +104,7 @@
 <span class="kn">from</span> <span class="nn">m3_file_text</span> <span class="kn">import</span> <span class="n">gui_fileText</span>
 <span class="kn">from</span> <span class="nn">m4_pdf_text</span> <span class="kn">import</span> <span class="n">gui_pdfText</span>
 <span class="kn">from</span> <span class="nn">m5_excel_text</span> <span class="kn">import</span> <span class="n">gui_excelText</span>
-<span class="kn">from</span> <span class="nn">m6_image_text</span> <span class="kn">import</span> <span class="n">gui_imageText</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This script serves as the graphical user interface of the application as a whole.</span>
-<span class="sd">This GUI allows users to easily navigate through the different functionalities organized in tabs. </span>
-<span class="sd">It also provides users with documentation regarding the application and its different functionalities.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">m6_image_text</span> <span class="kn">import</span> <span class="n">gui_imageText</span> 
 
 <span class="c1"># Functions.</span>
 <div class="viewcode-block" id="exitApplication">
@@ -173,7 +172,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Open the link to the GitHub respository.</span>
+    <span class="c1"># Open the link to the GitHub repository.</span>
     <span class="n">webbrowser</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/DMartinV/TransText&quot;</span><span class="p">)</span></div>
 
 
@@ -212,9 +211,9 @@
 <span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;TransText&quot;</span><span class="p">)</span>
 
 <span class="c1"># Set window dimension.</span>
-<span class="n">window_heigth</span> <span class="o">=</span> <span class="mi">230</span>
+<span class="n">window_height</span> <span class="o">=</span> <span class="mi">230</span>
 <span class="n">window_width</span> <span class="o">=</span> <span class="mi">550</span>
-<span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">window_width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">window_heigth</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">window_width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">window_height</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">root</span><span class="o">.</span><span class="n">resizable</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
 <span class="c1"># Menu bar.</span>
@@ -232,7 +231,7 @@
 
 <span class="c1"># About menu and adding it as a cascade to the bar menu.</span>
 <span class="n">aboutMenu</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="n">barMenu</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">aboutMenu</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Licence&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">licenseApplication</span><span class="p">)</span>
+<span class="n">aboutMenu</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;License&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">licenseApplication</span><span class="p">)</span>
 <span class="n">aboutMenu</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;About me&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">aboutApplication</span><span class="p">)</span>
 <span class="n">barMenu</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;About&quot;</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="n">aboutMenu</span><span class="p">)</span>
 

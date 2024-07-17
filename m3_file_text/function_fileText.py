@@ -16,17 +16,13 @@
 
 """
 This script serves as the functional aspect of this module.
-This script extracts the textual content of various file types and saves it into a plan text file. This program uses several libraries, which are as follows:
-    * pptx:
-    * docx:
-    * bs4:
-    * ebooklib:
-    * zipfile:
+This script extracts the textual content of various file types and saves it into a plain text file. This program uses several libraries to extract text from various file types.
 
 Usage: $ python function_fileText.py <inputFile> [-o <outputFile>]
 
 Example: $ python function_fileText.py /path/document.docx -o /path/output.txt
 """
+# Import necessary libraries.
 import argparse
 import os
 import json
@@ -37,107 +33,291 @@ import ebooklib
 from ebooklib import epub
 import zipfile
 
-def is_epub(file_path):
-    return file_path.endswith('.epub')
+def isEpub(filePath):
+    """
+    This function verifies if the input file is an EPUB file.
+    
+    Parameters: 
+        * filePath (str): The path of the input file.
 
-def is_html(file_path):
-    return file_path.endswith('.html') or file_path.endswith('.htm')
+    Returns: 
+        * bool: True if the file is an '.epub', False if the file is not.  
+    """
+    # Check if the file's extension is an '.epub'.
+    return filePath.endswith('.epub')
 
-def is_json(file_path):
-    return file_path.endswith('.json')
+def isHtml(filePath):
+    """
+    This function verifies if the input file is an HTML or HTM file.
+    
+    Parameters: 
+        * filePath (str): The path of the input file.
 
-def is_pptx(file_path):
-    return file_path.endswith('.pptx')
+    Returns: 
+        * bool: True if the file is an '.html' or '.htm', False if the file is not.  
+    """
+    # Check if the file's extension is an '.html' or '.htm'.
+    return filePath.endswith('.html') or filePath.endswith('.htm')
 
-def is_docx(file_path):
-    return file_path.endswith('.docx')
+def isJson(filePath):
+    """
+    This function verifies if the input file is a JSON file.
+    
+    Parameters: 
+        * filePath (str): The path of the input file.
 
-def is_odt(file_path):
-    return file_path.endswith('.odt')
+    Returns: 
+        * bool: True if the file is a '.json', False if the file is not.  
+    """
+    # Check if the file's extension is a '.json'.
+    return filePath.endswith('.json')
 
-def extract_text_from_epub(file_path):
-    book = epub.read_epub(file_path)
+def isPptx(filePath):
+    """
+    This function verifies if the input file is a PPTX file.
+    
+    Parameters: 
+        * filePath (str): The path of the input file.
+
+    Returns: 
+        * bool: True if the file is a '.pptx', False if the file is not.  
+    """
+    # Check if the file's extension is a '.pptx'.
+    return filePath.endswith('.pptx')
+
+def isDocx(filePath):
+    """
+    This function verifies if the input file is a DOCX file.
+    
+    Parameters: 
+        * filePath (str): The path of the input file.
+
+    Returns: 
+        * bool: True if the file is a '.docx', False if the file is not.  
+    """
+    # Check if the file's extension is a '.docx'.
+    return filePath.endswith('.docx')
+
+def isOdt(filePath):
+    """
+    This function verifies if the input file is an ODT file.
+    
+    Parameters: 
+        * filePath (str): The path of the input file.
+
+    Returns: 
+        * bool: True if the file is an '.odt', False if the file is not.  
+    """
+    # Check if the file's extension is a '.odt'.
+    return filePath.endswith('.odt')
+
+def extractTextFromEpub(filePath):
+    """
+    This function extracts the textual content of an EPUB file.
+    
+    Parameters: 
+        * filePath (str): The path of the input file.
+
+    Returns: 
+        * str: The extracted content of the '.epub' file.
+    """
+    # Read the file using the epub.read_epub function.
+    book = epub.read_epub(filePath)
+    # Initialize an empty list to store the content.
     texts = []
+    # Iterate through each item.
     for item in book.get_items():
+        # Check if the item is a document.
         if item.get_type() == ebooklib.ITEM_DOCUMENT:
+            # Decode the content of the document and append it to the text list.
             texts.append(item.get_body_content().decode('utf-8'))
+    # Join the text with newline characters and retun the extracted text.
     return '\n'.join(texts)
 
-def extract_text_from_html(file_path):
-    with open(file_path, 'r', encoding='utf-8') as file:
+def extractTextFromHtml(filePath):
+    """
+    This function extracts the textual content of an HTML or HTM file.
+    
+    Parameters: 
+        * filePath (str): The path of the input file.
+
+    Returns: 
+        * str: The extracted content of the '.html' or '.htm' file.
+    """
+    # Open the input file in reading mode with 'utf-8' encoding.
+    with open(filePath, 'r', encoding='utf-8') as file:
+        # Parse the file content using BeautifulSoup with the 'html.parser' parser.
         soup = BeautifulSoup(file, 'html.parser')
+        # Extract and return the extracted text.
         return soup.get_text()
 
-def extract_text_from_json(file_path):
-    with open(file_path, 'r', encoding='utf-8') as file:
+def extractTextFromJson(filePath):
+    """
+    This function extracts the textual content of a JSON file.
+    
+    Parameters: 
+        * filePath (str): The path of the input file.
+
+    Returns: 
+        * str: The extracted content of the '.json' file.
+    """
+    # Open the input file in reading mode with 'utf-8' encoding. 
+    with open(filePath, 'r', encoding='utf-8') as file:
+        # Load the content into a Python dictionary or list.
         data = json.load(file)
+        # Convert the loaded content into a script and return it.
         return str(data)
 
-def extract_text_from_pptx(file_path):
-    prs = Presentation(file_path)
-    text_runs = []
+def extractTextFromPptx(filePath):
+    """
+    This function extracts the textual content of a PPTX file.
+    
+    Parameters: 
+        * filePath (str): The path of the input file.
+
+    Returns: 
+        * str: The extracted content of the '.pptx' file.
+    """
+    ## Open the input file.
+    prs = Presentation(filePath)
+    # Initialize an empty list to store the content of the input file.
+    textRuns = []
+    # Iterate through each slide.
     for slide in prs.slides:
+        # Iterate throught each shape in the slide.
         for shape in slide.shapes:
+            # Verify if the the shape object is a text.
             if hasattr(shape, 'text'):
-                text_runs.append(shape.text)
-    return '\n'.join(text_runs)
+                # Append the text from the shape an into the text_runs list. 
+                textRuns.append(shape.text)
+    return '\n'.join(textRuns)
 
-def extract_text_from_docx(file_path):
-    doc = Document(file_path)
-    full_text = []
+def extractTextFromDocx(filePath):
+    """
+    This function extracts the textual content of a DOCX file.
+    
+    Parameters: 
+        * filePath (str): The path of the input file.
+
+    Returns: 
+        * str: The extracted content of the '.docx' file.
+    """
+    # Open the input file.
+    doc = Document(filePath)
+    # Initialize an empty list to store the content of the input file.
+    fullText = []
+    # Iterate through each paragraph.
     for para in doc.paragraphs:
-        full_text.append(para.text)
-    return '\n'.join(full_text)
+        # Append the text from the paragraphs an into the full_text list. 
+        fullText.append(para.text)
+    # Join the text with newline characters and retun the extracted text.
+    return '\n'.join(fullText)
 
-def extract_text_from_odt(file_path):
-    # ODT files are essentially XML files in a zip archive
-    text_content = []
-    with zipfile.ZipFile(file_path, 'r') as zip_ref:
-        for file in zip_ref.namelist():
+def extractTextFromOdt(filePath):
+    """
+    This function extracts the textual content of an ODT file.
+    
+    Parameters: 
+        * filePath (str): The path of the input file.
+
+    Returns: 
+        * str: The extracted content of the '.odt' file.
+    """
+    # Initialize an empty list to store the content of the input file.
+    textContent = []
+    # Open zip (which is the input file).
+    with zipfile.ZipFile(filePath, 'r') as zipRef:
+        # Iterate through each file in the zip.
+        for file in zipRef.namelist():
+            # If the file ends in '.xml'.
             if file.endswith('.xml'):
-                with zip_ref.open(file) as f:
+                # Open the XML file.
+                with zipRef.open(file) as f:
+                    # Read the content and decode the content in 'utf8'.
                     content = f.read().decode('utf-8')
+                    # Parse the XML content using BeautifulSoup
                     soup = BeautifulSoup(content, 'xml')
-                    text_content.append(soup.get_text())
-    return '\n'.join(text_content)
+                    # Append the content into the text_content list.
+                    textContent.append(soup.get_text())
+    return '\n'.join(textContent)
 
-def extract_text(file_path):
-    if is_epub(file_path):
-        return extract_text_from_epub(file_path)
-    elif is_html(file_path):
-        return extract_text_from_html(file_path)
-    elif is_json(file_path):
-        return extract_text_from_json(file_path)
-    elif is_pptx(file_path):
-        return extract_text_from_pptx(file_path)
-    elif is_docx(file_path):
-        return extract_text_from_docx(file_path)
-    elif is_odt(file_path):
-        return extract_text_from_odt(file_path)
+def extractText(filePath):
+    """
+    This function determines the file format based on the file's extension.
+
+    Parameters:
+        * filePath (str): Path of the input file.
+    
+    Returns:
+        * str: The extracted content from the files.
+
+    Raises:
+        * ValueError: In case the file format entered is not supported.
+    """
+    # Verifies if the file supported and calls the appropiate function.
+    if isEpub(filePath):
+        return extractTextFromEpub(filePath)
+    elif isHtml(filePath):
+        return extractTextFromHtml(filePath)
+    elif isJson(filePath):
+        return extractTextFromJson(filePath)
+    elif isPptx(filePath):
+        return extractTextFromPptx(filePath)
+    elif isDocx(filePath):
+        return extractTextFromDocx(filePath)
+    elif isOdt(filePath):
+        return extractTextFromOdt(filePath)
     else:
-        raise ValueError(f'Unsupported file format for {file_path}')
+        raise ValueError(f'Unsupported file format for {filePath}')
 
-def save_text(text, output_file):
-    with open(output_file, 'w', encoding='utf-8') as file:
+def saveText(text, outputFile):
+    """
+    This function saves extracted text to a specified output file.
+
+    Parameters:
+        * text (str): Text to be saved.
+        * outputFile (str): Path of the output file.
+
+    Returns:
+        * None
+    """
+    # Open the source file and write the content onto the output file.
+    with open(outputFile, 'w', encoding='utf-8') as file:
         file.write(text)
-    print(f'Successfully saved extracted text to {output_file}')
+    # Print the sucess message.
+    print(f'Successfully saved extracted text to {outputFile}')
 
 if __name__ == "__main__":
+    """
+    Main execution block.
+    This block parses command-line arguments to extract the content of various file types to a plain text file.
+    It requires the path to the input file and optionally the path to the output file.
+    """
+    # Configure argument parser for command-line usage.
     parser = argparse.ArgumentParser(description='Script to extract text from various file formats.')
-    parser.add_argument('-i', '--input', dest='input_file', help='Path to the input file', required=True)
-    parser.add_argument('-o', '--output', dest='output_file', help='Path to the output text file')
+    parser.add_argument('-i', '--input', dest='inputFile', help='Path to the input file', required=True)
+    parser.add_argument('-o', '--output', dest='outputFile', help='Path to the output text file')
 
+    # Parse command-line arguments.
     args = parser.parse_args()
 
+    # Execute the extraction and saving process.
     try:
-        extracted_text = extract_text(args.input_file)
-        if args.output_file:
-            save_text(extracted_text, args.output_file)
+        extractedText = extractText(args.inputFile)
+        # If the user provides the name of the output file in the arguments.
+        if args.outputFile:
+            # Extract text from the source file and save it with the choosen output filename.
+            saveText(extractedText, args.outputFile)
+        # If not, the program provides a default output name.
         else:
-            input_dir = os.path.dirname(os.path.abspath(args.input_file))
-            base_name = os.path.splitext(os.path.basename(args.input_file))[0]
-            output_file = os.path.join(input_dir, f'{base_name}_output.txt')
-            save_text(extracted_text, output_file)
-
+            # Get the source file's absolute path. 
+            inputDir = os.path.dirname(os.path.abspath(args.inputFile))
+            # Obtain the name of the file without the extension.
+            baseName = os.path.splitext(os.path.basename(args.inputFile))[0]
+            # Create the default name by appending the file's base name with "_output.txt"
+            outputFile = os.path.join(inputDir, f'{baseName}_output.txt')
+            # Extract text from the source file and save it with the default output filename.
+            saveText(extractedText, outputFile)
+    # Handle other types of errors and show message.
     except Exception as e:
         print(f'Error: {e}')

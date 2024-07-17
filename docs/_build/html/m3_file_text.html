@@ -52,8 +52,19 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">m3_file_text package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-m3_file_text.function_fileText">m3_file_text.function_fileText module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.extensionCheck"><code class="docutils literal notranslate"><span class="pre">extensionCheck()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.extractTextFromFile"><code class="docutils literal notranslate"><span class="pre">extractTextFromFile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.extractText"><code class="docutils literal notranslate"><span class="pre">extractText()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.extractTextFromDocx"><code class="docutils literal notranslate"><span class="pre">extractTextFromDocx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.extractTextFromEpub"><code class="docutils literal notranslate"><span class="pre">extractTextFromEpub()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.extractTextFromHtml"><code class="docutils literal notranslate"><span class="pre">extractTextFromHtml()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.extractTextFromJson"><code class="docutils literal notranslate"><span class="pre">extractTextFromJson()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.extractTextFromOdt"><code class="docutils literal notranslate"><span class="pre">extractTextFromOdt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.extractTextFromPptx"><code class="docutils literal notranslate"><span class="pre">extractTextFromPptx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.isDocx"><code class="docutils literal notranslate"><span class="pre">isDocx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.isEpub"><code class="docutils literal notranslate"><span class="pre">isEpub()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.isHtml"><code class="docutils literal notranslate"><span class="pre">isHtml()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.isJson"><code class="docutils literal notranslate"><span class="pre">isJson()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.isOdt"><code class="docutils literal notranslate"><span class="pre">isOdt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.isPptx"><code class="docutils literal notranslate"><span class="pre">isPptx()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#m3_file_text.function_fileText.saveText"><code class="docutils literal notranslate"><span class="pre">saveText()</span></code></a></li>
 </ul>
 </li>
@@ -69,7 +80,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="m4_pdf_text.html">m4_pdf_text package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="m5_excel_text.html">m5_excel_text package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="m6_image_text.html">m6_image_text package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
 </ul>
 </li>
@@ -108,41 +118,216 @@
 <section id="module-m3_file_text.function_fileText">
 <span id="m3-file-text-function-filetext-module"></span><h2>m3_file_text.function_fileText module<a class="headerlink" href="#module-m3_file_text.function_fileText" title="Link to this heading"></a></h2>
 <p>This script serves as the functional aspect of this module.
-It extracts the textual content of various types of files and saves it into a plain text file. The script uses the ‘textract’ library to complete this task. The script first checks the extension of the file before extracting the text and saving it into a plain text file.</p>
-<p>Usage: $ python function_fileText.py &lt;file&gt; [-o &lt;outputFile&gt;]</p>
+This script extracts the textual content of various file types and saves it into a plain text file. This program uses several libraries to extract text from various file types.</p>
+<p>Usage: $ python function_fileText.py &lt;inputFile&gt; [-o &lt;outputFile&gt;]</p>
 <p>Example: $ python function_fileText.py /path/document.docx -o /path/output.txt</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="m3_file_text.function_fileText.extensionCheck">
-<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">extensionCheck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#extensionCheck"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.extensionCheck" title="Link to this definition"></a></dt>
-<dd><p>This function verifies if the provided file path has an acceptable extension.</p>
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.extractText">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">extractText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#extractText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.extractText" title="Link to this definition"></a></dt>
+<dd><p>This function determines the file format based on the file’s extension.</p>
 <dl class="simple">
 <dt>Parameters:</dt><dd><ul class="simple">
-<li><p>filePath (str): Path of the file.</p></li>
+<li><p>filePath (str): Path of the input file.</p></li>
 </ul>
 </dd>
 <dt>Returns:</dt><dd><ul class="simple">
-<li><p>bool: True if the file extension is in the allowed list, False otherwise.</p></li>
+<li><p>str: The extracted content from the files.</p></li>
+</ul>
+</dd>
+<dt>Raises:</dt><dd><ul class="simple">
+<li><p>ValueError: In case the file format entered is not supported.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="m3_file_text.function_fileText.extractTextFromFile">
-<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">extractTextFromFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputFile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#extractTextFromFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.extractTextFromFile" title="Link to this definition"></a></dt>
-<dd><p>This function extracts text from a file.</p>
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.extractTextFromDocx">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">extractTextFromDocx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#extractTextFromDocx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.extractTextFromDocx" title="Link to this definition"></a></dt>
+<dd><p>This function extracts the textual content of a DOCX file.</p>
 <dl class="simple">
-<dt>Parameters:</dt><dd><ul class="simple">
-<li><p>inputFile (str): Path of the input file.</p></li>
+<dt>Parameters: </dt><dd><ul class="simple">
+<li><p>filePath (str): The path of the input file.</p></li>
 </ul>
 </dd>
-<dt>Returns:</dt><dd><ul class="simple">
-<li><p>str: Extracted text from the file.</p></li>
+<dt>Returns: </dt><dd><ul class="simple">
+<li><p>str: The extracted content of the ‘.docx’ file.</p></li>
 </ul>
 </dd>
-<dt>Raises:</dt><dd><ul class="simple">
-<li><p>FileNotFoundError: If the source file is not found.</p></li>
-<li><p>Exception: If an error occurs during the conversion.</p></li>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.extractTextFromEpub">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">extractTextFromEpub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#extractTextFromEpub"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.extractTextFromEpub" title="Link to this definition"></a></dt>
+<dd><p>This function extracts the textual content of an EPUB file.</p>
+<dl class="simple">
+<dt>Parameters: </dt><dd><ul class="simple">
+<li><p>filePath (str): The path of the input file.</p></li>
+</ul>
+</dd>
+<dt>Returns: </dt><dd><ul class="simple">
+<li><p>str: The extracted content of the ‘.epub’ file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.extractTextFromHtml">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">extractTextFromHtml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#extractTextFromHtml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.extractTextFromHtml" title="Link to this definition"></a></dt>
+<dd><p>This function extracts the textual content of an HTML or HTM file.</p>
+<dl class="simple">
+<dt>Parameters: </dt><dd><ul class="simple">
+<li><p>filePath (str): The path of the input file.</p></li>
+</ul>
+</dd>
+<dt>Returns: </dt><dd><ul class="simple">
+<li><p>str: The extracted content of the ‘.html’ or ‘.htm’ file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.extractTextFromJson">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">extractTextFromJson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#extractTextFromJson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.extractTextFromJson" title="Link to this definition"></a></dt>
+<dd><p>This function extracts the textual content of a JSON file.</p>
+<dl class="simple">
+<dt>Parameters: </dt><dd><ul class="simple">
+<li><p>filePath (str): The path of the input file.</p></li>
+</ul>
+</dd>
+<dt>Returns: </dt><dd><ul class="simple">
+<li><p>str: The extracted content of the ‘.json’ file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.extractTextFromOdt">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">extractTextFromOdt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#extractTextFromOdt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.extractTextFromOdt" title="Link to this definition"></a></dt>
+<dd><p>This function extracts the textual content of an ODT file.</p>
+<dl class="simple">
+<dt>Parameters: </dt><dd><ul class="simple">
+<li><p>filePath (str): The path of the input file.</p></li>
+</ul>
+</dd>
+<dt>Returns: </dt><dd><ul class="simple">
+<li><p>str: The extracted content of the ‘.odt’ file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.extractTextFromPptx">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">extractTextFromPptx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#extractTextFromPptx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.extractTextFromPptx" title="Link to this definition"></a></dt>
+<dd><p>This function extracts the textual content of a PPTX file.</p>
+<dl class="simple">
+<dt>Parameters: </dt><dd><ul class="simple">
+<li><p>filePath (str): The path of the input file.</p></li>
+</ul>
+</dd>
+<dt>Returns: </dt><dd><ul class="simple">
+<li><p>str: The extracted content of the ‘.pptx’ file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.isDocx">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">isDocx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#isDocx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.isDocx" title="Link to this definition"></a></dt>
+<dd><p>This function verifies if the input file is a DOCX file.</p>
+<dl class="simple">
+<dt>Parameters: </dt><dd><ul class="simple">
+<li><p>filePath (str): The path of the input file.</p></li>
+</ul>
+</dd>
+<dt>Returns: </dt><dd><ul class="simple">
+<li><p>bool: True if the file is a ‘.docx’, False if the file is not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.isEpub">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">isEpub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#isEpub"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.isEpub" title="Link to this definition"></a></dt>
+<dd><p>This function verifies if the input file is an EPUB file.</p>
+<dl class="simple">
+<dt>Parameters: </dt><dd><ul class="simple">
+<li><p>filePath (str): The path of the input file.</p></li>
+</ul>
+</dd>
+<dt>Returns: </dt><dd><ul class="simple">
+<li><p>bool: True if the file is an ‘.epub’, False if the file is not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.isHtml">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">isHtml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#isHtml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.isHtml" title="Link to this definition"></a></dt>
+<dd><p>This function verifies if the input file is an HTML or HTM file.</p>
+<dl class="simple">
+<dt>Parameters: </dt><dd><ul class="simple">
+<li><p>filePath (str): The path of the input file.</p></li>
+</ul>
+</dd>
+<dt>Returns: </dt><dd><ul class="simple">
+<li><p>bool: True if the file is an ‘.html’ or ‘.htm’, False if the file is not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.isJson">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">isJson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#isJson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.isJson" title="Link to this definition"></a></dt>
+<dd><p>This function verifies if the input file is a JSON file.</p>
+<dl class="simple">
+<dt>Parameters: </dt><dd><ul class="simple">
+<li><p>filePath (str): The path of the input file.</p></li>
+</ul>
+</dd>
+<dt>Returns: </dt><dd><ul class="simple">
+<li><p>bool: True if the file is a ‘.json’, False if the file is not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.isOdt">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">isOdt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#isOdt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.isOdt" title="Link to this definition"></a></dt>
+<dd><p>This function verifies if the input file is an ODT file.</p>
+<dl class="simple">
+<dt>Parameters: </dt><dd><ul class="simple">
+<li><p>filePath (str): The path of the input file.</p></li>
+</ul>
+</dd>
+<dt>Returns: </dt><dd><ul class="simple">
+<li><p>bool: True if the file is an ‘.odt’, False if the file is not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="m3_file_text.function_fileText.isPptx">
+<span class="sig-prename descclassname"><span class="pre">m3_file_text.function_fileText.</span></span><span class="sig-name descname"><span class="pre">isPptx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filePath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/function_fileText.html#isPptx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.function_fileText.isPptx" title="Link to this definition"></a></dt>
+<dd><p>This function verifies if the input file is a PPTX file.</p>
+<dl class="simple">
+<dt>Parameters: </dt><dd><ul class="simple">
+<li><p>filePath (str): The path of the input file.</p></li>
+</ul>
+</dd>
+<dt>Returns: </dt><dd><ul class="simple">
+<li><p>bool: True if the file is a ‘.pptx’, False if the file is not.</p></li>
 </ul>
 </dd>
 </dl>
@@ -162,10 +347,6 @@ It extracts the textual content of various types of files and saves it into a pl
 <li><p>None</p></li>
 </ul>
 </dd>
-<dt>Raises:</dt><dd><ul class="simple">
-<li><p>Exception: If an error occurs during the extraction.</p></li>
-</ul>
-</dd>
 </dl>
 </dd></dl>
 
@@ -179,7 +360,7 @@ Once users have selected their input file and saved it into the desired director
 <dl class="py function">
 <dt class="sig sig-object py" id="m3_file_text.gui_fileText.browseFile">
 <span class="sig-prename descclassname"><span class="pre">m3_file_text.gui_fileText.</span></span><span class="sig-name descname"><span class="pre">browseFile</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/gui_fileText.html#browseFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.gui_fileText.browseFile" title="Link to this definition"></a></dt>
-<dd><p>This function opens a file dialog for users to select a file.</p>
+<dd><p>This function opens a file dialog for the user to select a file.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><ul class="simple">
 <li><p>None</p></li>
@@ -210,7 +391,7 @@ Once users have selected their input file and saved it into the desired director
 <span class="sig-prename descclassname"><span class="pre">m3_file_text.gui_fileText.</span></span><span class="sig-name descname"><span class="pre">createFileToText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/gui_fileText.html#createFileToText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.gui_fileText.createFileToText" title="Link to this definition"></a></dt>
 <dd><p>This function creates a GUI for extracting the text of a file and saving it onto a plain text file.</p>
 <dl class="simple">
-<dt>Parameters:</dt><dd><ul class="simple">
+<dt>Args:</dt><dd><ul class="simple">
 <li><p>parent (tkinter.Widget): The parent widget to create the GUI components.</p></li>
 </ul>
 </dd>
@@ -224,7 +405,7 @@ Once users have selected their input file and saved it into the desired director
 <dl class="py function">
 <dt class="sig sig-object py" id="m3_file_text.gui_fileText.saveAs">
 <span class="sig-prename descclassname"><span class="pre">m3_file_text.gui_fileText.</span></span><span class="sig-name descname"><span class="pre">saveAs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/m3_file_text/gui_fileText.html#saveAs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#m3_file_text.gui_fileText.saveAs" title="Link to this definition"></a></dt>
-<dd><p>This function opens a file dialog for users to save the plain text file into another directory and under a different name.</p>
+<dd><p>This function opens a file dialog for the user to save the plain text file into another directory.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><ul class="simple">
 <li><p>None</p></li>
